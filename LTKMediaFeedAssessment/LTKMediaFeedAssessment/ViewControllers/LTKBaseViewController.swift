@@ -24,11 +24,17 @@ class LTKBaseTableViewController: UITableViewController {
         navSearchBar.layer.borderColor = UIColor.systemGray.cgColor.copy(alpha: 0.8)
         navSearchBar.layer.borderWidth = 1
         navSearchBar.layer.cornerRadius = 22
+        navSearchBar.searchTextField.addTarget(self, action: #selector(filterResults), for: .editingChanged)
         let rightNavBarButton = UIBarButtonItem(customView:navSearchBar)
         let image = UIImage(named: "ltklogo")?.withRenderingMode(.alwaysOriginal)
         
         let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: nil, menu: nil)
         self.navigationItem.rightBarButtonItem = rightNavBarButton
         self.navigationItem.leftBarButtonItem = leftNavBarButton
+    }
+    
+    @objc
+    func filterResults(_ sender: UITextField) {
+        print("default editing event action triggered")
     }
 }

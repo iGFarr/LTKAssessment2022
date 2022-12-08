@@ -20,17 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Self.shared = self
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
-
+        
         let viewController = LTKLaunchViewController()
         let navViewController = UINavigationController(rootViewController: viewController)
-//        navViewController.navigationBar.standardAppearance = customNavBarAppearance()
-//        navViewController.navigationBar.compactAppearance = customNavBarAppearance()
-//        navViewController.navigationBar.scrollEdgeAppearance = customNavBarAppearance()
-//        navViewController.navigationBar.tintColor = .CBTheme.secondary
-
+        if #available(iOS 15, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithOpaqueBackground()
+            navigationBarAppearance.backgroundColor = .white
+            navViewController.navigationBar.standardAppearance = navigationBarAppearance
+            navViewController.navigationBar.compactAppearance = navigationBarAppearance
+            navViewController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        }
         window?.rootViewController = navViewController
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
