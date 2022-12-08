@@ -22,26 +22,18 @@ class LTKCVCell: UICollectionViewCell {
         super.init(frame: frame)
         self.backgroundColor = .clear
         self.roundedContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.roundedContainer.backgroundColor = .white
         self.roundedContainer.addSubview(self.productImage)
         self.roundedContainer.layer.borderColor = UIColor.systemMint.cgColor
-        self.roundedContainer.layer.borderWidth = 2
+        self.roundedContainer.layer.borderWidth = LTKConstants.UI.thickBorderWitdth
         let radius: CGFloat = 15
         self.roundedContainer.layoutMargins = UIEdgeInsets(top: radius, left: radius, bottom: radius, right: radius)
         self.roundedContainer.clipsToBounds = true
         self.roundedContainer.layer.cornerRadius = radius
         self.addSubview(self.roundedContainer)
         if let superviewForContainer = self.roundedContainer.superview {
-            NSLayoutConstraint.activate([
-                self.productImage.leadingAnchor.constraint(equalTo: self.roundedContainer.leadingAnchor),
-                self.productImage.trailingAnchor.constraint(equalTo: self.roundedContainer.trailingAnchor),
-                self.productImage.topAnchor.constraint(equalTo: self.roundedContainer.topAnchor),
-                self.productImage.bottomAnchor.constraint(equalTo: self.roundedContainer.bottomAnchor),
-                
-                self.roundedContainer.leadingAnchor.constraint(equalTo: superviewForContainer.leadingAnchor),
-                self.roundedContainer.trailingAnchor.constraint(equalTo: superviewForContainer.trailingAnchor),
-                self.roundedContainer.topAnchor.constraint(equalTo: superviewForContainer.topAnchor),
-                self.roundedContainer.bottomAnchor.constraint(equalTo: superviewForContainer.bottomAnchor)
-            ])
+            LTKConstraintHelper.constrain(self.productImage, to: self.roundedContainer)
+            LTKConstraintHelper.constrain(self.roundedContainer, to: superviewForContainer)
         }
     }
     
@@ -54,14 +46,12 @@ class LTKDetailViewController: UITableViewController, UICollectionViewDelegate, 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = .zero
-        layout.itemSize = CGSize(width: 100, height: 100)
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = CGFloat.greatestFiniteMagnitude
+        layout.itemSize = CGSize(width: LTKConstants.UI.collectionViewItemDimension, height: LTKConstants.UI.collectionViewItemDimension)
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(LTKCVCell.self, forCellWithReuseIdentifier: "LTKCVItem")
-        
+        cv.register(LTKCVCell.self, forCellWithReuseIdentifier: LTKConstants.cellIdentifiers.collectionItem)
+        cv.showsHorizontalScrollIndicator = false
         return cv
     }()
     
@@ -72,7 +62,7 @@ class LTKDetailViewController: UITableViewController, UICollectionViewDelegate, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = LTKCVCell()
-        if let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LTKCVItem", for: indexPath) as? LTKCVCell {
+        if let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: LTKConstants.cellIdentifiers.collectionItem, for: indexPath) as? LTKCVCell {
             cell = customCell
         } else {
             return cell
@@ -81,7 +71,7 @@ class LTKDetailViewController: UITableViewController, UICollectionViewDelegate, 
         print("number of products")
         print(products.count)
         if let url = URL(string: thisProduct.imageURL) {
-            cell.productImage.loadImage(fromURL: url, placeHolderImage: "Wrench")
+            cell.productImage.loadImage(fromURL: url)
         }
         return cell
     }
@@ -114,7 +104,7 @@ class LTKDetailViewController: UITableViewController, UICollectionViewDelegate, 
         heroImage.clipsToBounds = true
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         if let proPicURL = URL(string: profile?.avatarURL ?? "") {
-            profileImage.loadImage(fromURL: proPicURL, placeHolderImage: "Wrench")
+            profileImage.loadImage(fromURL: proPicURL)
         }
         profileImage.contentMode = .scaleAspectFit
         profileImage.widthAnchor.constraint(equalToConstant: LTKConstants.UI.profilePicBubbleDimension).isActive = true
@@ -131,8 +121,8 @@ class LTKDetailViewController: UITableViewController, UICollectionViewDelegate, 
         heroImage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 2.25).isActive = true
         heroImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         heroImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
-        collectionView.topAnchor.constraint(equalTo: heroImage.bottomAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        collectionView.topAnchor.constraint(equalTo: heroImage.bottomAnchor, constant: LTKConstants.UI.doubleInset).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: LTKConstants.UI.collectionViewItemDimension).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: LTKConstants.UI.defaultInset).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
             

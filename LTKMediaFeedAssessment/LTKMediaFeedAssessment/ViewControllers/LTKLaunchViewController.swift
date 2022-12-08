@@ -51,7 +51,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         if let ltk = self.filteredLtks?[indexPath.row] {
             if let url = URL(string: ltk.heroImage) {
                 DispatchQueue.main.async {
-                    cell.ltkImageView.loadImage(fromURL: url, placeHolderImage: "wrench")
+                    cell.ltkImageView.loadImage(fromURL: url)
                 }
             }
         }
@@ -100,7 +100,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
             }
             
             if let url = URL(string: ltk.heroImage) {
-                detailScreen.heroImage.loadImage(fromURL: url, placeHolderImage: "Wrench")
+                detailScreen.heroImage.loadImage(fromURL: url)
             }
         }
         show(detailScreen, sender: self)

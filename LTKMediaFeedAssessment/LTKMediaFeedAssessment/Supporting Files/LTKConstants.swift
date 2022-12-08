@@ -12,8 +12,10 @@ struct LTKConstants {
     static let cacheLimitTwentyObjects = 20
     struct cellIdentifiers {
         static let heroImage = "ltkImageCell"
+        static let collectionItem = "LTKCVItem"
     }
     struct UI {
+        static let collectionViewItemDimension: CGFloat = 100
         static let defaultInset: CGFloat = 8
         static let doubleInset: CGFloat = 16
         static let italicizeFontNSKey: CGFloat = 0.075
