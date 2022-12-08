@@ -13,6 +13,9 @@ class LTKBaseTableViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         tableView.separatorStyle = .none
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.estimatedRowHeight = UITableView.automaticDimension
         setupNavBar()
     }
     

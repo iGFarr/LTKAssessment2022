@@ -13,9 +13,6 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     private var filteredLtks: [Ltk]?
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.register(LTKImageCell.self, forCellReuseIdentifier: "ltkImageCell")
         loadFeed()
     }

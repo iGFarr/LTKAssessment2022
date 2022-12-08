@@ -31,15 +31,13 @@ final class LTKImageCell: UITableViewCell {
         ltkImageView.sizeToFit()
         contentView.addSubview(ltkImageView)
         let hRatio = imageHeight / imageWidth
-        let newImageHeight = (hRatio * UIScreen.main.bounds.width).rounded() * 1.5
+        let newImageHeight = (hRatio * UIScreen.main.bounds.width).rounded()
         NSLayoutConstraint.activate([
             contentView.heightAnchor.constraint(equalToConstant: newImageHeight + LTKConstants.UI.doubleInset),
-            contentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             ltkImageView.topAnchor.constraint(equalTo: topAnchor),
             ltkImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -LTKConstants.UI.doubleInset),
             ltkImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ])
-        ltkImageView.layoutIfNeeded()
     }
 }
 

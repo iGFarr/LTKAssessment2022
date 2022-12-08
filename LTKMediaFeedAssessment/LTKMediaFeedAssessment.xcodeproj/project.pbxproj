@@ -77,7 +77,6 @@
 				6A6ACA5A294120C800062D17 /* Info.plist */,
 				6A6ACA61294123D900062D17 /* ViewControllers */,
 				6A6ACA602941228300062D17 /* Supporting Files */,
-				6A6ACA6A29413BAB00062D17 /* LTKKit.swift */,
 			);
 			path = LTKMediaFeedAssessment;
 			sourceTree = "<group>";
@@ -118,9 +117,26 @@
 		6A6ACA702941559900062D17 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A6ACA71294155A600062D17 /* LTKImageCell.swift */,
+				6A6ACA7A294250C300062D17 /* Cells */,
+				6A6ACA79294250A100062D17 /* UIKitSubclasses+Ext */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		6A6ACA79294250A100062D17 /* UIKitSubclasses+Ext */ = {
+			isa = PBXGroup;
+			children = (
+				6A6ACA6A29413BAB00062D17 /* LTKKit.swift */,
+			);
+			path = "UIKitSubclasses+Ext";
+			sourceTree = "<group>";
+		};
+		6A6ACA7A294250C300062D17 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				6A6ACA71294155A600062D17 /* LTKImageCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
