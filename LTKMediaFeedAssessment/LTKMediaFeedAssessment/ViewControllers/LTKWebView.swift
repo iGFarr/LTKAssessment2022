@@ -18,7 +18,7 @@ class LTKWebViewController: UIViewController {
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
         self.title = self.name != nil ? self.name : "No Name"
-        
+        view.backgroundColor = .systemBackground
         if let url = self.url {
             let request = URLRequest(url: url)
             DispatchQueue.main.async {

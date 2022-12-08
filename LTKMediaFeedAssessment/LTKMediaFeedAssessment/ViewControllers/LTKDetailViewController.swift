@@ -108,7 +108,7 @@ class LTKDetailViewController: UITableViewController, UICollectionViewDelegate, 
     var products: [Product?]?
     var profile: Profile?
     override func viewDidLoad() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         collectionView.delegate = self
         collectionView.dataSource = self
         setupViews()
