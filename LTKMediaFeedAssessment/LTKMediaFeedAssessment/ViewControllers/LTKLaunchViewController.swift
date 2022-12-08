@@ -93,6 +93,7 @@ class LTKLaunchViewController: LTKBaseTableViewController {
                 for profile in profiles {
                     if profile.id == ltk.profileID {
                         detailScreen.profile = profile
+                        detailScreen.title = profile.displayName
                     }
                 }
             }
