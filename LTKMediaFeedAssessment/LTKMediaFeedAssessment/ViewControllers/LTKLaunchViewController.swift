@@ -11,13 +11,14 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
 
     private var feed: Feed?
     private var filteredLtks: [Ltk]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(LTKImageCell.self, forCellReuseIdentifier: LTKConstants.cellIdentifiers.heroImage)
         self.loadFeed()
     }
     
-    private func loadFeed(){
+    private func loadFeed() {
         LTKNetworkUtilites.getFeed(completion: { result in
             switch result {
             case .success(let response):
@@ -36,6 +37,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
             self.tableView.layoutIfNeeded()
         }
     }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return LTKConstants.Strings.postsYouLike
     }
@@ -61,7 +63,6 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
             self.filteredLtks = self.feed?.ltks
         } else {
             self.filteredLtks = self.feed?.ltks.filter {
-//                $0.caption.localizedCaseInsensitiveContains(navSearchBar.searchTextField.text ?? "")
                 if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
                     return true
                 }

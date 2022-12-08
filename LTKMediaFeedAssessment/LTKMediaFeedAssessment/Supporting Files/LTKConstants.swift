@@ -21,6 +21,7 @@ struct LTKConstants {
         static let navSearchBarTextSize: CGFloat = 14
         static let navSearchBarWidthRatio: CGFloat = 0.7
         static let navTitleTextSize: CGFloat = 20
+        static let profilePicBubbleDimension: CGFloat = 50
         static let thickBorderWitdth: CGFloat = 2
         static let thinBorderWidth: CGFloat = 1
     }

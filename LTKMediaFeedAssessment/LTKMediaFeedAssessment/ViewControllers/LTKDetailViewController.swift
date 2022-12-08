@@ -110,21 +110,22 @@ class LTKDetailViewController: UITableViewController, UICollectionViewDelegate, 
     private func setupViews() {
         heroImage.translatesAutoresizingMaskIntoConstraints = false
         heroImage.contentMode = .scaleAspectFit
-        heroImage.layer.cornerRadius = 30
+        heroImage.layer.cornerRadius = 20
         heroImage.clipsToBounds = true
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         if let proPicURL = URL(string: profile?.avatarURL ?? "") {
             profileImage.loadImage(fromURL: proPicURL, placeHolderImage: "Wrench")
         }
         profileImage.contentMode = .scaleAspectFit
-        profileImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        profileImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        profileImage.widthAnchor.constraint(equalToConstant: LTKConstants.UI.profilePicBubbleDimension).isActive = true
+        profileImage.heightAnchor.constraint(equalToConstant: LTKConstants.UI.profilePicBubbleDimension).isActive = true
+        profileImage.layer.cornerRadius = LTKConstants.UI.profilePicBubbleDimension / 2
         profileImage.clipsToBounds = true
         collectionView.backgroundColor = .clear
         view.addSubview(heroImage)
         view.addSubview(profileImage)
         view.addSubview(collectionView)
-        profileImage.trailingAnchor.constraint(equalTo: heroImage.leadingAnchor, constant: -8).isActive = true
+        profileImage.trailingAnchor.constraint(equalTo: heroImage.leadingAnchor, constant: -LTKConstants.UI.defaultInset).isActive = true
         profileImage.topAnchor.constraint(equalTo: heroImage.topAnchor).isActive = true
         heroImage.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.75).isActive = true
         heroImage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 2.25).isActive = true
@@ -132,7 +133,7 @@ class LTKDetailViewController: UITableViewController, UICollectionViewDelegate, 
         heroImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
         collectionView.topAnchor.constraint(equalTo: heroImage.bottomAnchor).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: LTKConstants.UI.defaultInset).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
             
     }
