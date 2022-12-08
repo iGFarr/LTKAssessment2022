@@ -8,3 +8,7 @@ UPDATE: Search bar works, filtering by caption and profile user id. Used a colle
   <img src="Preview2.png" width="400" height="845" /> 
 </p>
 <hr size="5">
+<p float="left">
+  <img src="Preview3.png" width="400" />
+  <img src="Preview4.png" width="400" height="845" /> 
+</p>
