@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LTKUtilites {
+struct LTKNetworkUtilites {
     static func getFeed(completion: @escaping (Result<Feed, Error>) -> Void) {
         guard let url = URL(string: LTKConstants.URLS.rewardStyleLTKS) else { return }
         

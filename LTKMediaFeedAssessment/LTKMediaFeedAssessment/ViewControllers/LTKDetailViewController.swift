@@ -7,14 +7,6 @@
 
 import UIKit
 
-//class LTKCVDataSource:
-//class LTKCollectionView: UIView {
-//    lazy var collectionView = self.setupCV()
-//
-//    func setupCV() {
-//        let dataSource
-//    }
-//}
 class LTKCVCell: UICollectionViewCell {
     var image: UIImage?
     lazy var productImage: LazyImageView = {

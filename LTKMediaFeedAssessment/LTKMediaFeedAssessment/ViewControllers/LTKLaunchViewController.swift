@@ -13,12 +13,12 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     private var filteredLtks: [Ltk]?
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(LTKImageCell.self, forCellReuseIdentifier: "ltkImageCell")
-        loadFeed()
+        self.tableView.register(LTKImageCell.self, forCellReuseIdentifier: LTKConstants.cellIdentifiers.heroImage)
+        self.loadFeed()
     }
     
     private func loadFeed(){
-        LTKUtilites.getFeed(completion: { result in
+        LTKNetworkUtilites.getFeed(completion: { result in
             switch result {
             case .success(let response):
                 self.feed = response
@@ -26,23 +26,26 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.tableView.layoutIfNeeded()
-            }
+            self.reloadTableView()
         })
     }
     
+    private func reloadTableView() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.layoutIfNeeded()
+        }
+    }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "For You: Posts we think you'll like"
+        return LTKConstants.Strings.postsYouLike
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredLtks?.count ?? 1
+        return self.filteredLtks?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ltkImageCell", for: indexPath) as! LTKImageCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.cellIdentifiers.heroImage, for: indexPath) as! LTKImageCell
         if let ltk = self.filteredLtks?[indexPath.row] {
             if let url = URL(string: ltk.heroImage) {
                 DispatchQueue.main.async {
@@ -54,30 +57,28 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     }
     
     override func filterResults(_ sender: UITextField) {
-        if navSearchBar.searchTextField.text?.count == 0 {
+        if self.navSearchBar.searchTextField.text?.count == 0 {
             self.filteredLtks = self.feed?.ltks
         } else {
             self.filteredLtks = self.feed?.ltks.filter {
-                if $0.caption.lowercased().contains(navSearchBar.searchTextField.text?.lowercased() ?? "") {
+//                $0.caption.localizedCaseInsensitiveContains(navSearchBar.searchTextField.text ?? "")
+                if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
                     return true
                 }
-                if $0.profileUserID.lowercased().contains(navSearchBar.searchTextField.text?.lowercased() ?? "") {
+                if $0.profileUserID.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
                     return true
                 }
                 return false
             }
         }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.tableView.layoutIfNeeded()
-        }
+        self.reloadTableView()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailScreen = LTKDetailViewController()
         if (self.filteredLtks?.count ?? 0) > indexPath.row , let ltk = self.filteredLtks?[indexPath.row] {
             var matchedProducts: [Product] = []
-            if let products = feed?.products {
+            if let products = self.feed?.products {
                 for product in products {
                     if ltk.productIDS.contains(where: { string in
                         string == product.id
