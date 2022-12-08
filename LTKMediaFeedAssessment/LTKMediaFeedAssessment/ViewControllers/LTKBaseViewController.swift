@@ -8,7 +8,7 @@
 import UIKit
 
 class LTKBaseTableViewController: UITableViewController {
-    lazy var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: LTKConstants.UI.navSearchBarHeight))
+    lazy var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -17,7 +17,7 @@ class LTKBaseTableViewController: UITableViewController {
     }
     
     private func setupNavBar() {
-        navSearchBar.placeholder = "Search fashion, home, & more"
+        navSearchBar.placeholder = LTKConstants.Strings.searchPlaceholder
         navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
         navSearchBar.searchTextField.font = UIFont(name: "GeezaPro", size: LTKConstants.UI.navSearchTextSize)
         navSearchBar.searchTextField.backgroundColor = .white

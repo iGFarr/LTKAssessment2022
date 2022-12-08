@@ -19,4 +19,8 @@ struct LTKConstants {
         static let defaultInset: CGFloat = 8
         static let doubleInset: CGFloat = 16
     }
+    
+    struct Strings {
+        static let searchPlaceholder = "Search fashion, home, & more"
+    }
 }

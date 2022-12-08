@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LTKLaunchViewController: LTKBaseTableViewController {
+final class LTKLaunchViewController: LTKBaseTableViewController {
 
     private var feed: Feed?
     private var filteredLtks: [Ltk]?
@@ -40,7 +40,9 @@ class LTKLaunchViewController: LTKBaseTableViewController {
         return "For You: Posts we think you'll like"
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return filteredLtks?.count ?? 1 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return filteredLtks?.count ?? 1
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ltkImageCell", for: indexPath) as! LTKImageCell

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LTKImageCell: UITableViewCell {
+final class LTKImageCell: UITableViewCell {
 
     let ltkImageView = LazyImageView()
     var imageHeight: CGFloat = 1
