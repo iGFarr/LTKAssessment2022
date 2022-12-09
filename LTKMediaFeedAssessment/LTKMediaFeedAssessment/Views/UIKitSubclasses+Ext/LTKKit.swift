@@ -8,13 +8,13 @@
 import UIKit
 
 class LazyImageView: UIImageView {
-    
-    private let imageCache = NSCache<AnyObject, UIImage>()
+
+    static let imageCache = NSCache<AnyObject, UIImage>()
     func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench") {
-        imageCache.totalCostLimit = LTKConstants.cacheLimitTwentyMb
-        imageCache.countLimit = LTKConstants.cacheObjectLimit
+        LazyImageView.imageCache.totalCostLimit = LTKConstants.cacheLimitTwentyMb
+        LazyImageView.imageCache.countLimit = LTKConstants.cacheObjectLimit
         self.image = UIImage(named: placeHolderImage)?.withRenderingMode(.alwaysOriginal)
-        if let cachedImage = self.imageCache.object(forKey: imageURL as AnyObject) {
+        if let cachedImage = LazyImageView.imageCache.object(forKey: imageURL as AnyObject) {
             self.image = cachedImage
             print("loaded image from cache")
             return
@@ -26,7 +26,7 @@ class LazyImageView: UIImageView {
                 if var image = UIImage(data: imageData) {
                     /// MARK: - no matter the compression or the size of the cache, either the cache is still evicting items for some reason, or the image url is not consistent enough for use as a key maybe?
                     image = UIImage(data: image.jpegData(compressionQuality: 0.35) ?? imageData) ?? UIImage()
-                    self?.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.jpegData(compressionQuality: 1.0)?.count ?? 0)
+                    Self.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.jpegData(compressionQuality: 1.0)?.count ?? 0)
                     DispatchQueue.main.async {
                         self?.image = image
                     }

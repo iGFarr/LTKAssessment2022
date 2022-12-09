@@ -87,24 +87,6 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
 }
 
 extension LTKLaunchViewController {
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return LTKConstants.Strings.postsYouLike
-//    }
-
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "test"
-        label.backgroundColor = .green
-        view.backgroundColor = UIColor.green // Set your background color
-        view.addSubview(label)
-        return view
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        100
-    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.filteredLtks?.count ?? 0
     }
