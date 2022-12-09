@@ -12,5 +12,5 @@ UPDATE2: Just realized I was supposed to implement pagination on that initial ta
 <hr size="5">
 <p float="left">
   <img src="Preview3.png" width="400" />
-  <img src="Preview4.png" width="400" height="845" /> 
+  <img src="thisRepoSS.png" width="400" height="845" /> 
 </p>
