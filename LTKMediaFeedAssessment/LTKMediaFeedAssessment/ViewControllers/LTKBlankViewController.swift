@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LTKBlankViewController: UIViewController, SearchFilterController {
+class LTKBlankViewController: UIViewController, SearchFilterController, UITextFieldDelegate {
     var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
     
     @objc
@@ -23,6 +23,8 @@ class LTKBlankViewController: UIViewController, SearchFilterController {
         let comingSoonLabel = UILabel()
         comingSoonLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(comingSoonLabel)
+        self.navSearchBar.searchTextField.delegate = self
+        self.hideKeyboardWhenTappedAround()
         comingSoonLabel.xAlignedWith(self.view)
         comingSoonLabel.yAlignedWith(self.view)
         comingSoonLabel.textColor = .LTKTheme.tertiary

@@ -10,8 +10,8 @@ import UIKit
 struct LTKConstants {
     /// MARK: - slightly confused by the units here. thought 1024 * 1024 * 50 would be 50mb, but then the app's memory footprint goes as high
     /// as 1.07GB. However, if I decrease to * 20 the memory footprint doesn't go past 400mb usually. The ratio makes sense at least.
-    static let cacheLimitFiftyMb = 1024 * 1024 * 20
-    static let cacheObjectLimit = 20
+    static let cacheLimitTwentyMb = 1024 * 1024 * 20
+    static let cacheObjectLimit = 50
     struct CellIdentifiers {
         static let heroImage = "ltkImageCell"
         static let collectionItem = "LTKCVItem"

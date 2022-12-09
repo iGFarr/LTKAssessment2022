@@ -11,7 +11,7 @@ class LazyImageView: UIImageView {
     
     private let imageCache = NSCache<AnyObject, UIImage>()
     func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench") {
-        imageCache.totalCostLimit = LTKConstants.cacheLimitFiftyMb
+        imageCache.totalCostLimit = LTKConstants.cacheLimitTwentyMb
         imageCache.countLimit = LTKConstants.cacheObjectLimit
         self.image = UIImage(named: placeHolderImage)?.withRenderingMode(.alwaysOriginal)
         if let cachedImage = self.imageCache.object(forKey: imageURL as AnyObject) {
@@ -20,11 +20,13 @@ class LazyImageView: UIImageView {
             return
         }
 
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global(qos: .utility).async { [weak self] in
             if let imageData = try? Data(contentsOf: imageURL) {
                 print("loaded image from server")
-                if let image = UIImage(data: imageData) {
-                    self?.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.pngData()?.count ?? 0)
+                if var image = UIImage(data: imageData) {
+                    /// MARK: - no matter the compression or the size of the cache, either the cache is still evicting items for some reason, or the image url is not consistent enough for use as a key maybe?
+                    image = UIImage(data: image.jpegData(compressionQuality: 0.35) ?? imageData) ?? UIImage()
+                    self?.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.jpegData(compressionQuality: 1.0)?.count ?? 0)
                     DispatchQueue.main.async {
                         self?.image = image
                     }
@@ -222,7 +224,8 @@ struct LTKUIUtilities {
             NSAttributedString.Key.foregroundColor: UIColor.LTKTheme.tertiary,
             NSAttributedString.Key.font: UIFont.LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
         ])
-        vc.navSearchBar.searchTextField.addTarget(vc, action: selector, for: .editingChanged)
+        /// MARK: - I think I like using search/return better than updating with every change.
+//        vc.navSearchBar.searchTextField.addTarget(vc, action: selector, for: .editingChanged)
         let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
         let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: buttonAction, menu: nil)
         vc.navigationItem.leftBarButtonItem = leftNavBarButton

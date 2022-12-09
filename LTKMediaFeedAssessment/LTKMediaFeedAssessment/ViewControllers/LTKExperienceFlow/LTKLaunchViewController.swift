@@ -14,7 +14,8 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.register(LTKImageCell.self, forCellReuseIdentifier: LTKConstants.CellIdentifiers.heroImage)
+        self.setupTableView()
+        self.createHeader()
         self.loadFeed()
     }
     
@@ -31,6 +32,29 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         })
     }
     
+    private func setupTableView() {
+        self.tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
+        self.tableView.backgroundColor = .LTKTheme.primary
+        self.tableView.separatorStyle = .none
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        self.tableView.register(LTKImageCell.self, forCellReuseIdentifier: LTKConstants.CellIdentifiers.heroImage)
+    }
+    
+    private func createHeader() {
+        let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        headerView.backgroundColor = .clear
+
+        let labelView: UILabel = UILabel.init(frame: CGRect.init(x: LTKConstants.UI.doubleInset, y: LTKConstants.UI.defaultInset, width: UIScreen.main.bounds.width, height: 30))
+        labelView.text = LTKConstants.Strings.postsYouLike
+        labelView.textColor = .LTKTheme.tertiary
+        labelView.font = .LTKFonts.primary
+
+        headerView.addSubview(labelView)
+        self.tableView.tableHeaderView = headerView
+    }
+    
     private func reloadTableView() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -38,7 +62,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         }
     }
     
-    override func filterResults(_ sender: UITextField) {
+    override func filterResults() {
         if self.navSearchBar.searchTextField.text?.count == 0 {
             self.filteredLtks = self.feed?.ltks
         } else {
@@ -63,10 +87,24 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
 }
 
 extension LTKLaunchViewController {
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return LTKConstants.Strings.postsYouLike
-    }
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return LTKConstants.Strings.postsYouLike
+//    }
 
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.text = "test"
+        label.backgroundColor = .green
+        view.backgroundColor = UIColor.green // Set your background color
+        view.addSubview(label)
+        return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        100
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.filteredLtks?.count ?? 0
     }
@@ -82,7 +120,6 @@ extension LTKLaunchViewController {
         }
         return cell
     }
-    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailScreen = LTKDetailViewController()
