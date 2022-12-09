@@ -21,6 +21,7 @@
 		6A6ACA72294155A600062D17 /* LTKImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA71294155A600062D17 /* LTKImageCell.swift */; };
 		6A6ACA762941821B00062D17 /* LTKDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA752941821B00062D17 /* LTKDetailViewController.swift */; };
 		6A6ACA782941F04F00062D17 /* LTKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA772941F04F00062D17 /* LTKWebView.swift */; };
+		6A6ACA7D294317A400062D17 /* LTKCVItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA7C294317A400062D17 /* LTKCVItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		6A6ACA71294155A600062D17 /* LTKImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKImageCell.swift; sourceTree = "<group>"; };
 		6A6ACA752941821B00062D17 /* LTKDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKDetailViewController.swift; sourceTree = "<group>"; };
 		6A6ACA772941F04F00062D17 /* LTKWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKWebView.swift; sourceTree = "<group>"; };
+		6A6ACA7C294317A400062D17 /* LTKCVItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKCVItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,10 +100,8 @@
 		6A6ACA61294123D900062D17 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				6A6ACA50294120C700062D17 /* LTKLaunchViewController.swift */,
+				6A6ACA7B2943031100062D17 /* LTKExperienceFlow */,
 				6A6ACA6C29413BC600062D17 /* LTKBaseViewController.swift */,
-				6A6ACA752941821B00062D17 /* LTKDetailViewController.swift */,
-				6A6ACA772941F04F00062D17 /* LTKWebView.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -135,8 +135,19 @@
 			isa = PBXGroup;
 			children = (
 				6A6ACA71294155A600062D17 /* LTKImageCell.swift */,
+				6A6ACA7C294317A400062D17 /* LTKCVItem.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		6A6ACA7B2943031100062D17 /* LTKExperienceFlow */ = {
+			isa = PBXGroup;
+			children = (
+				6A6ACA50294120C700062D17 /* LTKLaunchViewController.swift */,
+				6A6ACA752941821B00062D17 /* LTKDetailViewController.swift */,
+				6A6ACA772941F04F00062D17 /* LTKWebView.swift */,
+			);
+			path = LTKExperienceFlow;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +226,7 @@
 				6A6ACA6B29413BAB00062D17 /* LTKKit.swift in Sources */,
 				6A6ACA6D29413BC600062D17 /* LTKBaseViewController.swift in Sources */,
 				6A6ACA72294155A600062D17 /* LTKImageCell.swift in Sources */,
+				6A6ACA7D294317A400062D17 /* LTKCVItem.swift in Sources */,
 				6A6ACA642941244700062D17 /* Feed.swift in Sources */,
 				6A6ACA4D294120C700062D17 /* AppDelegate.swift in Sources */,
 				6A6ACA762941821B00062D17 /* LTKDetailViewController.swift in Sources */,

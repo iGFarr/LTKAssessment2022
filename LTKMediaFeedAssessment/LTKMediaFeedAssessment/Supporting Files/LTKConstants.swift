@@ -10,11 +10,15 @@ import UIKit
 struct LTKConstants {
     static let cacheLimitFiftyMb = 1024 * 1024 * 50
     static let cacheLimitTwentyObjects = 20
-    struct cellIdentifiers {
+    struct CellIdentifiers {
         static let heroImage = "ltkImageCell"
         static let collectionItem = "LTKCVItem"
     }
+    struct ImageNames {
+        static let ltkLogo = "ltklogo"
+    }
     struct UI {
+        static func collectionViewItemCornerRadiusForDimensionSize(_ size: CGFloat) -> CGFloat { size * 0.15 }
         static let collectionViewItemDimension: CGFloat = 100
         static let defaultInset: CGFloat = 8
         static let doubleInset: CGFloat = 16
@@ -24,6 +28,7 @@ struct LTKConstants {
         static let navSearchBarWidthRatio: CGFloat = 0.7
         static let navTitleTextSize: CGFloat = 20
         static let profilePicBubbleDimension: CGFloat = 50
+        static let slightTranslucency: CGFloat = 0.8
         static let thickBorderWitdth: CGFloat = 2
         static let thinBorderWidth: CGFloat = 1
     }

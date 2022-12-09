@@ -8,36 +8,38 @@
 import UIKit
 
 class LTKBaseTableViewController: UITableViewController {
-    lazy var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
+    // Had initially marked this as lazy, but that seems kind of pointless considering the initial launch screen is of this class.
+    var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        tableView.separatorStyle = .none
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-        setupNavBar()
+        self.view.backgroundColor = .systemBackground
+        self.tableView.separatorStyle = .none
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        self.setupNavBar()
     }
     
     private func setupNavBar() {
-        navSearchBar.placeholder = LTKConstants.Strings.searchPlaceholder
-        navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
-        navSearchBar.searchTextField.font = UIFont(name: "GeezaPro", size: LTKConstants.UI.navSearchBarTextSize)
-        navSearchBar.searchTextField.textColor = .label
-        navigationItem.titleView?.tintColor =  .systemBackground
-        navSearchBar.backgroundColor = .systemBackground
-        navSearchBar.layer.borderColor = UIColor.systemGray.cgColor.copy(alpha: 0.8)
-        navSearchBar.layer.borderWidth = LTKConstants.UI.thinBorderWidth
-        navSearchBar.layer.cornerRadius = LTKConstants.UI.navSearchBarCornerRadius
-        navSearchBar.searchTextField.backgroundColor = .systemBackground
-        navSearchBar.searchTextField.clipsToBounds = true
-        navSearchBar.searchTextField.addTarget(self, action: #selector(filterResults), for: .editingChanged)
-        let rightNavBarButton = UIBarButtonItem(customView:navSearchBar)
-        let image = UIImage(named: "ltklogo")?.withRenderingMode(.alwaysOriginal)
+        self.navSearchBar.placeholder = LTKConstants.Strings.searchPlaceholder
+        self.navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
+        self.navSearchBar.searchTextField.font = .LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
+        self.navSearchBar.searchTextField.textColor = .label
+        self.navSearchBar.backgroundColor = .systemBackground
+        self.navSearchBar.layer.borderColor = UIColor.systemGray.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
+        self.navSearchBar.layer.borderWidth = LTKConstants.UI.thinBorderWidth
+        self.navSearchBar.layer.cornerRadius = LTKConstants.UI.navSearchBarCornerRadius
+        self.navSearchBar.searchTextField.backgroundColor = .systemBackground
+        self.navSearchBar.searchTextField.clipsToBounds = true
+        self.navSearchBar.searchTextField.addTarget(self, action: #selector(filterResults), for: .editingChanged)
+        self.navigationItem.titleView?.tintColor =  .systemBackground
         
+        let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
         let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: nil, menu: nil)
-        self.navigationItem.rightBarButtonItem = rightNavBarButton
         self.navigationItem.leftBarButtonItem = leftNavBarButton
+        
+        let rightNavBarButton = UIBarButtonItem(customView:navSearchBar)
+        self.navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
     @objc

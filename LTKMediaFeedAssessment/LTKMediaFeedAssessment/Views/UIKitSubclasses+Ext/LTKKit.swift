@@ -190,3 +190,12 @@ struct LTKConstraintHelper {
         ])
     }
 }
+
+extension UIFont {
+    struct LTKFonts {
+        static let primary = UIFont(name: "GeezaPro", size: LTKConstants.UI.navTitleTextSize) ?? .systemFont(ofSize: LTKConstants.UI.navTitleTextSize)
+        static func getPrimaryFontOfSize(_ size: CGFloat) -> UIFont {
+            return primary.withSize(size)
+        }
+    }
+}

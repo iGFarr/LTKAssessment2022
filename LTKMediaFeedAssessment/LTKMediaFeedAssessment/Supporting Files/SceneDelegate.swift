@@ -25,9 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navViewController = UINavigationController(rootViewController: viewController)
         if #available(iOS 15, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
-            if let font = UIFont(name: "GeezaPro", size: LTKConstants.UI.navTitleTextSize) {
-                navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.font: font, NSAttributedString.Key.obliqueness: LTKConstants.UI.italicizeFontNSKey]
-            }
+            let font: UIFont = .LTKFonts.primary
+            navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.font: font, NSAttributedString.Key.obliqueness: LTKConstants.UI.italicizeFontNSKey]
+            
             navigationBarAppearance.configureWithOpaqueBackground()
             navigationBarAppearance.backgroundColor = .systemBackground
             navViewController.navigationBar.standardAppearance = navigationBarAppearance
