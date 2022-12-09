@@ -11,7 +11,7 @@ protocol SearchFilterController: UIViewController {
     var navSearchBar: UISearchBar { get set }
 }
 
-class LTKBaseTableViewController: UITableViewController, SearchFilterController {
+class LTKBaseTableViewController: UITableViewController, SearchFilterController, UISearchBarDelegate {
     /// MARK: - Had initially marked this as lazy, but that seems kind of pointless considering the initial launch screen is of this class.
     var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
     override func viewDidLoad() {
@@ -20,10 +20,12 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController 
         self.tableView.separatorStyle = .none
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.navSearchBar.delegate = self
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
         }))
+//        navSearchBar.searchTextField.addTarget(vc, action: Selector, for: .editingDidEnd)
     }
     
     @objc
@@ -35,6 +37,13 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController 
         LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
         }))
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        navSearchBar.resignFirstResponder()
     }
 }
 

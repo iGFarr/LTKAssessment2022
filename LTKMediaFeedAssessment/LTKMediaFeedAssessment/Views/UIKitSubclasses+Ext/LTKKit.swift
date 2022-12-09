@@ -210,17 +210,19 @@ extension UIColor {
 
 struct LTKUIUtilities {
     static func setupNavBarForVC(_ vc: SearchFilterController, selector: Selector, buttonAction: UIAction? = nil) {
-        vc.navSearchBar.placeholder = LTKConstants.Strings.searchPlaceholder
         vc.navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
-        vc.navSearchBar.searchTextField.font = .LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
         vc.navSearchBar.backgroundColor = .systemBackground
         vc.navSearchBar.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
         vc.navSearchBar.layer.borderWidth = LTKConstants.UI.thinBorderWidth
         vc.navSearchBar.layer.cornerRadius = LTKConstants.UI.navSearchBarCornerRadius
         vc.navSearchBar.searchTextField.backgroundColor = .systemBackground
         vc.navSearchBar.searchTextField.clipsToBounds = true
+        vc.navSearchBar.searchTextField.leftView?.tintColor = .LTKTheme.tertiary
+        vc.navSearchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: LTKConstants.Strings.searchPlaceholder, attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.LTKTheme.tertiary,
+            NSAttributedString.Key.font: UIFont.LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
+        ])
         vc.navSearchBar.searchTextField.addTarget(vc, action: selector, for: .editingChanged)
-        
         let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
         let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: buttonAction, menu: nil)
         vc.navigationItem.leftBarButtonItem = leftNavBarButton
@@ -234,7 +236,7 @@ struct LTKUIUtilities {
         if let url = URL(string: "https://github.com/iGFarr/LTKAssessment2022") {
             webView.url = url
             webView.name = "This App's Repo"
-            vc.navigationController?.show(webView, sender: vc.navigationController)
+            vc.navigationController?.show(webView, sender: vc)
         }
     }
 }
