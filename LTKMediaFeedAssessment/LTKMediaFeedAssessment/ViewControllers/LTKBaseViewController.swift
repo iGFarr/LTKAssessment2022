@@ -21,7 +21,9 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController 
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
-        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults))
+        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
+            LTKUIUtilities.displayTheRepoFrom(self)
+        }))
     }
     
     @objc
@@ -30,7 +32,9 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController 
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults))
+        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
+            LTKUIUtilities.displayTheRepoFrom(self)
+        }))
     }
 }
 

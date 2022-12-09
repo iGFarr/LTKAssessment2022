@@ -17,7 +17,9 @@ class LTKBlankViewController: UIViewController, SearchFilterController {
     
     override func viewDidLoad() {
         self.view.backgroundColor = .LTKTheme.primary
-        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults))
+        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
+            LTKUIUtilities.displayTheRepoFrom(self)
+        }))
         let comingSoonLabel = UILabel()
         comingSoonLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(comingSoonLabel)
@@ -29,6 +31,8 @@ class LTKBlankViewController: UIViewController, SearchFilterController {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults))
+        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
+            LTKUIUtilities.displayTheRepoFrom(self)
+        }))
     }
 }

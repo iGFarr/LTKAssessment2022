@@ -16,12 +16,11 @@ class LTKCVCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    private var roundedContainer = UIView()
+    private var roundedContainer = LTKView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        self.roundedContainer.translatesAutoresizingMaskIntoConstraints = false
         self.roundedContainer.backgroundColor = .white
         self.roundedContainer.addSubview(self.productImage)
         self.roundedContainer.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor

@@ -209,7 +209,7 @@ extension UIColor {
 }
 
 struct LTKUIUtilities {
-    static func setupNavBarForVC(_ vc: SearchFilterController, selector: Selector) {
+    static func setupNavBarForVC(_ vc: SearchFilterController, selector: Selector, buttonAction: UIAction? = nil) {
         vc.navSearchBar.placeholder = LTKConstants.Strings.searchPlaceholder
         vc.navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
         vc.navSearchBar.searchTextField.font = .LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
@@ -222,10 +222,19 @@ struct LTKUIUtilities {
         vc.navSearchBar.searchTextField.addTarget(vc, action: selector, for: .editingChanged)
         
         let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
-        let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: nil, menu: nil)
+        let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: buttonAction, menu: nil)
         vc.navigationItem.leftBarButtonItem = leftNavBarButton
         
         let rightNavBarButton = UIBarButtonItem(customView: vc.navSearchBar)
         vc.navigationItem.rightBarButtonItem = rightNavBarButton
+    }
+    
+    static func displayTheRepoFrom(_ vc: UIViewController) {
+        let webView = LTKWebViewController()
+        if let url = URL(string: "https://github.com/iGFarr/LTKAssessment2022") {
+            webView.url = url
+            webView.name = "This App's Repo"
+            vc.navigationController?.show(webView, sender: vc.navigationController)
+        }
     }
 }
