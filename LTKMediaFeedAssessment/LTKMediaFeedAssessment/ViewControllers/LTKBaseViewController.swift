@@ -7,8 +7,12 @@
 
 import UIKit
 
-class LTKBaseTableViewController: UITableViewController {
-    // Had initially marked this as lazy, but that seems kind of pointless considering the initial launch screen is of this class.
+protocol SearchFilterController: UIViewController {
+    var navSearchBar: UISearchBar { get set }
+}
+
+class LTKBaseTableViewController: UITableViewController, SearchFilterController {
+    /// MARK: - Had initially marked this as lazy, but that seems kind of pointless considering the initial launch screen is of this class.
     var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,28 +21,7 @@ class LTKBaseTableViewController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
-        self.setupNavBar()
-    }
-    
-    private func setupNavBar() {
-        self.navSearchBar.placeholder = LTKConstants.Strings.searchPlaceholder
-        self.navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
-        self.navSearchBar.searchTextField.font = .LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
-        self.navSearchBar.backgroundColor = .systemBackground
-        self.navSearchBar.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
-        self.navSearchBar.layer.borderWidth = LTKConstants.UI.thinBorderWidth
-        self.navSearchBar.layer.cornerRadius = LTKConstants.UI.navSearchBarCornerRadius
-        self.navSearchBar.searchTextField.backgroundColor = .systemBackground
-        self.navSearchBar.searchTextField.clipsToBounds = true
-        self.navSearchBar.searchTextField.addTarget(self, action: #selector(filterResults), for: .editingChanged)
-        self.navigationItem.titleView?.tintColor =  .systemBackground
-        
-        let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
-        let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: nil, menu: nil)
-        self.navigationItem.leftBarButtonItem = leftNavBarButton
-        
-        let rightNavBarButton = UIBarButtonItem(customView:navSearchBar)
-        self.navigationItem.rightBarButtonItem = rightNavBarButton
+        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults))
     }
     
     @objc
@@ -47,10 +30,7 @@ class LTKBaseTableViewController: UITableViewController {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
-        let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: nil, menu: nil)
-        self.navigationItem.leftBarButtonItem = leftNavBarButton
-        self.navSearchBar.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
+        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults))
     }
 }
 

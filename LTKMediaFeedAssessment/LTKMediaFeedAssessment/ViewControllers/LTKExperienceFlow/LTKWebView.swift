@@ -37,10 +37,10 @@ class LTKWebViewController: UIViewController, WKNavigationDelegate {
     
     private func constrainWebView(){
         self.webView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.webView)
         LTKConstraintHelper.constrain(self.webView, toSafeAreaOf: self.view)
         self.webView.addSubview(self.spinner)
-        self.spinner.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2.5)
+        let heightPosForSpinner = UIScreen.main.bounds.width - (navigationController?.navigationBar.bounds.height ?? 20) / 2.0
+        self.spinner.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: heightPosForSpinner)
         self.spinner.startAnimating()
         self.spinner.color = .LTKTheme.tertiary
         self.spinner.hidesWhenStopped = true

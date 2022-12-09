@@ -46,7 +46,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
                 if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
                     return true
                 }
-                
+                /// MARK: -
                 /*                I made an assumption that profileUserID was a display string, but after checking those values I realize this
                  //                  is not a good filtering option.
                  //                if $0.profileID.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {

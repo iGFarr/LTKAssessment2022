@@ -24,8 +24,8 @@ class LazyImageView: UIImageView {
             if let imageData = try? Data(contentsOf: imageURL) {
                 print("loaded image from server")
                 if let image = UIImage(data: imageData) {
+                    self?.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.pngData()?.count ?? 0)
                     DispatchQueue.main.async {
-                        self?.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.pngData()?.count ?? 0)
                         self?.image = image
                     }
                 }
@@ -205,5 +205,27 @@ extension UIColor {
         static let primary: UIColor = .systemBackground
         static let secondary: UIColor = .label
         static let tertiary: UIColor = UIColor(named: "LTKTertiary") ?? .systemMint
+    }
+}
+
+struct LTKUIUtilities {
+    static func setupNavBarForVC(_ vc: SearchFilterController, selector: Selector) {
+        vc.navSearchBar.placeholder = LTKConstants.Strings.searchPlaceholder
+        vc.navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
+        vc.navSearchBar.searchTextField.font = .LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
+        vc.navSearchBar.backgroundColor = .systemBackground
+        vc.navSearchBar.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
+        vc.navSearchBar.layer.borderWidth = LTKConstants.UI.thinBorderWidth
+        vc.navSearchBar.layer.cornerRadius = LTKConstants.UI.navSearchBarCornerRadius
+        vc.navSearchBar.searchTextField.backgroundColor = .systemBackground
+        vc.navSearchBar.searchTextField.clipsToBounds = true
+        vc.navSearchBar.searchTextField.addTarget(vc, action: selector, for: .editingChanged)
+        
+        let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
+        let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: nil, menu: nil)
+        vc.navigationItem.leftBarButtonItem = leftNavBarButton
+        
+        let rightNavBarButton = UIBarButtonItem(customView: vc.navSearchBar)
+        vc.navigationItem.rightBarButtonItem = rightNavBarButton
     }
 }

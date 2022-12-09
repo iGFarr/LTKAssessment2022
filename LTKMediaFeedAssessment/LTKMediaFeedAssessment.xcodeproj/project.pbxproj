@@ -22,6 +22,7 @@
 		6A6ACA762941821B00062D17 /* LTKDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA752941821B00062D17 /* LTKDetailViewController.swift */; };
 		6A6ACA782941F04F00062D17 /* LTKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA772941F04F00062D17 /* LTKWebView.swift */; };
 		6A6ACA7D294317A400062D17 /* LTKCVItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA7C294317A400062D17 /* LTKCVItem.swift */; };
+		6A6ACA7F29438D7C00062D17 /* LTKBlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		6A6ACA752941821B00062D17 /* LTKDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKDetailViewController.swift; sourceTree = "<group>"; };
 		6A6ACA772941F04F00062D17 /* LTKWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKWebView.swift; sourceTree = "<group>"; };
 		6A6ACA7C294317A400062D17 /* LTKCVItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKCVItem.swift; sourceTree = "<group>"; };
+		6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKBlankViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			children = (
 				6A6ACA7B2943031100062D17 /* LTKExperienceFlow */,
 				6A6ACA6C29413BC600062D17 /* LTKBaseViewController.swift */,
+				6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				6A6ACA782941F04F00062D17 /* LTKWebView.swift in Sources */,
 				6A6ACA4F294120C700062D17 /* SceneDelegate.swift in Sources */,
 				6A6ACA67294127FE00062D17 /* LTKConstants.swift in Sources */,
+				6A6ACA7F29438D7C00062D17 /* LTKBlankViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

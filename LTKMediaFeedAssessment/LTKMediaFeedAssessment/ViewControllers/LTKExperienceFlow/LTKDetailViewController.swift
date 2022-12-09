@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LTKDetailViewController: UITableViewController {
+class LTKDetailViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = .zero
@@ -47,6 +47,8 @@ class LTKDetailViewController: UITableViewController {
         self.profileImage.widthConstant(LTKConstants.UI.profilePicBubbleDimension)
         self.profileImage.heightConstant(LTKConstants.UI.profilePicBubbleDimension)
         self.profileImage.layer.cornerRadius = LTKConstants.UI.profilePicBubbleDimension / 2
+        self.profileImage.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+        self.profileImage.layer.borderWidth = LTKConstants.UI.thickBorderWidth
         self.profileImage.clipsToBounds = true
         self.view.addSubviews([
             heroImage,
@@ -96,8 +98,9 @@ extension LTKDetailViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        // Not sure why reloadData() does not accomplish the same as the following.
-        let numberSections = collectionView.numberOfSections
+        /// MARK: -  Not sure why reloadData() does not accomplish the same as the following.
+        self.profileImage.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+        let numberSections = self.collectionView.numberOfSections
         let indexSet = IndexSet(integersIn: 0..<numberSections)
         DispatchQueue.main.async {
             self.collectionView.reloadSections(indexSet)

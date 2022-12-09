@@ -21,8 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
         
+        let tabBarController = UITabBarController()
         let viewController = LTKLaunchViewController()
-        let navViewController = UINavigationController(rootViewController: viewController)
+        let navViewControllerHomePage = UINavigationController(rootViewController: viewController)
         if #available(iOS 15, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
             let font: UIFont = .LTKFonts.primary
@@ -35,13 +36,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ]
             navigationBarAppearance.configureWithOpaqueBackground()
             navigationBarAppearance.backgroundColor = .systemBackground
-            navViewController.navigationBar.standardAppearance = navigationBarAppearance
-            navViewController.navigationBar.compactAppearance = navigationBarAppearance
-            navViewController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-            navViewController.navigationBar.tintColor = .LTKTheme.tertiary
-
+            navigationBarAppearance.shadowColor = .clear
+            navViewControllerHomePage.navigationBar.standardAppearance = navigationBarAppearance
+            navViewControllerHomePage.navigationBar.compactAppearance = navigationBarAppearance
+            navViewControllerHomePage.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+            navViewControllerHomePage.navigationBar.tintColor = .LTKTheme.tertiary
+            navViewControllerHomePage.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+            
+            tabBarController.viewControllers = [navViewControllerHomePage]
+            tabBarController.tabBar.tintColor = .LTKTheme.tertiary
+            let tabBarTuples: [(title: String, imageName: String)] = [
+                ("Favorites", "heart"),
+                ("Creators", "person.crop.square.filled.and.at.rectangle"),
+                ("Discover", "square.grid.2x2"),
+                ("Menu", "text.viewfinder")
+            ]
+            for num in 0..<4 {
+                let blankController = LTKBlankViewController()
+                let navViewBlankController = UINavigationController(rootViewController: blankController)
+                navViewBlankController.navigationBar.standardAppearance = navigationBarAppearance
+                navViewBlankController.navigationBar.compactAppearance = navigationBarAppearance
+                navViewBlankController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+                navViewBlankController.navigationBar.tintColor = .LTKTheme.tertiary
+                var title = ""
+                var imageName = ""
+                if tabBarTuples.count > num {
+                    title = tabBarTuples[num].title
+                    imageName = tabBarTuples[num].imageName
+                }
+                navViewBlankController.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: num + 1)
+                tabBarController.viewControllers?.append(navViewBlankController)
+            }
         }
-        window?.rootViewController = navViewController
+        window?.rootViewController = tabBarController
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
