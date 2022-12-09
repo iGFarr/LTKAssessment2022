@@ -24,9 +24,8 @@ class LTKBaseTableViewController: UITableViewController {
         self.navSearchBar.placeholder = LTKConstants.Strings.searchPlaceholder
         self.navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
         self.navSearchBar.searchTextField.font = .LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
-        self.navSearchBar.searchTextField.textColor = .label
         self.navSearchBar.backgroundColor = .systemBackground
-        self.navSearchBar.layer.borderColor = UIColor.systemGray.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
+        self.navSearchBar.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
         self.navSearchBar.layer.borderWidth = LTKConstants.UI.thinBorderWidth
         self.navSearchBar.layer.cornerRadius = LTKConstants.UI.navSearchBarCornerRadius
         self.navSearchBar.searchTextField.backgroundColor = .systemBackground
@@ -46,4 +45,12 @@ class LTKBaseTableViewController: UITableViewController {
     func filterResults(_ sender: UITextField) {
         print("default editing event action triggered")
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
+        let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: nil, menu: nil)
+        self.navigationItem.leftBarButtonItem = leftNavBarButton
+        self.navSearchBar.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
+    }
 }
+

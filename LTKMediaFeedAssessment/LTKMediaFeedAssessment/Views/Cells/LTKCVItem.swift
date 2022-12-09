@@ -24,8 +24,8 @@ class LTKCVCell: UICollectionViewCell {
         self.roundedContainer.translatesAutoresizingMaskIntoConstraints = false
         self.roundedContainer.backgroundColor = .white
         self.roundedContainer.addSubview(self.productImage)
-        self.roundedContainer.layer.borderColor = UIColor.systemMint.cgColor
-        self.roundedContainer.layer.borderWidth = LTKConstants.UI.thickBorderWitdth
+        self.roundedContainer.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+        self.roundedContainer.layer.borderWidth = LTKConstants.UI.thickBorderWidth
         let radius: CGFloat = LTKConstants.UI.collectionViewItemCornerRadiusForDimensionSize(LTKConstants.UI.collectionViewItemDimension)
         self.roundedContainer.layoutMargins = UIEdgeInsets(top: radius, left: radius, bottom: radius, right: radius)
         self.roundedContainer.clipsToBounds = true

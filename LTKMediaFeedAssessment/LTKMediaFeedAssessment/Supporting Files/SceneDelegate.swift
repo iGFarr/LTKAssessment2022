@@ -26,13 +26,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if #available(iOS 15, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
             let font: UIFont = .LTKFonts.primary
-            navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.font: font, NSAttributedString.Key.obliqueness: LTKConstants.UI.italicizeFontNSKey]
+            let color: UIColor = .LTKTheme.tertiary
             
+            navigationBarAppearance.titleTextAttributes = [
+                NSAttributedString.Key.font: font,
+                NSAttributedString.Key.obliqueness: LTKConstants.UI.italicizeFontNSKey,
+                NSAttributedString.Key.foregroundColor: color
+            ]
             navigationBarAppearance.configureWithOpaqueBackground()
             navigationBarAppearance.backgroundColor = .systemBackground
             navViewController.navigationBar.standardAppearance = navigationBarAppearance
             navViewController.navigationBar.compactAppearance = navigationBarAppearance
             navViewController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+            navViewController.navigationBar.tintColor = .LTKTheme.tertiary
+
         }
         window?.rootViewController = navViewController
     }

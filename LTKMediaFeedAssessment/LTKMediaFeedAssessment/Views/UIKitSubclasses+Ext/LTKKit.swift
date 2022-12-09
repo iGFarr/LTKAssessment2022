@@ -12,7 +12,7 @@ class LazyImageView: UIImageView {
     private let imageCache = NSCache<AnyObject, UIImage>()
     func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench") {
         imageCache.totalCostLimit = LTKConstants.cacheLimitFiftyMb
-        imageCache.countLimit = LTKConstants.cacheLimitTwentyObjects
+        imageCache.countLimit = LTKConstants.cacheObjectLimit
         self.image = UIImage(named: placeHolderImage)?.withRenderingMode(.alwaysOriginal)
         if let cachedImage = self.imageCache.object(forKey: imageURL as AnyObject) {
             self.image = cachedImage
@@ -197,5 +197,13 @@ extension UIFont {
         static func getPrimaryFontOfSize(_ size: CGFloat) -> UIFont {
             return primary.withSize(size)
         }
+    }
+}
+
+extension UIColor {
+    struct LTKTheme {
+        static let primary: UIColor = .systemBackground
+        static let secondary: UIColor = .label
+        static let tertiary: UIColor = UIColor(named: "LTKTertiary") ?? .systemMint
     }
 }

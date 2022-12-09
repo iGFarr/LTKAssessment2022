@@ -35,7 +35,8 @@ final class LTKImageCell: UITableViewCell {
         contentView.heightConstant(newImageHeight + LTKConstants.UI.doubleInset)
         ltkImageView.top(topAnchor)
         ltkImageView.bottom(bottomAnchor, constant: -LTKConstants.UI.doubleInset)
-        ltkImageView.widthEqualsWidthOf(contentView)
+        ltkImageView.widthEqualsWidthOf(contentView, constant: -LTKConstants.UI.doubleInset)
+        ltkImageView.xAlignedWith(contentView)
     }
 }
 

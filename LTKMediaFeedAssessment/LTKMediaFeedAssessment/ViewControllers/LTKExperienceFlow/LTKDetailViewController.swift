@@ -94,4 +94,13 @@ extension LTKDetailViewController: UICollectionViewDelegate, UICollectionViewDat
             self.show(webView, sender: self)
         }
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        // Not sure why reloadData() does not accomplish the same as the following.
+        let numberSections = collectionView.numberOfSections
+        let indexSet = IndexSet(integersIn: 0..<numberSections)
+        DispatchQueue.main.async {
+            self.collectionView.reloadSections(indexSet)
+        }
+    }
 }
