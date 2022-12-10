@@ -8,24 +8,22 @@
 import UIKit
 
 class LazyImageView: UIImageView {
-
     static let imageCache = NSCache<AnyObject, UIImage>()
-    func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench") {
-        LazyImageView.imageCache.totalCostLimit = LTKConstants.cacheLimitTwentyMb
-        LazyImageView.imageCache.countLimit = LTKConstants.cacheObjectLimit
+    func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench", compressionRatio: CGFloat = 0.35) {
+        Self.imageCache.totalCostLimit = LTKConstants.cacheLimitTwentyMb
+        Self.imageCache.countLimit = LTKConstants.cacheObjectLimit
         self.image = UIImage(named: placeHolderImage)?.withRenderingMode(.alwaysOriginal)
-        if let cachedImage = LazyImageView.imageCache.object(forKey: imageURL as AnyObject) {
+        if let cachedImage = Self.imageCache.object(forKey: imageURL as AnyObject) {
             self.image = cachedImage
-            print("loaded image from cache")
+            print("loaded image from cache - URL:\n\(imageURL)")
             return
         }
 
         DispatchQueue.global(qos: .utility).async { [weak self] in
             if let imageData = try? Data(contentsOf: imageURL) {
-                print("loaded image from server")
+                print("loaded image from Server - URL:\n\(imageURL)")
                 if var image = UIImage(data: imageData) {
-                    /// MARK: - no matter the compression or the size of the cache, either the cache is still evicting items for some reason, or the image url is not consistent enough for use as a key maybe?
-                    image = UIImage(data: image.jpegData(compressionQuality: 0.35) ?? imageData) ?? UIImage()
+                    image = UIImage(data: image.jpegData(compressionQuality: compressionRatio) ?? imageData) ?? UIImage()
                     Self.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.jpegData(compressionQuality: 1.0)?.count ?? 0)
                     DispatchQueue.main.async {
                         self?.image = image
@@ -53,6 +51,23 @@ extension UIView {
         for view in views {
             addSubview(view)
         }
+    }
+    
+    public func circularize(addingBorder: Bool = true) {
+        guard self.frame.size.width == self.frame.size.height else {
+            print("USE EQUAL DIMENSIONS AND SET FRAME TO CIRCULARIZE UIVIEW")
+            return
+        }
+        self.layer.cornerRadius = self.frame.size.width / 2
+        if addingBorder {
+            self.addBorder()
+        }
+    }
+    
+    func addBorder(_ size: CGFloat = LTKConstants.UI.thickBorderWidth) {
+        self.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+        self.layer.borderWidth = LTKConstants.UI.thickBorderWidth
+        self.clipsToBounds = true
     }
     
     public func top(_ yConstraint: NSLayoutYAxisAnchor) {
@@ -141,6 +156,50 @@ extension UIView {
     }
 }
 
+// Streamlines tap gestures on views
+extension UIView {
+        // In order to create computed properties for extensions, we need a key to
+        // store and access the stored property
+        fileprivate struct AssociatedObjectKeys {
+            static var tapGestureRecognizer = "MediaViewerAssociatedObjectKey_mediaViewer"
+        }
+        
+        fileprivate typealias Action = (() -> Void)?
+        
+        // Set our computed property type to a closure
+        fileprivate var tapGestureRecognizerAction: Action? {
+            set {
+                if let newValue = newValue {
+                    // Computed properties get stored as associated objects
+                    objc_setAssociatedObject(self, &AssociatedObjectKeys.tapGestureRecognizer, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+                }
+            }
+            get {
+                let tapGestureRecognizerActionInstance = objc_getAssociatedObject(self, &AssociatedObjectKeys.tapGestureRecognizer) as? Action
+                return tapGestureRecognizerActionInstance
+            }
+        }
+        
+        // This is the meat of the sauce, here we create the tap gesture recognizer and
+        // store the closure the user passed to us in the associated object we declared above
+        public func addTapGestureRecognizer(action: (() -> Void)?) {
+            self.isUserInteractionEnabled = true
+            self.tapGestureRecognizerAction = action
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
+            self.addGestureRecognizer(tapGestureRecognizer)
+        }
+        
+        // Every time the user taps on the UIImageView, this function gets called,
+        // which triggers the closure we stored
+        @objc fileprivate func handleTapGesture(sender: UITapGestureRecognizer) {
+            if let action = self.tapGestureRecognizerAction {
+                action?()
+            } else {
+                print("no action")
+            }
+        }
+}
+
 enum EdgePosition {
     case topRight
     case topLeft
@@ -149,56 +208,9 @@ enum EdgePosition {
     case topCenter
 }
 
-struct LTKConstraintHelper {
-    static func constrain(_ subView: UIView, to view: UIView, usingInsets: Bool = false, leadingTrailingInset: CGFloat = LTKConstants.UI.defaultInset, topBottomInset: CGFloat = LTKConstants.UI.defaultInset) {
-        view.addSubview(subView)
-        var horizontalInsets: CGFloat = 0
-        var verticalInsets: CGFloat = 0
-        if usingInsets {
-            horizontalInsets = leadingTrailingInset
-            verticalInsets = topBottomInset
-        }
-        NSLayoutConstraint.activate([
-            subView.topAnchor.constraint(equalTo: view.topAnchor, constant: verticalInsets),
-            subView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -verticalInsets),
-            subView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalInsets),
-            subView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -horizontalInsets)
-        ])
-    }
-    
-    static func constrain(_ subView: UIView, toSafeAreaOf view: UIView, usingInsets: Bool = false, leadingTrailingInset: CGFloat = LTKConstants.UI.defaultInset, topBottomInset: CGFloat = LTKConstants.UI.defaultInset) {
-        view.addSubview(subView)
-        var horizontalInsets: CGFloat = 0
-        var verticalInsets: CGFloat = 0
-        if usingInsets {
-            horizontalInsets = leadingTrailingInset
-            verticalInsets = topBottomInset
-        }
-        NSLayoutConstraint.activate([
-            subView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalInsets),
-            subView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -verticalInsets),
-            subView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalInsets),
-            subView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalInsets)
-        ])
-    }
-    
-    static func constrainWithCustomInsets(subView: UIView, to view: UIView, leftInset: CGFloat = 0, rightInset: CGFloat = 0, topInset: CGFloat = 0, bottomInset: CGFloat = 0) {
-        view.addSubview(subView)
-        NSLayoutConstraint.activate([
-            subView.topAnchor.constraint(equalTo: view.topAnchor, constant: topInset),
-            subView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomInset),
-            subView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftInset),
-            subView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -rightInset)
-        ])
-    }
-}
-
 extension UIFont {
     struct LTKFonts {
         static let primary = UIFont(name: "GeezaPro", size: LTKConstants.UI.navTitleTextSize) ?? .systemFont(ofSize: LTKConstants.UI.navTitleTextSize)
-        static func getPrimaryFontOfSize(_ size: CGFloat) -> UIFont {
-            return primary.withSize(size)
-        }
     }
 }
 
@@ -207,39 +219,5 @@ extension UIColor {
         static let primary: UIColor = .systemBackground
         static let secondary: UIColor = .label
         static let tertiary: UIColor = UIColor(named: "LTKTertiary") ?? .systemMint
-    }
-}
-
-struct LTKUIUtilities {
-    static func setupNavBarForVC(_ vc: SearchFilterController, selector: Selector, buttonAction: UIAction? = nil) {
-        vc.navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
-        vc.navSearchBar.backgroundColor = .systemBackground
-        vc.navSearchBar.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
-        vc.navSearchBar.layer.borderWidth = LTKConstants.UI.thinBorderWidth
-        vc.navSearchBar.layer.cornerRadius = LTKConstants.UI.navSearchBarCornerRadius
-        vc.navSearchBar.searchTextField.backgroundColor = .systemBackground
-        vc.navSearchBar.searchTextField.clipsToBounds = true
-        vc.navSearchBar.searchTextField.leftView?.tintColor = .LTKTheme.tertiary
-        vc.navSearchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: LTKConstants.Strings.searchPlaceholder, attributes: [
-            NSAttributedString.Key.foregroundColor: UIColor.LTKTheme.tertiary,
-            NSAttributedString.Key.font: UIFont.LTKFonts.getPrimaryFontOfSize(LTKConstants.UI.navSearchBarTextSize)
-        ])
-        /// MARK: - I think I like using search/return better than updating with every change.
-//        vc.navSearchBar.searchTextField.addTarget(vc, action: selector, for: .editingChanged)
-        let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
-        let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: buttonAction, menu: nil)
-        vc.navigationItem.leftBarButtonItem = leftNavBarButton
-        
-        let rightNavBarButton = UIBarButtonItem(customView: vc.navSearchBar)
-        vc.navigationItem.rightBarButtonItem = rightNavBarButton
-    }
-    
-    static func displayTheRepoFrom(_ vc: UIViewController) {
-        let webView = LTKWebViewController()
-        if let url = URL(string: "https://github.com/iGFarr/LTKAssessment2022") {
-            webView.url = url
-            webView.name = "This App's Repo"
-            vc.navigationController?.show(webView, sender: vc)
-        }
     }
 }

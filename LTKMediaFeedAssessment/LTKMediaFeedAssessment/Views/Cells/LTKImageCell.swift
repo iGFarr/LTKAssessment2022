@@ -14,7 +14,7 @@ final class LTKImageCell: UITableViewCell {
     var imageWidth: CGFloat = 1
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
+        self.setup()
     }
     
     required init?(coder: NSCoder) {
@@ -22,21 +22,21 @@ final class LTKImageCell: UITableViewCell {
     }
     
     private func setup() {
-        backgroundColor = .clear
-        selectionStyle = .none
-        ltkImageView.image = UIImage(named: "Wrench")
-        ltkImageView.translatesAutoresizingMaskIntoConstraints = false
-        ltkImageView.contentMode = .scaleAspectFit
-        ltkImageView.backgroundColor = .clear
-        ltkImageView.sizeToFit()
-        contentView.addSubview(ltkImageView)
-        let hRatio = imageHeight / imageWidth
-        let newImageHeight = (hRatio * UIScreen.main.bounds.width).rounded()
-        contentView.heightConstant(newImageHeight + LTKConstants.UI.doubleInset)
-        ltkImageView.top(topAnchor)
-        ltkImageView.bottom(bottomAnchor, constant: -LTKConstants.UI.doubleInset)
-        ltkImageView.widthEqualsWidthOf(contentView, constant: -LTKConstants.UI.doubleInset)
-        ltkImageView.xAlignedWith(contentView)
+        self.backgroundColor = .clear
+        self.selectionStyle = .none
+        self.ltkImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.ltkImageView.contentMode = .scaleAspectFit
+        self.ltkImageView.backgroundColor = .clear
+        self.ltkImageView.sizeToFit()
+        self.contentView.addSubview(self.ltkImageView)
+        let hRatio = self.imageHeight / self.imageWidth
+        let newImageHeight = (hRatio * UIScreen.main.bounds.width)
+        self.contentView.heightConstant(newImageHeight + LTKConstants.UI.doubleInset)
+        self.ltkImageView.top(self.topAnchor)
+        self.ltkImageView.bottom(self.bottomAnchor, constant: -LTKConstants.UI.doubleInset)
+        self.ltkImageView.widthEqualsWidthOf(self.contentView, constant: -LTKConstants.UI.doubleInset)
+        self.ltkImageView.xAlignedWith(self.contentView)
+        self.ltkImageView.addBorder()
     }
 }
 

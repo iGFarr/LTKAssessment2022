@@ -9,7 +9,7 @@ import UIKit
 
 struct LTKConstants {
     static let cacheLimitTwentyMb = 1024 * 1024 * 20
-    static let cacheObjectLimit = 50
+    static let cacheObjectLimit = 20
     struct CellIdentifiers {
         static let heroImage = "ltkImageCell"
         static let collectionItem = "LTKCVItem"
@@ -18,7 +18,7 @@ struct LTKConstants {
         static let ltkLogo = "ltklogo"
     }
     struct UI {
-        static func collectionViewItemCornerRadiusForDimensionSize(_ size: CGFloat) -> CGFloat { size * 0.15 }
+        static func collectionViewItemCornerRadiusForDimensionSize(_ size: CGFloat = collectionViewItemDimension) -> CGFloat { size * 0.15 }
         static let collectionViewItemDimension: CGFloat = 100
         static let defaultInset: CGFloat = 8
         static let doubleInset: CGFloat = 16

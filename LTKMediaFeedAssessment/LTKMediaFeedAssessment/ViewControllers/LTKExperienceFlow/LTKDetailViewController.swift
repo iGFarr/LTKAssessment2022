@@ -22,7 +22,7 @@ class LTKDetailViewController: UIViewController {
     }()
     
     var heroImage = LazyImageView()
-    var profileImage = LazyImageView()
+    var profileImage = LazyImageView(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.profilePicBubbleDimension, height: LTKConstants.UI.profilePicBubbleDimension)))
     var products: [Product?]?
     var profile: Profile?
     override func viewDidLoad() {
@@ -46,10 +46,7 @@ class LTKDetailViewController: UIViewController {
         self.profileImage.contentMode = .scaleAspectFit
         self.profileImage.widthConstant(LTKConstants.UI.profilePicBubbleDimension)
         self.profileImage.heightConstant(LTKConstants.UI.profilePicBubbleDimension)
-        self.profileImage.layer.cornerRadius = LTKConstants.UI.profilePicBubbleDimension / 2
-        self.profileImage.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
-        self.profileImage.layer.borderWidth = LTKConstants.UI.thickBorderWidth
-        self.profileImage.clipsToBounds = true
+        self.profileImage.circularize()
         self.view.addSubviews([
             heroImage,
             profileImage,
@@ -57,10 +54,11 @@ class LTKDetailViewController: UIViewController {
         ])
         self.profileImage.trailing(self.heroImage.leadingAnchor, constant: -LTKConstants.UI.defaultInset)
         self.profileImage.top(self.heroImage.topAnchor)
-        self.heroImage.widthConstant(UIScreen.main.bounds.width / 1.75)
-        self.heroImage.heightConstant(UIScreen.main.bounds.width / 2.25)
+        self.heroImage.widthConstant(UIScreen.main.bounds.width / 1.5)
+        self.heroImage.heightConstant(UIScreen.main.bounds.width / 2)
         self.heroImage.xAlignedWith(self.view)
         self.heroImage.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -100).isActive = true
+        self.heroImage.addBorder()
         
         self.collectionView.top(self.heroImage.bottomAnchor, constant: LTKConstants.UI.doubleInset)
         self.collectionView.heightConstant(LTKConstants.UI.collectionViewItemDimension)

@@ -23,6 +23,8 @@
 		6A6ACA782941F04F00062D17 /* LTKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA772941F04F00062D17 /* LTKWebView.swift */; };
 		6A6ACA7D294317A400062D17 /* LTKCVItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA7C294317A400062D17 /* LTKCVItem.swift */; };
 		6A6ACA7F29438D7C00062D17 /* LTKBlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */; };
+		6A6ACA832944AA5F00062D17 /* LTKConstraintHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA822944AA5F00062D17 /* LTKConstraintHelper.swift */; };
+		6A6ACA852944B54A00062D17 /* LTKUIUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		6A6ACA772941F04F00062D17 /* LTKWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKWebView.swift; sourceTree = "<group>"; };
 		6A6ACA7C294317A400062D17 /* LTKCVItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKCVItem.swift; sourceTree = "<group>"; };
 		6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKBlankViewController.swift; sourceTree = "<group>"; };
+		6A6ACA822944AA5F00062D17 /* LTKConstraintHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKConstraintHelper.swift; sourceTree = "<group>"; };
+		6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKUIUtilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,13 +92,9 @@
 		6A6ACA602941228300062D17 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6A6ACA66294127FE00062D17 /* LTKConstants.swift */,
-				6A6ACA6829412A6800062D17 /* LTKNetworkUtilities.swift */,
-				6A6ACA52294120C700062D17 /* Main.storyboard */,
-				6A6ACA55294120C800062D17 /* Assets.xcassets */,
-				6A6ACA57294120C800062D17 /* LaunchScreen.storyboard */,
-				6A6ACA4C294120C700062D17 /* AppDelegate.swift */,
-				6A6ACA4E294120C700062D17 /* SceneDelegate.swift */,
+				6A6ACA862944BDBE00062D17 /* Constants */,
+				6A6ACA812944A8F700062D17 /* BoilerPlate Files */,
+				6A6ACA802944A8E800062D17 /* Utilities */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -151,6 +151,36 @@
 				6A6ACA772941F04F00062D17 /* LTKWebView.swift */,
 			);
 			path = LTKExperienceFlow;
+			sourceTree = "<group>";
+		};
+		6A6ACA802944A8E800062D17 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				6A6ACA6829412A6800062D17 /* LTKNetworkUtilities.swift */,
+				6A6ACA822944AA5F00062D17 /* LTKConstraintHelper.swift */,
+				6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		6A6ACA812944A8F700062D17 /* BoilerPlate Files */ = {
+			isa = PBXGroup;
+			children = (
+				6A6ACA52294120C700062D17 /* Main.storyboard */,
+				6A6ACA55294120C800062D17 /* Assets.xcassets */,
+				6A6ACA57294120C800062D17 /* LaunchScreen.storyboard */,
+				6A6ACA4C294120C700062D17 /* AppDelegate.swift */,
+				6A6ACA4E294120C700062D17 /* SceneDelegate.swift */,
+			);
+			path = "BoilerPlate Files";
+			sourceTree = "<group>";
+		};
+		6A6ACA862944BDBE00062D17 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				6A6ACA66294127FE00062D17 /* LTKConstants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +260,8 @@
 				6A6ACA6D29413BC600062D17 /* LTKBaseViewController.swift in Sources */,
 				6A6ACA72294155A600062D17 /* LTKImageCell.swift in Sources */,
 				6A6ACA7D294317A400062D17 /* LTKCVItem.swift in Sources */,
+				6A6ACA852944B54A00062D17 /* LTKUIUtilities.swift in Sources */,
+				6A6ACA832944AA5F00062D17 /* LTKConstraintHelper.swift in Sources */,
 				6A6ACA642941244700062D17 /* Feed.swift in Sources */,
 				6A6ACA4D294120C700062D17 /* AppDelegate.swift in Sources */,
 				6A6ACA762941821B00062D17 /* LTKDetailViewController.swift in Sources */,

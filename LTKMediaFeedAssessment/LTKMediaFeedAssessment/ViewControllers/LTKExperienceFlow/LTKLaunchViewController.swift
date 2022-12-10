@@ -24,7 +24,11 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
             switch result {
             case .success(let response):
                 self.feed = response
-                self.filteredLtks = response.ltks
+                /// MARK: - This conditional would become useful for implementing data refreshing
+                if self.filteredLtks == nil || self.filteredLtks?.count == 0 {
+                    self.filteredLtks = response.ltks
+                    self.filterResults()
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -46,10 +50,10 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         headerView.backgroundColor = .clear
 
-        let labelView: UILabel = UILabel.init(frame: CGRect.init(x: LTKConstants.UI.doubleInset, y: LTKConstants.UI.defaultInset, width: UIScreen.main.bounds.width, height: 30))
+        let labelView: UILabel = UILabel.init(frame: CGRect.init(x: LTKConstants.UI.doubleInset, y: LTKConstants.UI.defaultInset, width: UIScreen.main.bounds.width, height: headerView.frame.height))
         labelView.text = LTKConstants.Strings.postsYouLike
         labelView.textColor = .LTKTheme.tertiary
-        labelView.font = .LTKFonts.primary
+        labelView.font = .LTKFonts.primary.withSize(18)
 
         headerView.addSubview(labelView)
         self.tableView.tableHeaderView = headerView
@@ -63,23 +67,25 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     }
     
     override func filterResults() {
-        if self.navSearchBar.searchTextField.text?.count == 0 {
-            self.filteredLtks = self.feed?.ltks
-        } else {
-            self.filteredLtks = self.feed?.ltks.filter {
-                if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
-                    return true
+        DispatchQueue.main.async {
+            if self.navSearchBar.searchTextField.text?.count == 0 {
+                self.filteredLtks = self.feed?.ltks
+            } else {
+                self.filteredLtks = self.feed?.ltks.filter {
+                    if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
+                        return true
+                    }
+                    /// MARK: -
+                    /*                I made an assumption that profileUserID was a display string, but after checking those values I realize this
+                     //                  is not a good filtering option.
+                     //                if $0.profileID.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
+                     //                    print("pro id: \($0.profileID)")
+                     //                    print("pro user id: \($0.profileUserID)")
+                     //                    return true
+                     //                }
+                     */
+                    return false
                 }
-                /// MARK: -
-                /*                I made an assumption that profileUserID was a display string, but after checking those values I realize this
-                 //                  is not a good filtering option.
-                 //                if $0.profileID.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
-                 //                    print("pro id: \($0.profileID)")
-                 //                    print("pro user id: \($0.profileUserID)")
-                 //                    return true
-                 //                }
-                 */
-                return false
             }
         }
         self.reloadTableView()

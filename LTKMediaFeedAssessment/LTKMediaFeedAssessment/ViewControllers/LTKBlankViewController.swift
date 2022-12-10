@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LTKBlankViewController: UIViewController, SearchFilterController, UITextFieldDelegate {
+class LTKBlankViewController: UIViewController, SearchFilterController, UISearchBarDelegate {
     var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
     
     @objc
@@ -23,12 +23,11 @@ class LTKBlankViewController: UIViewController, SearchFilterController, UITextFi
         let comingSoonLabel = UILabel()
         comingSoonLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(comingSoonLabel)
-        self.navSearchBar.searchTextField.delegate = self
-        self.hideKeyboardWhenTappedAround()
+        self.navSearchBar.delegate = self
         comingSoonLabel.xAlignedWith(self.view)
         comingSoonLabel.yAlignedWith(self.view)
         comingSoonLabel.textColor = .LTKTheme.tertiary
-        comingSoonLabel.font = .LTKFonts.getPrimaryFontOfSize(35)
+        comingSoonLabel.font = .LTKFonts.primary.withSize(35)
         comingSoonLabel.text = "COMING SOON!"
     }
     
@@ -36,5 +35,19 @@ class LTKBlankViewController: UIViewController, SearchFilterController, UITextFi
         LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
         }))
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.navSearchBar.endEditing(true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count == 0 {
+            searchBar.endEditing(true)
+        }
     }
 }

@@ -11,19 +11,18 @@ protocol SearchFilterController: UIViewController {
     var navSearchBar: UISearchBar { get set }
 }
 
-class LTKBaseTableViewController: UITableViewController, SearchFilterController, UITextFieldDelegate, UISearchBarDelegate {
+class LTKBaseTableViewController: UITableViewController, SearchFilterController, UISearchBarDelegate {
     /// MARK: - Had initially marked this as lazy, but that seems kind of pointless considering the initial launch screen is of this class.
     var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .LTKTheme.primary
-        self.navSearchBar.searchTextField.delegate = self
         self.navSearchBar.delegate = self
-        self.hideKeyboardWhenTappedAround()
         LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
         }))
     }
+    
     @objc
     func filterResults() {
         print("default editing event action triggered")
@@ -36,28 +35,17 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.filterResults()
+        self.navSearchBar.endEditing(true)
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField.text?.count == 0 {
-            self.filterResults()
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.filterResults()
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count == 0 {
+            searchBar.endEditing(true)
         }
     }
 }
-
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard(_:)))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-
-    @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
-        view.endEditing(true)
-
-        if let nav = self.navigationController {
-            nav.view.endEditing(true)
-        }
-    }
- }
