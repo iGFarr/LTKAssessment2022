@@ -16,6 +16,7 @@ class LTKBlankViewController: UIViewController, SearchFilterController, UISearch
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         self.view.backgroundColor = .LTKTheme.primary
         LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
@@ -32,6 +33,7 @@ class LTKBlankViewController: UIViewController, SearchFilterController, UISearch
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
         }))

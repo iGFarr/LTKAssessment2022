@@ -25,6 +25,7 @@
 		6A6ACA7F29438D7C00062D17 /* LTKBlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */; };
 		6A6ACA832944AA5F00062D17 /* LTKConstraintHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA822944AA5F00062D17 /* LTKConstraintHelper.swift */; };
 		6A6ACA852944B54A00062D17 /* LTKUIUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */; };
+		6A6ACA8A2944D60900062D17 /* LTKMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA892944D60900062D17 /* LTKMenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKBlankViewController.swift; sourceTree = "<group>"; };
 		6A6ACA822944AA5F00062D17 /* LTKConstraintHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKConstraintHelper.swift; sourceTree = "<group>"; };
 		6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKUIUtilities.swift; sourceTree = "<group>"; };
+		6A6ACA892944D60900062D17 /* LTKMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKMenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,9 +104,8 @@
 		6A6ACA61294123D900062D17 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				6A6ACA7B2943031100062D17 /* LTKExperienceFlow */,
+				6A6ACA872944D5CD00062D17 /* TabBarViewControllers */,
 				6A6ACA6C29413BC600062D17 /* LTKBaseViewController.swift */,
-				6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -143,14 +144,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		6A6ACA7B2943031100062D17 /* LTKExperienceFlow */ = {
+		6A6ACA7B2943031100062D17 /* LTKHomePageFlow */ = {
 			isa = PBXGroup;
 			children = (
 				6A6ACA50294120C700062D17 /* LTKLaunchViewController.swift */,
 				6A6ACA752941821B00062D17 /* LTKDetailViewController.swift */,
 				6A6ACA772941F04F00062D17 /* LTKWebView.swift */,
 			);
-			path = LTKExperienceFlow;
+			path = LTKHomePageFlow;
 			sourceTree = "<group>";
 		};
 		6A6ACA802944A8E800062D17 /* Utilities */ = {
@@ -181,6 +182,16 @@
 				6A6ACA66294127FE00062D17 /* LTKConstants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		6A6ACA872944D5CD00062D17 /* TabBarViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6A6ACA7B2943031100062D17 /* LTKHomePageFlow */,
+				6A6ACA7E29438D7C00062D17 /* LTKBlankViewController.swift */,
+				6A6ACA892944D60900062D17 /* LTKMenuViewController.swift */,
+			);
+			path = TabBarViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +270,7 @@
 				6A6ACA6B29413BAB00062D17 /* LTKKit.swift in Sources */,
 				6A6ACA6D29413BC600062D17 /* LTKBaseViewController.swift in Sources */,
 				6A6ACA72294155A600062D17 /* LTKImageCell.swift in Sources */,
+				6A6ACA8A2944D60900062D17 /* LTKMenuViewController.swift in Sources */,
 				6A6ACA7D294317A400062D17 /* LTKCVItem.swift in Sources */,
 				6A6ACA852944B54A00062D17 /* LTKUIUtilities.swift in Sources */,
 				6A6ACA832944AA5F00062D17 /* LTKConstraintHelper.swift in Sources */,

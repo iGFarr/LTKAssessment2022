@@ -44,10 +44,11 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         self.tableView.delegate = self
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         self.tableView.register(LTKImageCell.self, forCellReuseIdentifier: LTKConstants.CellIdentifiers.heroImage)
+        self.tableView.showsVerticalScrollIndicator = false
     }
     
     private func createHeader() {
-        let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
         headerView.backgroundColor = .clear
 
         let labelView: UILabel = UILabel.init(frame: CGRect.init(x: LTKConstants.UI.doubleInset, y: LTKConstants.UI.defaultInset, width: UIScreen.main.bounds.width, height: headerView.frame.height))
@@ -58,13 +59,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         headerView.addSubview(labelView)
         self.tableView.tableHeaderView = headerView
     }
-    
-    private func reloadTableView() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.tableView.layoutIfNeeded()
-        }
-    }
+
     
     override func filterResults() {
         DispatchQueue.main.async {
@@ -99,12 +94,23 @@ extension LTKLaunchViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as! LTKImageCell
-        if let ltk = self.filteredLtks?[indexPath.row] {
+        if let ltk = self.filteredLtks?[indexPath.row], let profiles = self.feed?.profiles {
+            var profileURL: URL?
+            for profile in profiles {
+                if ltk.profileID == profile.id {
+                    profileURL = URL(string: profile.avatarURL)
+                }
+            }
+            
             if let url = URL(string: ltk.heroImage) {
                 DispatchQueue.main.async {
                     cell.ltkImageView.loadImage(fromURL: url)
+                    if let profileURL = profileURL {
+                        cell.profileImage.loadImage(fromURL: profileURL)
+                    }
                 }
             }
+            
         }
         return cell
     }

@@ -10,7 +10,7 @@ import UIKit
 class LazyImageView: UIImageView {
     static let imageCache = NSCache<AnyObject, UIImage>()
     func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench", compressionRatio: CGFloat = 0.35) {
-        Self.imageCache.totalCostLimit = LTKConstants.cacheLimitTwentyMb
+        Self.imageCache.totalCostLimit = LTKConstants.cacheDataSizeLimit
         Self.imageCache.countLimit = LTKConstants.cacheObjectLimit
         self.image = UIImage(named: placeHolderImage)?.withRenderingMode(.alwaysOriginal)
         if let cachedImage = Self.imageCache.object(forKey: imageURL as AnyObject) {
@@ -62,6 +62,7 @@ extension UIView {
         if addingBorder {
             self.addBorder()
         }
+        self.clipsToBounds = true
     }
     
     func addBorder(_ size: CGFloat = LTKConstants.UI.thickBorderWidth) {

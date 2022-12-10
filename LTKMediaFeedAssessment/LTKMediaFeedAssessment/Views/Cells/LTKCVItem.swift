@@ -23,11 +23,9 @@ class LTKCVCell: UICollectionViewCell {
         self.backgroundColor = .clear
         self.roundedContainer.backgroundColor = .white
         self.roundedContainer.addSubview(self.productImage)
-        self.roundedContainer.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
-        self.roundedContainer.layer.borderWidth = LTKConstants.UI.thickBorderWidth
+        self.roundedContainer.addBorder()
         let radius: CGFloat = LTKConstants.UI.collectionViewItemCornerRadiusForDimensionSize()
         self.roundedContainer.layoutMargins = UIEdgeInsets(top: radius, left: radius, bottom: radius, right: radius)
-        self.roundedContainer.clipsToBounds = true
         self.roundedContainer.layer.cornerRadius = radius
         self.addSubview(self.roundedContainer)
         if let superviewForContainer = self.roundedContainer.superview {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LTKDetailViewController: UIViewController {
+class LTKDetailViewController: LTKBaseViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = .zero
@@ -26,6 +26,7 @@ class LTKDetailViewController: UIViewController {
     var products: [Product?]?
     var profile: Profile?
     override func viewDidLoad() {
+        super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -96,8 +97,8 @@ extension LTKDetailViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         /// MARK: -  Not sure why reloadData() does not accomplish the same as the following.
-        self.profileImage.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
         let numberSections = self.collectionView.numberOfSections
         let indexSet = IndexSet(integersIn: 0..<numberSections)
         DispatchQueue.main.async {

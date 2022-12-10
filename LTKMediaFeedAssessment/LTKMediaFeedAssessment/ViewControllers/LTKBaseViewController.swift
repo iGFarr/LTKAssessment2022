@@ -28,10 +28,34 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
         print("default editing event action triggered")
     }
     
+    
+    func reloadTableView() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.layoutIfNeeded()
+        }
+    }
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
         }))
+        for view in self.view.subviews {
+            if view.layer.borderWidth > 0 {
+                view.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+            }
+        }
+        
+        for num in 0..<tableView.numberOfRows(inSection: 0) {
+            let cell = tableView.cellForRow(at: IndexPath(row: num, section: 0))
+            if let cell = cell as? LTKImageCell {
+                cell.ltkImageView.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+                cell.profileImage.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+            }
+        }
+        
+        self.reloadTableView()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -46,6 +70,20 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count == 0 {
             searchBar.endEditing(true)
+        }
+    }
+}
+
+class LTKBaseViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        for view in self.view.subviews {
+            if view.layer.borderWidth > 0 {
+                view.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+            }
         }
     }
 }
