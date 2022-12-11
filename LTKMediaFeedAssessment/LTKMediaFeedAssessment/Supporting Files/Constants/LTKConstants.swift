@@ -37,6 +37,6 @@ struct LTKConstants {
         static let thinBorderWidth: CGFloat = 1
     }
     struct URLS {
-        static let rewardStyleLTKS = "https://api-gateway.rewardstyle.com/api/ltk/v2/ltks/?featured=true&limit=2&page_size=2"
+        static let rewardStyleLTKS = "*******?featured=true&limit=2&page_size=2"
     }
 }
