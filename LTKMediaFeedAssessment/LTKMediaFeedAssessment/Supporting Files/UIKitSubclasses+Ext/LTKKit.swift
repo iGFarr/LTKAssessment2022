@@ -171,11 +171,11 @@ extension UIView {
         }
 
         loading?.translatesAutoresizingMaskIntoConstraints = false
-        loading!.startAnimating()
-        loading!.hidesWhenStopped = true
+        loading?.startAnimating()
+        loading?.hidesWhenStopped = true
         loading?.tag = UIView.loadingViewTag
-        addSubview(loading!)
-      loading?.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        addSubview(loading ?? UIView())
+        loading?.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         loading?.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
 

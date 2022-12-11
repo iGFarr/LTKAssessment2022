@@ -21,6 +21,11 @@ class LTKCVCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
+        self.isAccessibilityElement = true
+        /// MARK: - WHAT IS HAPPENING HERE. Sorry for the caps, but I'm blown away by the readout of some of the CV cells. Not sure if some magic from the LTK API or magic from Apple.
+        ///  Remind me to demo!
+        ///  update: after checking out the raw API data, I don't see any way an accessibility label is being attached to the image, so my guess is Apple is using CoreML to generate voiceover readouts where possible
+        self.accessibilityLabel = "test"
         self.roundedContainer.backgroundColor = .white
         self.roundedContainer.addSubview(self.productImage)
         self.roundedContainer.addBorder()

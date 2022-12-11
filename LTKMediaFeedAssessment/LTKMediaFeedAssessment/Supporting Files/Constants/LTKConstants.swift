@@ -10,6 +10,7 @@ import UIKit
 struct LTKConstants {
     static let cacheDataSizeLimit = 1024 * 1024 * 30
     static let cacheObjectLimit = 150
+    static let pageSize: Int = 2
     struct CellIdentifiers {
         static let heroImage = "ltkImageCell"
         static let collectionItem = "LTKCVItem"
@@ -36,6 +37,6 @@ struct LTKConstants {
         static let thinBorderWidth: CGFloat = 1
     }
     struct URLS {
-        static let rewardStyleLTKS = "https://api-gateway.rewardstyle.com/api/ltk/v2/ltks/?featured=true&limit=20"
+        static let rewardStyleLTKS = "https://api-gateway.rewardstyle.com/api/ltk/v2/ltks/?featured=true&limit=2&page_size=2"
     }
 }

@@ -11,7 +11,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
 
     private var feed: Feed?
     private var filteredLtks: [Ltk]? = []
-    private var pageSize = 2
+    private var page = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,13 +22,14 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     }
     
     private func loadFeed() {
-        LTKNetworkUtilites.getFeed(fromURLString: LTKConstants.URLS.rewardStyleLTKS, completion: { result in
+        LTKNetworkUtilites.getFeed(fromURLString: "\(LTKConstants.URLS.rewardStyleLTKS)\(self.page)", completion: { result in
             switch result {
             case .success(let response):
                 self.feed = LTKNetworkUtilites.decodeData(data: response, type: Feed.self)
                 
-                if self.filteredLtks == nil || self.filteredLtks?.count == 0, let ltks = self.feed?.ltks {
-                    self.filteredLtks?.append(contentsOf: ltks[0..<self.pageSize])
+                if let ltks = self.feed?.ltks {
+                    self.page += 1
+                    self.filteredLtks?.append(contentsOf: ltks)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -70,14 +71,14 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
                 }
                 return false
             }
-            if let ltks = self.feed?.ltks, ltks.count >= self.pageSize {
+            if let ltks = self.feed?.ltks, ltks.count >= LTKConstants.pageSize {
                 if let count = self.filteredLtks?.count {
-                    self.filteredLtks?.append(contentsOf: ltks[count..<(count + self.pageSize)])
+                    self.filteredLtks?.append(contentsOf: ltks[count..<(count + LTKConstants.pageSize)])
                 }
-            } else if ltks?.count ?? 0 < self.pageSize {
+            } else if ltks?.count ?? 0 < LTKConstants.pageSize {
                 self.filteredLtks = ltks
             }
-        print("Filtered: \(ltks?.count)")
+        print("Filtered: \(ltks?.count ?? 0)")
         print("Showing: \(self.filteredLtks?.count ?? 0)")
         self.reloadTableView()
     }
@@ -96,6 +97,8 @@ extension LTKLaunchViewController {
             for profile in profiles {
                 if ltk.profileID == profile.id {
                     profileURL = URL(string: profile.avatarURL)
+                    cell.profileNameLabel.text = profile.displayName
+                    cell.accessibilityLabel = "\(profile.displayName)\n  Go to product list"
                 }
             }
             
@@ -141,26 +144,27 @@ extension LTKLaunchViewController {
         }
         self.show(detailScreen, sender: self)
     }
-    
+
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let ltks = self.feed?.ltks.filter {
-            if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") || self.navSearchBar.searchTextField.text?.count == 0 {
-                return true
-            }
-            return false
-        }
-        guard self.filteredLtks?.count ?? 0 <= indexPath.row + 1, let ltks = ltks else { return }
-        if ltks.count > indexPath.row + self.pageSize {
-            if let count = self.filteredLtks?.count {
-                self.filteredLtks?.append(contentsOf: ltks[count..<(count + self.pageSize)])
-            }
-        } else {
-            self.filteredLtks = ltks
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            print("\n**ADDING ROWS**\n")
-            self.reloadTableView()
+//        let ltks = self.feed?.ltks.filter {
+//            if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") || self.navSearchBar.searchTextField.text?.count == 0 {
+//                return true
+//            }
+//            return false
+//        }
+        guard ((self.filteredLtks?.count ?? 0) - 1) <= indexPath.row else { return }
+//        if ltks.count > indexPath.row + LTKConstants.pageSize {
+//            if let count = self.filteredLtks?.count {
+//                self.filteredLtks?.append(contentsOf: ltks[count..<(count + LTKConstants.pageSize)])
+//            }
+//        } else {
+//            self.filteredLtks = ltks
+//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+            print("loaded data from page \(self.page)")
+            self.loadFeed()
+//            print("\n**ADDING ROWS**\n")
+//            self.reloadTableView()
         }
     }
 }

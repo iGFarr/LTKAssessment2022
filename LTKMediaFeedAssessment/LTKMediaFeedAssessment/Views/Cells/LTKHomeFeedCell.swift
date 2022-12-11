@@ -11,6 +11,7 @@ final class LTKHomeFeedCell: UITableViewCell {
 
     let ltkImageView = LazyImageView()
     var profileImage = LazyImageView(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.profilePicBubbleDimension, height: LTKConstants.UI.profilePicBubbleDimension)))
+    let profileNameLabel = UILabel()
     let container = LTKView()
     var imageHeight: CGFloat = 1
     var imageWidth: CGFloat = 1
@@ -26,11 +27,20 @@ final class LTKHomeFeedCell: UITableViewCell {
     private func setup() {
         self.container.addSubviews([
             self.ltkImageView,
-            self.profileImage
+            self.profileImage,
+            self.profileNameLabel
         ])
         self.backgroundColor = .clear
         self.selectionStyle = .none
         self.ltkImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.profileNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.profileNameLabel.text = "Test"
+        self.profileNameLabel.font = .LTKFonts.primary
+        self.profileNameLabel.textColor = .LTKTheme.tertiary
+        self.profileNameLabel.leading(self.profileImage.trailingAnchor, constant: LTKConstants.UI.doubleInset)
+        self.profileNameLabel.yAlignedWith(self.profileImage)
+        self.profileNameLabel.widthConstant(200)
+        self.profileNameLabel.heightConstant(30)
         self.ltkImageView.contentMode = .scaleAspectFill
         self.ltkImageView.backgroundColor = .clear
         self.ltkImageView.sizeToFit()

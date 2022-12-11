@@ -22,6 +22,7 @@ struct LTKUIUtilities {
         ])
         let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
         let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: buttonAction, menu: nil)
+        leftNavBarButton.accessibilityLabel = "Go to repo"
         vc.navigationItem.leftBarButtonItem = leftNavBarButton
         
         let rightNavBarButton = UIBarButtonItem(customView: vc.navSearchBar)
