@@ -52,7 +52,6 @@ final class LTKHomeFeedCell: UITableViewCell {
         self.ltkImageView.xAlignedWith(self.container)
         self.ltkImageView.addBorder()
         self.ltkImageView.layer.cornerRadius = LTKConstants.UI.heroImageCornerRadiusForTable
-        self.ltkImageView.clipsToBounds = true
     }
 }
 

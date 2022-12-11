@@ -8,19 +8,16 @@
 import Foundation
 
 struct LTKNetworkUtilites {
-    static func getFeed(completion: @escaping (Result<Feed, Error>) -> Void) {
-        guard let url = URL(string: LTKConstants.URLS.rewardStyleLTKS) else { return }
+    static func getFeed(fromURLString urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let url = URL(string: urlString) else { return }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = URLSession.shared.dataTask(with: url) { data, _ , error in
             if let error = error {
                 completion(.failure(error.localizedDescription as! Error))
                 return
             }
             guard let data = data else { return }
-            if let feed = self.decodeData(data: data, type: Feed.self) {
-                completion(.success(feed))
-                print("LTKS Count: \(feed.ltks.count)")
-            }
+            completion(.success(data))
         }
         task.resume()
     }

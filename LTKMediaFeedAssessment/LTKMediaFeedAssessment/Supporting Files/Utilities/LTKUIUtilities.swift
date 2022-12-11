@@ -7,7 +7,7 @@
 import UIKit
 
 struct LTKUIUtilities {
-    static func setupNavBarForVC(_ vc: SearchFilterController, selector: Selector, buttonAction: UIAction? = nil) {
+    static func setupNavBarForVC(_ vc: SearchFilterController, buttonAction: UIAction? = nil) {
         vc.navSearchBar.searchTextField.adjustsFontSizeToFitWidth = true
         vc.navSearchBar.backgroundColor = .systemBackground
         vc.navSearchBar.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
@@ -20,8 +20,6 @@ struct LTKUIUtilities {
             NSAttributedString.Key.foregroundColor: UIColor.LTKTheme.tertiary,
             NSAttributedString.Key.font: UIFont.LTKFonts.primary.withSize(LTKConstants.UI.navSearchBarTextSize)
         ])
-        /// MARK: - I think I like using search/return better than updating with every change.
-//        vc.navSearchBar.searchTextField.addTarget(vc, action: selector, for: .editingChanged)
         let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
         let leftNavBarButton = UIBarButtonItem(title: nil, image: image, primaryAction: buttonAction, menu: nil)
         vc.navigationItem.leftBarButtonItem = leftNavBarButton

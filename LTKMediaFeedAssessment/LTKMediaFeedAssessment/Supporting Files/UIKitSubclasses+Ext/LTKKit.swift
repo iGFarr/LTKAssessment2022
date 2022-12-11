@@ -14,22 +14,23 @@ class LazyImageView: UIImageView {
         cache.countLimit = LTKConstants.cacheObjectLimit
         return cache
     }()
-    func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench", compressionRatio: CGFloat = 0.02) {
-        self.image = UIImage(named: placeHolderImage)?.withRenderingMode(.alwaysOriginal)
+    func loadImage(fromURL imageURL: URL, compressionRatio: CGFloat = 0.02) {
         if let cachedImage = Self.imageCache.object(forKey: imageURL as AnyObject) {
             self.image = cachedImage
-            print("loaded image from cache - URL:\n\(imageURL)")
+            print("loaded image from cache - URL:\n\(imageURL)\n")
             return
         }
 
+        self.showLoading()
         DispatchQueue.global(qos: .utility).async { [weak self] in
             if let imageData = try? Data(contentsOf: imageURL) {
-                print("loaded image from Server - URL:\n\(imageURL)")
+                print("loaded image from Server - URL:\n\(imageURL)\n")
                 if var image = UIImage(data: imageData) {
                     image = UIImage(data: image.jpegData(compressionQuality: compressionRatio) ?? imageData) ?? UIImage()
                     Self.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.jpegData(compressionQuality: 1.0)?.count ?? 0)
                     DispatchQueue.main.async {
                         self?.image = image
+                        self?.stopLoading()
                     }
                 }
             }
@@ -157,6 +158,31 @@ extension UIView {
             top(safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor, constant: inset/2)
             xAlignedWith(view)
         }
+    }
+}
+
+extension UIView {
+    static let loadingViewTag = 1938123987
+    func showLoading(style: UIActivityIndicatorView.Style = .large) {
+        var loading = viewWithTag(UIImageView.loadingViewTag) as? UIActivityIndicatorView
+        if loading == nil {
+            loading = UIActivityIndicatorView(style: style)
+            loading?.color = .LTKTheme.tertiary
+        }
+
+        loading?.translatesAutoresizingMaskIntoConstraints = false
+        loading!.startAnimating()
+        loading!.hidesWhenStopped = true
+        loading?.tag = UIView.loadingViewTag
+        addSubview(loading!)
+      loading?.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        loading?.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    }
+
+    func stopLoading() {
+        let loading = viewWithTag(UIView.loadingViewTag) as? UIActivityIndicatorView
+        loading?.stopAnimating()
+        loading?.removeFromSuperview()
     }
 }
 

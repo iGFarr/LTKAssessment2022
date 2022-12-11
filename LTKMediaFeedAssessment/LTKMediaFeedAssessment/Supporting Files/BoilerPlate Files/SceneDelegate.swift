@@ -24,12 +24,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         var viewControllersForTabBar = [UINavigationController]()
         if #available(iOS 15, *) {
+            let defaultAttributes = LTKUIUtilities.getDefaultTitleAttributes()
             let navigationBarAppearance = UINavigationBarAppearance()
-            navigationBarAppearance.titleTextAttributes = LTKUIUtilities.getDefaultTitleAttributes()
+            navigationBarAppearance.titleTextAttributes = defaultAttributes
             navigationBarAppearance.configureWithOpaqueBackground()
             navigationBarAppearance.backgroundColor = .systemBackground
             navigationBarAppearance.shadowColor = .clear
             
+            let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
+            barButtonItemAppearance.normal.titleTextAttributes = defaultAttributes
+            navigationBarAppearance.backButtonAppearance = barButtonItemAppearance
             tabBarController.tabBar.tintColor = .LTKTheme.tertiary
             let tabBarTuples: [(title: String, imageName: String)] = [
                 ("Home-Tab".localized(), "house"),

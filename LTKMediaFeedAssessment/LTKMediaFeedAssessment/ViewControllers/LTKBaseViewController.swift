@@ -18,9 +18,9 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
         super.viewDidLoad()
         self.view.backgroundColor = .LTKTheme.primary
         self.navSearchBar.delegate = self
-        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
+        LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
-        }))
+        })
     }
     
     @objc
@@ -38,9 +38,9 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
+        LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
-        }))
+        })
         for view in self.view.subviews {
             if view.layer.borderWidth > 0 {
                 view.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor

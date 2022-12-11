@@ -28,10 +28,8 @@ class LTKCVCell: UICollectionViewCell {
         self.roundedContainer.layoutMargins = UIEdgeInsets(top: radius, left: radius, bottom: radius, right: radius)
         self.roundedContainer.layer.cornerRadius = radius
         self.addSubview(self.roundedContainer)
-        if let superviewForContainer = self.roundedContainer.superview {
-            LTKConstraintHelper.constrain(self.productImage, to: self.roundedContainer)
-            LTKConstraintHelper.constrain(self.roundedContainer, to: superviewForContainer)
-        }
+        LTKConstraintHelper.constrain(self.productImage, to: self.roundedContainer)
+        LTKConstraintHelper.constrain(self.roundedContainer, to: self)
     }
     
     required init?(coder: NSCoder) {

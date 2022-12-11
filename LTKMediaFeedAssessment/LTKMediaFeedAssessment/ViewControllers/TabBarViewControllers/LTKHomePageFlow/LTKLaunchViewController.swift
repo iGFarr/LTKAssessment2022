@@ -10,24 +10,25 @@ import UIKit
 final class LTKLaunchViewController: LTKBaseTableViewController {
 
     private var feed: Feed?
-    private var filteredLtks: [Ltk]?
+    private var filteredLtks: [Ltk]? = []
+    private var pageSize = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTableView()
         self.createHeader()
         self.loadFeed()
+        self.title = "Home-Tab".localized()
     }
     
     private func loadFeed() {
-        LTKNetworkUtilites.getFeed(completion: { result in
+        LTKNetworkUtilites.getFeed(fromURLString: LTKConstants.URLS.rewardStyleLTKS, completion: { result in
             switch result {
             case .success(let response):
-                self.feed = response
-                /// MARK: - This conditional would become useful for implementing data refreshing
-                if self.filteredLtks == nil || self.filteredLtks?.count == 0 {
-                    self.filteredLtks = response.ltks
-                    self.filterResults()
+                self.feed = LTKNetworkUtilites.decodeData(data: response, type: Feed.self)
+                
+                if self.filteredLtks == nil || self.filteredLtks?.count == 0, let ltks = self.feed?.ltks {
+                    self.filteredLtks?.append(contentsOf: ltks[0..<self.pageSize])
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -50,42 +51,38 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     private func createHeader() {
         let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
         headerView.backgroundColor = .clear
-
+        
         let labelView: UILabel = UILabel.init(frame: CGRect.init(x: LTKConstants.UI.doubleInset, y: LTKConstants.UI.defaultInset, width: UIScreen.main.bounds.width, height: headerView.frame.height))
         labelView.text = "Home-Page-Header".localized()
         labelView.textColor = .LTKTheme.tertiary
         labelView.font = .LTKFonts.primary.withSize(18)
-
+        
         headerView.addSubview(labelView)
         self.tableView.tableHeaderView = headerView
     }
-
+    
     
     override func filterResults() {
-        DispatchQueue.main.async {
-            if self.navSearchBar.searchTextField.text?.count == 0 {
-                self.filteredLtks = self.feed?.ltks
-            } else {
-                self.filteredLtks = self.feed?.ltks.filter {
-                    if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
-                        return true
-                    }
-                    /// MARK: -
-                    /*                I made an assumption that profileUserID was a display string, but after checking those values I realize this
-                     //                  is not a good filtering option.
-                     //                if $0.profileID.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") {
-                     //                    print("pro id: \($0.profileID)")
-                     //                    print("pro user id: \($0.profileUserID)")
-                     //                    return true
-                     //                }
-                     */
-                    return false
+        self.filteredLtks?.removeAll()
+            let ltks = self.feed?.ltks.filter {
+                if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") || self.navSearchBar.searchTextField.text?.count == 0 {
+                    return true
                 }
+                return false
             }
-        }
+            if let ltks = self.feed?.ltks, ltks.count >= self.pageSize {
+                if let count = self.filteredLtks?.count {
+                    self.filteredLtks?.append(contentsOf: ltks[count..<(count + self.pageSize)])
+                }
+            } else if ltks?.count ?? 0 < self.pageSize {
+                self.filteredLtks = ltks
+            }
+        print("Filtered: \(ltks?.count)")
+        print("Showing: \(self.filteredLtks?.count ?? 0)")
         self.reloadTableView()
     }
 }
+
 
 extension LTKLaunchViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -143,5 +140,27 @@ extension LTKLaunchViewController {
             }
         }
         self.show(detailScreen, sender: self)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let ltks = self.feed?.ltks.filter {
+            if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") || self.navSearchBar.searchTextField.text?.count == 0 {
+                return true
+            }
+            return false
+        }
+        guard self.filteredLtks?.count ?? 0 <= indexPath.row + 1, let ltks = ltks else { return }
+        if ltks.count > indexPath.row + self.pageSize {
+            if let count = self.filteredLtks?.count {
+                self.filteredLtks?.append(contentsOf: ltks[count..<(count + self.pageSize)])
+            }
+        } else {
+            self.filteredLtks = ltks
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            print("\n**ADDING ROWS**\n")
+            self.reloadTableView()
+        }
     }
 }

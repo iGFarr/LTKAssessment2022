@@ -18,9 +18,9 @@ class LTKMenuViewController: UIViewController, SearchFilterController, UISearchB
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .LTKTheme.primary
-        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
+        LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
-        }))
+        })
         let comingSoonLabel = UILabel()
         comingSoonLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(comingSoonLabel)
@@ -34,9 +34,9 @@ class LTKMenuViewController: UIViewController, SearchFilterController, UISearchB
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        LTKUIUtilities.setupNavBarForVC(self, selector: #selector(self.filterResults), buttonAction: UIAction(handler: { _ in
+        LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
-        }))
+        })
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
