@@ -36,7 +36,7 @@ class LTKDetailViewController: LTKBaseViewController {
     
     private func setupViews() {
         self.heroImage.translatesAutoresizingMaskIntoConstraints = false
-        self.heroImage.contentMode = .scaleAspectFit
+        self.heroImage.contentMode = .scaleAspectFill
         self.heroImage.layer.cornerRadius = 20
         self.heroImage.clipsToBounds = true
         if let proPicURL = URL(string: self.profile?.avatarURL ?? "") {
@@ -56,7 +56,7 @@ class LTKDetailViewController: LTKBaseViewController {
         self.profileImage.trailing(self.heroImage.leadingAnchor, constant: -LTKConstants.UI.defaultInset)
         self.profileImage.top(self.heroImage.topAnchor)
         self.heroImage.widthConstant(UIScreen.main.bounds.width / 1.5)
-        self.heroImage.heightConstant(UIScreen.main.bounds.width / 2)
+        self.heroImage.heightConstant(UIScreen.main.bounds.height / 2.5)
         self.heroImage.xAlignedWith(self.view)
         self.heroImage.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -100).isActive = true
         self.heroImage.addBorder()

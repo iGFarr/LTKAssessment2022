@@ -43,7 +43,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
-        self.tableView.register(LTKImageCell.self, forCellReuseIdentifier: LTKConstants.CellIdentifiers.heroImage)
+        self.tableView.register(LTKHomeFeedCell.self, forCellReuseIdentifier: LTKConstants.CellIdentifiers.heroImage)
         self.tableView.showsVerticalScrollIndicator = false
     }
     
@@ -52,7 +52,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         headerView.backgroundColor = .clear
 
         let labelView: UILabel = UILabel.init(frame: CGRect.init(x: LTKConstants.UI.doubleInset, y: LTKConstants.UI.defaultInset, width: UIScreen.main.bounds.width, height: headerView.frame.height))
-        labelView.text = LTKConstants.Strings.postsYouLike
+        labelView.text = "Home-Page-Header".localized()
         labelView.textColor = .LTKTheme.tertiary
         labelView.font = .LTKFonts.primary.withSize(18)
 
@@ -93,7 +93,7 @@ extension LTKLaunchViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as! LTKImageCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as! LTKHomeFeedCell
         if let ltk = self.filteredLtks?[indexPath.row], let profiles = self.feed?.profiles {
             var profileURL: URL?
             for profile in profiles {

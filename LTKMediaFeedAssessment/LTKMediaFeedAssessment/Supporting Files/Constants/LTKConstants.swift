@@ -8,8 +8,8 @@
 import UIKit
 
 struct LTKConstants {
-    static let cacheDataSizeLimit = 1024 * 1024 * 40
-    static let cacheObjectLimit = 50
+    static let cacheDataSizeLimit = 1024 * 1024 * 30
+    static let cacheObjectLimit = 150
     struct CellIdentifiers {
         static let heroImage = "ltkImageCell"
         static let collectionItem = "LTKCVItem"
@@ -20,9 +20,10 @@ struct LTKConstants {
     struct UI {
         static func collectionViewItemCornerRadiusForDimensionSize(_ size: CGFloat = collectionViewItemDimension) -> CGFloat { size * 0.15 }
         static let collectionViewItemDimension: CGFloat = 100
-        static let containerSpacer: CGFloat = 85
+        static let containerSpacer: CGFloat = 100
         static let defaultInset: CGFloat = 8
         static let doubleInset: CGFloat = 16
+        static let heroImageHeightRatioAvgEstimate: CGFloat = 1.25
         static let heroImageCornerRadiusForTable: CGFloat = 30
         static let italicizeFontNSKey: CGFloat = 0.075
         static let navSearchBarCornerRadius: CGFloat = 22
@@ -36,9 +37,5 @@ struct LTKConstants {
     }
     struct URLS {
         static let rewardStyleLTKS = "https://api-gateway.rewardstyle.com/api/ltk/v2/ltks/?featured=true&limit=20"
-    }
-    struct Strings {
-        static let postsYouLike = "For You: Posts we think you'll like"
-        static let searchPlaceholder = "Search fashion, home, & more"
     }
 }

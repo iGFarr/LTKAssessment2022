@@ -49,7 +49,7 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
         
         for num in 0..<tableView.numberOfRows(inSection: 0) {
             let cell = tableView.cellForRow(at: IndexPath(row: num, section: 0))
-            if let cell = cell as? LTKImageCell {
+            if let cell = cell as? LTKHomeFeedCell {
                 cell.ltkImageView.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
                 cell.profileImage.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
             }

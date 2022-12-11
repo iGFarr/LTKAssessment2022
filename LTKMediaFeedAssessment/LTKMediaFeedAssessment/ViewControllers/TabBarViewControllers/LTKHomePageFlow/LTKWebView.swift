@@ -13,7 +13,6 @@ class LTKWebViewController: UIViewController, WKNavigationDelegate {
     var url: URL?
     var name: String?
     private var spinner = UIActivityIndicatorView(style: .large)
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.webView.navigationDelegate = self

@@ -16,7 +16,7 @@ struct LTKUIUtilities {
         vc.navSearchBar.searchTextField.backgroundColor = .systemBackground
         vc.navSearchBar.searchTextField.clipsToBounds = true
         vc.navSearchBar.searchTextField.leftView?.tintColor = .LTKTheme.tertiary
-        vc.navSearchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: LTKConstants.Strings.searchPlaceholder, attributes: [
+        vc.navSearchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Search-Placeholder".localized(), attributes: [
             NSAttributedString.Key.foregroundColor: UIColor.LTKTheme.tertiary,
             NSAttributedString.Key.font: UIFont.LTKFonts.primary.withSize(LTKConstants.UI.navSearchBarTextSize)
         ])
@@ -37,5 +37,13 @@ struct LTKUIUtilities {
             webView.name = "This App's Repo"
             vc.navigationController?.show(webView, sender: vc)
         }
+    }
+    
+    static func getDefaultTitleAttributes(font: UIFont = .LTKFonts.primary.withSize(14), italicized: CGFloat = LTKConstants.UI.italicizeFontNSKey, color: UIColor = .LTKTheme.tertiary) -> [NSAttributedString.Key: Any] {
+        return [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.obliqueness: italicized,
+            NSAttributedString.Key.foregroundColor: color
+        ]
     }
 }

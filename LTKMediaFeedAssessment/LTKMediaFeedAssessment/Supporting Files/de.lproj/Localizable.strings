@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  LTKMediaFeedAssessment
+
+  Created by Isaac Farr on 12/10/22.
+  
+*/
+
+"Posted-Date"              = "Gepostet vor %@ Monaten";
+"Home-Page-Header"         = "Für Sie: Beiträge, von denen wir glauben, dass sie Ihnen gefallen werden";
+"Search-Placeholder"       = "Suche nach Mode, Zuhause und mehr";
+"Home-Tab"                 = "Heim";
+"Favorites-Tab"            = "Favoriten";
+"Creators-Tab"             = "Schöpfer";
+"Discover-Tab"             = "Entdecken";
+"Menu-Tab"                 = "Speisekarte";
+"Coming-Soon"              = "DEMNÄCHST!";

@@ -29,7 +29,7 @@ class LTKBlankViewController: UIViewController, SearchFilterController, UISearch
         comingSoonLabel.yAlignedWith(self.view)
         comingSoonLabel.textColor = .LTKTheme.tertiary
         comingSoonLabel.font = .LTKFonts.primary.withSize(35)
-        comingSoonLabel.text = "COMING SOON!"
+        comingSoonLabel.text = "Coming-Soon".localized()
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

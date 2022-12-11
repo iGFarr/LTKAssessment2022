@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LTKImageCell: UITableViewCell {
+final class LTKHomeFeedCell: UITableViewCell {
 
     let ltkImageView = LazyImageView()
     var profileImage = LazyImageView(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.profilePicBubbleDimension, height: LTKConstants.UI.profilePicBubbleDimension)))
@@ -24,9 +24,10 @@ final class LTKImageCell: UITableViewCell {
     }
     
     private func setup() {
-        self.container.addSubview(self.ltkImageView)
-        self.container.addSubview(self.profileImage)
-        
+        self.container.addSubviews([
+            self.ltkImageView,
+            self.profileImage
+        ])
         self.backgroundColor = .clear
         self.selectionStyle = .none
         self.ltkImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,8 +44,7 @@ final class LTKImageCell: UITableViewCell {
         self.profileImage.heightConstant(LTKConstants.UI.profilePicBubbleDimension)
         LTKConstraintHelper.constrain(container, to: self.contentView)
 
-        let hRatio = self.imageHeight / self.imageWidth
-        let newImageHeight = (hRatio * UIScreen.main.bounds.width)
+        let newImageHeight = (LTKConstants.UI.heroImageHeightRatioAvgEstimate * (UIScreen.main.bounds.width - LTKConstants.UI.doubleInset))
         self.container.heightConstant(newImageHeight + LTKConstants.UI.containerSpacer)
         self.ltkImageView.top(self.container.topAnchor, constant: LTKConstants.UI.containerSpacer)
         self.ltkImageView.bottom(self.container.bottomAnchor)

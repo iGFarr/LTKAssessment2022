@@ -12,7 +12,7 @@ class LTKCVCell: UICollectionViewCell {
     lazy var productImage: LazyImageView = {
         let imageView = LazyImageView()
         imageView.image = self.image
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

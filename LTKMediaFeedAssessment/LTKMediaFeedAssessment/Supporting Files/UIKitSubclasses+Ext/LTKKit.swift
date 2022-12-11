@@ -8,10 +8,13 @@
 import UIKit
 
 class LazyImageView: UIImageView {
-    static let imageCache = NSCache<AnyObject, UIImage>()
-    func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench", compressionRatio: CGFloat = 0.35) {
-        Self.imageCache.totalCostLimit = LTKConstants.cacheDataSizeLimit
-        Self.imageCache.countLimit = LTKConstants.cacheObjectLimit
+    static var imageCache: NSCache<AnyObject, UIImage> = {
+        let cache = NSCache<AnyObject, UIImage>()
+        cache.totalCostLimit = LTKConstants.cacheDataSizeLimit
+        cache.countLimit = LTKConstants.cacheObjectLimit
+        return cache
+    }()
+    func loadImage(fromURL imageURL: URL, placeHolderImage: String = "Wrench", compressionRatio: CGFloat = 0.02) {
         self.image = UIImage(named: placeHolderImage)?.withRenderingMode(.alwaysOriginal)
         if let cachedImage = Self.imageCache.object(forKey: imageURL as AnyObject) {
             self.image = cachedImage
@@ -54,8 +57,8 @@ extension UIView {
     }
     
     public func circularize(addingBorder: Bool = true) {
-        guard self.frame.size.width == self.frame.size.height else {
-            print("USE EQUAL DIMENSIONS AND SET FRAME TO CIRCULARIZE UIVIEW")
+        guard self.frame.size != .zero else {
+            print("MUST SET FRAME TO CIRCULARIZE")
             return
         }
         self.layer.cornerRadius = self.frame.size.width / 2
@@ -157,6 +160,12 @@ extension UIView {
     }
 }
 
+extension String {
+    public func localized(comment: String = "") -> String {
+        return NSLocalizedString(self, comment: comment)
+    }
+}
+
 // Streamlines tap gestures on views
 extension UIView {
         // In order to create computed properties for extensions, we need a key to
@@ -211,7 +220,7 @@ enum EdgePosition {
 
 extension UIFont {
     struct LTKFonts {
-        static let primary = UIFont(name: "GeezaPro", size: LTKConstants.UI.navTitleTextSize) ?? .systemFont(ofSize: LTKConstants.UI.navTitleTextSize)
+        static let primary = UIFont(name: "Noteworthy-Light", size: LTKConstants.UI.navTitleTextSize) ?? .systemFont(ofSize: LTKConstants.UI.navTitleTextSize)
     }
 }
 

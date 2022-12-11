@@ -22,51 +22,51 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         let tabBarController = UITabBarController()
-        let viewController = LTKLaunchViewController()
-        let navViewControllerHomePage = UINavigationController(rootViewController: viewController)
+        var viewControllersForTabBar = [UINavigationController]()
         if #available(iOS 15, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
-            let font: UIFont = .LTKFonts.primary
-            let color: UIColor = .LTKTheme.tertiary
-            
-            navigationBarAppearance.titleTextAttributes = [
-                NSAttributedString.Key.font: font,
-                NSAttributedString.Key.obliqueness: LTKConstants.UI.italicizeFontNSKey,
-                NSAttributedString.Key.foregroundColor: color
-            ]
+            navigationBarAppearance.titleTextAttributes = LTKUIUtilities.getDefaultTitleAttributes()
             navigationBarAppearance.configureWithOpaqueBackground()
             navigationBarAppearance.backgroundColor = .systemBackground
             navigationBarAppearance.shadowColor = .clear
-            navViewControllerHomePage.navigationBar.standardAppearance = navigationBarAppearance
-            navViewControllerHomePage.navigationBar.compactAppearance = navigationBarAppearance
-            navViewControllerHomePage.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-            navViewControllerHomePage.navigationBar.tintColor = .LTKTheme.tertiary
-            navViewControllerHomePage.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
             
-            tabBarController.viewControllers = [navViewControllerHomePage]
             tabBarController.tabBar.tintColor = .LTKTheme.tertiary
             let tabBarTuples: [(title: String, imageName: String)] = [
-                ("Favorites", "heart"),
-                ("Creators", "person.crop.square.filled.and.at.rectangle"),
-                ("Discover", "square.grid.2x2"),
-                ("Menu", "text.viewfinder")
+                ("Home-Tab".localized(), "house"),
+                ("Favorites-Tab".localized(), "heart"),
+                ("Creators-Tab".localized(), "person.crop.square.filled.and.at.rectangle"),
+                ("Discover-Tab".localized(), "square.grid.2x2"),
+                ("Menu-Tab".localized(), "text.viewfinder")
             ]
-            for num in 0..<4 {
-                let blankController = LTKBlankViewController()
-                let navViewBlankController = UINavigationController(rootViewController: blankController)
-                navViewBlankController.navigationBar.standardAppearance = navigationBarAppearance
-                navViewBlankController.navigationBar.compactAppearance = navigationBarAppearance
-                navViewBlankController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-                navViewBlankController.navigationBar.tintColor = .LTKTheme.tertiary
+            for num in 0..<5 {
+                var viewController = UIViewController()
+
+                switch num {
+                case 0:
+                    viewController = LTKLaunchViewController()
+                case 1...3:
+                    viewController = LTKBlankViewController()
+                case 4:
+                    viewController = LTKMenuViewController()
+                default:
+                    break
+                }
                 var title = ""
                 var imageName = ""
                 if tabBarTuples.count > num {
                     title = tabBarTuples[num].title
                     imageName = tabBarTuples[num].imageName
                 }
-                navViewBlankController.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: num + 1)
-                tabBarController.viewControllers?.append(navViewBlankController)
+                let navViewController = UINavigationController(rootViewController: viewController)
+                navViewController.navigationBar.standardAppearance = navigationBarAppearance
+                navViewController.navigationBar.compactAppearance = navigationBarAppearance
+                navViewController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+                navViewController.navigationBar.tintColor = .LTKTheme.tertiary
+                navViewController.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: num)
+                navViewController.tabBarItem.setTitleTextAttributes(LTKUIUtilities.getDefaultTitleAttributes(), for: .normal)
+                viewControllersForTabBar.append(navViewController)
             }
+            tabBarController.viewControllers = viewControllersForTabBar
         }
         window?.rootViewController = tabBarController
     }
