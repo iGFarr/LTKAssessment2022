@@ -11,12 +11,13 @@ struct LTKNetworkUtilites {
     static func getFeed(fromURLString urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: urlString) else { return }
         
-        let task = URLSession.shared.dataTask(with: url) { data, _ , error in
+        let task = URLSession.shared.dataTask(with: url) { data, response , error in
             if let error = error {
                 completion(.failure(error.localizedDescription as! Error))
                 return
             }
             guard let data = data else { return }
+            print("LTKFeedResponse: \(String(describing: response))")
             completion(.success(data))
         }
         task.resume()

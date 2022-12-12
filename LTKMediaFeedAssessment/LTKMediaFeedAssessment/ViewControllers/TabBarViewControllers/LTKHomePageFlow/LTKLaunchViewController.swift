@@ -9,9 +9,13 @@ import UIKit
 
 final class LTKLaunchViewController: LTKBaseTableViewController {
 
-    private var feed: Feed?
     private var filteredLtks: [Ltk]? = []
-    private var page = 0
+    private var filteredLtkIds = [String: String]()
+    private var profiles: [Profile] = []
+    private var products: [Product] = []
+    private let request = LTKFeedRequest()
+    private var loadedResultsForPage = 0
+    private var attemptsToLoadPage = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,20 +26,58 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     }
     
     private func loadFeed() {
-        LTKNetworkUtilites.getFeed(fromURLString: "\(LTKConstants.URLS.rewardStyleLTKS)\(self.page)", completion: { result in
+        self.request.makeRequest { result in
             switch result {
             case .success(let response):
-                self.feed = LTKNetworkUtilites.decodeData(data: response, type: Feed.self)
-                
-                if let ltks = self.feed?.ltks {
-                    self.page += 1
-                    self.filteredLtks?.append(contentsOf: ltks)
+                if let response = response {
+                    print("\n -- loaded data from page \(self.request.page)-- \n")
+                    let duplicateProfilesRemoved = response.profiles.filter { responseProfile in
+                        !self.profiles.contains(where: { profile in
+                            profile.id == responseProfile.id
+                        })
+                    }
+                    
+                    let duplicateProductsRemoved = response.products.filter { responseProduct in
+                        !self.products.contains(where: { product in
+                            product.id == responseProduct.id
+                        })
+                    }
+                    // Not sure how to query the RewardStyles API to send back the ltks with this duplicate data excluded. Just a hacky work around here
+                    self.profiles.append(contentsOf: duplicateProfilesRemoved)
+                    self.products.append(contentsOf: duplicateProductsRemoved)
+                    var ltksToAdd = [Ltk]()
+                    for ltk in response.ltks {
+                        if self.loadedResultsForPage >= LTKConstants.pageSize {
+                            break
+                        }
+                        if let _ = self.filteredLtkIds[ltk.id] {
+                            continue
+                        }
+                        self.loadedResultsForPage += 1
+                        self.filteredLtkIds[ltk.id] = ltk.profileID
+                        ltksToAdd.append(ltk)
+                    }
+                    self.filteredLtks?.append(contentsOf: ltksToAdd)
+                    if self.attemptsToLoadPage >= 5 {
+                        self.loadedResultsForPage = 0
+                        self.reloadTableView()
+                        return
+                    }
+                    print("Filtered after completion: \(self.filteredLtks?.count ?? 0)")
+                    if self.loadedResultsForPage < LTKConstants.pageSize {
+                        self.attemptsToLoadPage += 1
+                        self.loadFeed()
+                    } else {
+                        self.attemptsToLoadPage = 0
+                        self.loadedResultsForPage = 0
+                        self.request.page += 1
+                        self.reloadTableView()
+                    }
                 }
-            case .failure(let error):
+            case.failure(let error):
                 print(error.localizedDescription)
             }
-            self.reloadTableView()
-        })
+        }
     }
     
     private func setupTableView() {
@@ -65,22 +107,23 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     
     override func filterResults() {
         self.filteredLtks?.removeAll()
-            let ltks = self.feed?.ltks.filter {
-                if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") || self.navSearchBar.searchTextField.text?.count == 0 {
-                    return true
-                }
-                return false
+        self.profiles.removeAll()
+        self.products.removeAll()
+        self.filteredLtkIds.removeAll()
+        self.attemptsToLoadPage = 0
+        self.request.page = 0
+        self.loadedResultsForPage = 0
+        if let text = self.navSearchBar.searchTextField.text {
+            self.request.displayName = text.lowercased()
+            if text == "" {
+                self.request.displayName = nil
             }
-            if let ltks = self.feed?.ltks, ltks.count >= LTKConstants.pageSize {
-                if let count = self.filteredLtks?.count {
-                    self.filteredLtks?.append(contentsOf: ltks[count..<(count + LTKConstants.pageSize)])
-                }
-            } else if ltks?.count ?? 0 < LTKConstants.pageSize {
-                self.filteredLtks = ltks
-            }
-        print("Filtered: \(ltks?.count ?? 0)")
-        print("Showing: \(self.filteredLtks?.count ?? 0)")
+        } else {
+            self.request.displayName = nil
+        }
+        print("Filtered before completion: \(self.filteredLtks?.count ?? 0)")
         self.reloadTableView()
+        self.loadFeed()
     }
 }
 
@@ -92,9 +135,9 @@ extension LTKLaunchViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as! LTKHomeFeedCell
-        if let ltk = self.filteredLtks?[indexPath.row], let profiles = self.feed?.profiles {
+        if let ltk = self.filteredLtks?[indexPath.row] {
             var profileURL: URL?
-            for profile in profiles {
+            for profile in self.profiles {
                 if ltk.profileID == profile.id {
                     profileURL = URL(string: profile.avatarURL)
                     cell.profileNameLabel.text = profile.displayName
@@ -119,24 +162,20 @@ extension LTKLaunchViewController {
         let detailScreen = LTKDetailViewController()
         if (self.filteredLtks?.count ?? 0) > indexPath.row , let ltk = self.filteredLtks?[indexPath.row] {
             var matchedProducts: [Product] = []
-            if let products = self.feed?.products {
-                for product in products {
-                    /// MARK: -  The following line taught me that xcode does not like trailing closures as a conditional
-                    if ltk.productIDS.contains(where: { $0 == product.id }) {
-                        matchedProducts.append(product)
-                    }
+            for product in products {
+                /// MARK: -  The following line taught me that xcode does not like trailing closures as a conditional
+                if ltk.productIDS.contains(where: { $0 == product.id }) {
+                    matchedProducts.append(product)
                 }
-                detailScreen.products = matchedProducts
+            }
+            detailScreen.products = matchedProducts
+            for profile in profiles {
+                if profile.id == ltk.profileID {
+                    detailScreen.profile = profile
+                    detailScreen.title = profile.displayName
+                }
             }
             
-            if let profiles = self.feed?.profiles {
-                for profile in profiles {
-                    if profile.id == ltk.profileID {
-                        detailScreen.profile = profile
-                        detailScreen.title = profile.displayName
-                    }
-                }
-            }
             
             if let url = URL(string: ltk.heroImage) {
                 detailScreen.heroImage.loadImage(fromURL: url)
@@ -145,26 +184,22 @@ extension LTKLaunchViewController {
         self.show(detailScreen, sender: self)
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        let ltks = self.feed?.ltks.filter {
-//            if $0.caption.localizedCaseInsensitiveContains(self.navSearchBar.searchTextField.text ?? "") || self.navSearchBar.searchTextField.text?.count == 0 {
-//                return true
-//            }
-//            return false
+    // scrollViewDidEndDragging seems cleaner and easier
+//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        guard ((self.filteredLtks?.count ?? 0) - 1) <= indexPath.row else { return }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+//            print("\n -- loaded data from page \(self.page)-- \n")
+//            self.loadFeed()
 //        }
-        guard ((self.filteredLtks?.count ?? 0) - 1) <= indexPath.row else { return }
-//        if ltks.count > indexPath.row + LTKConstants.pageSize {
-//            if let count = self.filteredLtks?.count {
-//                self.filteredLtks?.append(contentsOf: ltks[count..<(count + LTKConstants.pageSize)])
-//            }
-//        } else {
-//            self.filteredLtks = ltks
-//        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-            print("loaded data from page \(self.page)")
-            self.loadFeed()
-//            print("\n**ADDING ROWS**\n")
-//            self.reloadTableView()
+//    }
+    
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+
+        if ((self.tableView.contentOffset.y + self.tableView.frame.size.height) >= self.tableView.contentSize.height)
+        {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                 self.loadFeed()
+             }
         }
     }
 }

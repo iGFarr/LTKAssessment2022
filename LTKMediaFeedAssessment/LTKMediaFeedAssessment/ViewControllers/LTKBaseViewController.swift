@@ -58,8 +58,7 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
         self.reloadTableView()
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.navSearchBar.endEditing(true)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {        self.navSearchBar.endEditing(true)
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {

@@ -14,7 +14,7 @@
 		6A6ACA54294120C700062D17 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A6ACA52294120C700062D17 /* Main.storyboard */; };
 		6A6ACA56294120C800062D17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A6ACA55294120C800062D17 /* Assets.xcassets */; };
 		6A6ACA59294120C800062D17 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A6ACA57294120C800062D17 /* LaunchScreen.storyboard */; };
-		6A6ACA642941244700062D17 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA632941244700062D17 /* Feed.swift */; };
+		6A6ACA642941244700062D17 /* LTKFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA632941244700062D17 /* LTKFeedResponse.swift */; };
 		6A6ACA67294127FE00062D17 /* LTKConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA66294127FE00062D17 /* LTKConstants.swift */; };
 		6A6ACA6929412A6800062D17 /* LTKNetworkUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA6829412A6800062D17 /* LTKNetworkUtilities.swift */; };
 		6A6ACA6B29413BAB00062D17 /* LTKKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA6A29413BAB00062D17 /* LTKKit.swift */; };
@@ -27,6 +27,7 @@
 		6A6ACA832944AA5F00062D17 /* LTKConstraintHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA822944AA5F00062D17 /* LTKConstraintHelper.swift */; };
 		6A6ACA852944B54A00062D17 /* LTKUIUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */; };
 		6A6ACA8A2944D60900062D17 /* LTKMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA892944D60900062D17 /* LTKMenuViewController.swift */; };
+		6A7496E92946E95300B237C1 /* LTKFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7496E82946E95300B237C1 /* LTKFeedRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +43,7 @@
 		6A6ACA55294120C800062D17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A6ACA58294120C800062D17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A6ACA5A294120C800062D17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6A6ACA632941244700062D17 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		6A6ACA632941244700062D17 /* LTKFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKFeedResponse.swift; sourceTree = "<group>"; };
 		6A6ACA66294127FE00062D17 /* LTKConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKConstants.swift; sourceTree = "<group>"; };
 		6A6ACA6829412A6800062D17 /* LTKNetworkUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKNetworkUtilities.swift; sourceTree = "<group>"; };
 		6A6ACA6A29413BAB00062D17 /* LTKKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKKit.swift; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 		6A6ACA822944AA5F00062D17 /* LTKConstraintHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKConstraintHelper.swift; sourceTree = "<group>"; };
 		6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKUIUtilities.swift; sourceTree = "<group>"; };
 		6A6ACA892944D60900062D17 /* LTKMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKMenuViewController.swift; sourceTree = "<group>"; };
+		6A7496E82946E95300B237C1 /* LTKFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKFeedRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +121,8 @@
 		6A6ACA622941242A00062D17 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6A6ACA632941244700062D17 /* Feed.swift */,
+				6A7496E72946E92900B237C1 /* Requests */,
+				6A7496E62946E92500B237C1 /* Responses */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -198,6 +201,22 @@
 				6A6ACA892944D60900062D17 /* LTKMenuViewController.swift */,
 			);
 			path = TabBarViewControllers;
+			sourceTree = "<group>";
+		};
+		6A7496E62946E92500B237C1 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				6A6ACA632941244700062D17 /* LTKFeedResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		6A7496E72946E92900B237C1 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				6A7496E82946E95300B237C1 /* LTKFeedRequest.swift */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,8 +303,9 @@
 				6A6ACA7D294317A400062D17 /* LTKCVItem.swift in Sources */,
 				6A6ACA852944B54A00062D17 /* LTKUIUtilities.swift in Sources */,
 				6A6ACA832944AA5F00062D17 /* LTKConstraintHelper.swift in Sources */,
-				6A6ACA642941244700062D17 /* Feed.swift in Sources */,
+				6A6ACA642941244700062D17 /* LTKFeedResponse.swift in Sources */,
 				6A6ACA4D294120C700062D17 /* AppDelegate.swift in Sources */,
+				6A7496E92946E95300B237C1 /* LTKFeedRequest.swift in Sources */,
 				6A6ACA762941821B00062D17 /* LTKDetailViewController.swift in Sources */,
 				6A6ACA782941F04F00062D17 /* LTKWebView.swift in Sources */,
 				6A6ACA4F294120C700062D17 /* SceneDelegate.swift in Sources */,

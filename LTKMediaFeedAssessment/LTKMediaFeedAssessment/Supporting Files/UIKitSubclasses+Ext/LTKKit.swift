@@ -10,23 +10,26 @@ import UIKit
 class LazyImageView: UIImageView {
     static var imageCache: NSCache<AnyObject, UIImage> = {
         let cache = NSCache<AnyObject, UIImage>()
-        cache.totalCostLimit = LTKConstants.cacheDataSizeLimit
-        cache.countLimit = LTKConstants.cacheObjectLimit
+        cache.totalCostLimit = LTKConstants.Caching.cacheDataSizeLimit
+        cache.countLimit = LTKConstants.Caching.cacheObjectLimit
         return cache
     }()
-    func loadImage(fromURL imageURL: URL, compressionRatio: CGFloat = 0.02) {
+    func loadImage(fromURL imageURL: URL, compressionRatio: CGFloat = LTKConstants.Caching.defaultImageCompression) {
         if let cachedImage = Self.imageCache.object(forKey: imageURL as AnyObject) {
             self.image = cachedImage
-            print("loaded image from cache - URL:\n\(imageURL)\n")
+            print("\nloaded image from cache - URL:\n\(imageURL)\n")
             return
         }
 
         self.showLoading()
         DispatchQueue.global(qos: .utility).async { [weak self] in
             if let imageData = try? Data(contentsOf: imageURL) {
-                print("loaded image from Server - URL:\n\(imageURL)\n")
+                print("\n**loaded image from Server - URL:\n\(imageURL)\n")
                 if var image = UIImage(data: imageData) {
+                    let initialData = image.jpegData(compressionQuality: 1.0)
                     image = UIImage(data: image.jpegData(compressionQuality: compressionRatio) ?? imageData) ?? UIImage()
+                    let finalData = image.jpegData(compressionQuality: 1.0)
+                    print("\nData compressed from \(initialData?.count ?? 0) bytes to \(finalData?.count ?? 0)\n")
                     Self.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.jpegData(compressionQuality: 1.0)?.count ?? 0)
                     DispatchQueue.main.async {
                         self?.image = image
@@ -41,7 +44,7 @@ class LazyImageView: UIImageView {
 class LTKView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {
@@ -53,7 +56,7 @@ class LTKView: UIView {
 extension UIView {
     public func addSubviews(_ views: [UIView]){
         for view in views {
-            addSubview(view)
+            self.addSubview(view)
         }
     }
     
@@ -76,87 +79,87 @@ extension UIView {
     }
     
     public func top(_ yConstraint: NSLayoutYAxisAnchor) {
-        topAnchor.constraint(equalTo: yConstraint).isActive = true
+        self.topAnchor.constraint(equalTo: yConstraint).isActive = true
     }
     
     public func bottom(_ yConstraint: NSLayoutYAxisAnchor) {
-        bottomAnchor.constraint(equalTo: yConstraint).isActive = true
+        self.bottomAnchor.constraint(equalTo: yConstraint).isActive = true
     }
     
     public func leading(_ xConstraint: NSLayoutXAxisAnchor) {
-        leadingAnchor.constraint(equalTo: xConstraint).isActive = true
+        self.leadingAnchor.constraint(equalTo: xConstraint).isActive = true
     }
     
     public func trailing(_ xConstraint: NSLayoutXAxisAnchor) {
-        trailingAnchor.constraint(equalTo: xConstraint).isActive = true
+        self.trailingAnchor.constraint(equalTo: xConstraint).isActive = true
     }
     
     public func top(_ yConstraint: NSLayoutYAxisAnchor, constant: CGFloat) {
-        topAnchor.constraint(equalTo: yConstraint, constant: constant).isActive = true
+        self.topAnchor.constraint(equalTo: yConstraint, constant: constant).isActive = true
     }
     
     public func bottom(_ yConstraint: NSLayoutYAxisAnchor, constant: CGFloat) {
-        bottomAnchor.constraint(equalTo: yConstraint, constant: constant).isActive = true
+        self.bottomAnchor.constraint(equalTo: yConstraint, constant: constant).isActive = true
     }
     
     public func leading(_ xConstraint: NSLayoutXAxisAnchor, constant: CGFloat) {
-        leadingAnchor.constraint(equalTo: xConstraint, constant: constant).isActive = true
+        self.leadingAnchor.constraint(equalTo: xConstraint, constant: constant).isActive = true
     }
     
     public func trailing(_ xConstraint: NSLayoutXAxisAnchor, constant: CGFloat) {
-        trailingAnchor.constraint(equalTo: xConstraint, constant: constant).isActive = true
+        self.trailingAnchor.constraint(equalTo: xConstraint, constant: constant).isActive = true
     }
     
     public func heightEqualsHeightOf(_ view: UIView) {
-        heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
     public func heightEqualsHeightOf(_ view: UIView, constant: CGFloat) {
-        heightAnchor.constraint(equalTo: view.heightAnchor, constant: constant).isActive = true
+        self.heightAnchor.constraint(equalTo: view.heightAnchor, constant: constant).isActive = true
     }
     
     public func heightConstant(_ constant: CGFloat) {
-        heightAnchor.constraint(equalToConstant: constant).isActive = true
+        self.heightAnchor.constraint(equalToConstant: constant).isActive = true
     }
     
     public func widthEqualsWidthOf(_ view: UIView) {
-        widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
     
     public func widthEqualsWidthOf(_ view: UIView, constant: CGFloat) {
-        widthAnchor.constraint(equalTo: view.widthAnchor, constant: constant).isActive = true
+        self.widthAnchor.constraint(equalTo: view.widthAnchor, constant: constant).isActive = true
     }
     
     public func widthConstant(_ constant: CGFloat) {
-        widthAnchor.constraint(equalToConstant: constant).isActive = true
+        self.widthAnchor.constraint(equalToConstant: constant).isActive = true
     }
     
     public func xAlignedWith(_ view: UIView) {
-        centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
     public func yAlignedWith(_ view: UIView) {
-        centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        self.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
     func constrainToEdgePosition(_ corner: EdgePosition, in view: UIView, insetBy inset: CGFloat = LTKConstants.UI.doubleInset, safeArea: Bool = false) {
         view.addSubview(self)
         switch corner {
         case .topLeft:
-            top(safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor, constant: inset/2)
-            leading(safeArea ? view.safeAreaLayoutGuide.leadingAnchor : view.leadingAnchor, constant: inset)
+            self.top(safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor, constant: inset/2)
+            self.leading(safeArea ? view.safeAreaLayoutGuide.leadingAnchor : view.leadingAnchor, constant: inset)
         case .topRight:
-            top(safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor, constant: inset/2)
-            trailing(safeArea ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor, constant: -inset)
+            self.top(safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor, constant: inset/2)
+            self.trailing(safeArea ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor, constant: -inset)
         case .bottomLeft:
-            bottom(safeArea ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor, constant: -inset/2)
-            leading(safeArea ? view.safeAreaLayoutGuide.leadingAnchor : view.leadingAnchor, constant: inset)
+            self.bottom(safeArea ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor, constant: -inset/2)
+            self.leading(safeArea ? view.safeAreaLayoutGuide.leadingAnchor : view.leadingAnchor, constant: inset)
         case .bottomRight:
-            bottom(safeArea ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor, constant: -inset/2)
-            trailing(safeArea ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor, constant: -inset)
+            self.bottom(safeArea ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor, constant: -inset/2)
+            self.trailing(safeArea ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor, constant: -inset)
         case .topCenter:
-            top(safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor, constant: inset/2)
-            xAlignedWith(view)
+            self.top(safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor, constant: inset/2)
+            self.xAlignedWith(view)
         }
     }
 }
@@ -164,7 +167,7 @@ extension UIView {
 extension UIView {
     static let loadingViewTag = 1938123987
     func showLoading(style: UIActivityIndicatorView.Style = .large) {
-        var loading = viewWithTag(UIImageView.loadingViewTag) as? UIActivityIndicatorView
+        var loading = self.viewWithTag(UIImageView.loadingViewTag) as? UIActivityIndicatorView
         if loading == nil {
             loading = UIActivityIndicatorView(style: style)
             loading?.color = .LTKTheme.tertiary
@@ -174,13 +177,13 @@ extension UIView {
         loading?.startAnimating()
         loading?.hidesWhenStopped = true
         loading?.tag = UIView.loadingViewTag
-        addSubview(loading ?? UIView())
-        loading?.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        loading?.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        self.addSubview(loading ?? UIView())
+        loading?.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        loading?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
 
     func stopLoading() {
-        let loading = viewWithTag(UIView.loadingViewTag) as? UIActivityIndicatorView
+        let loading = self.viewWithTag(UIView.loadingViewTag) as? UIActivityIndicatorView
         loading?.stopAnimating()
         loading?.removeFromSuperview()
     }
@@ -234,6 +237,20 @@ extension UIView {
                 print("no action")
             }
         }
+}
+
+class LTKLabel: UILabel {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.font = .LTKFonts.primary
+        self.textColor = .LTKTheme.tertiary
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        print("no coder implemented")
+    }
 }
 
 enum EdgePosition {

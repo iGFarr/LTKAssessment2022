@@ -8,9 +8,12 @@
 import UIKit
 
 struct LTKConstants {
-    static let cacheDataSizeLimit = 1024 * 1024 * 30
-    static let cacheObjectLimit = 150
-    static let pageSize: Int = 2
+    static let pageSize: Int = 3
+    struct Caching {
+        static let cacheDataSizeLimit = 1024 * 1024 * 15
+        static let cacheObjectLimit = 150
+        static let defaultImageCompression: CGFloat = 0.15
+    }
     struct CellIdentifiers {
         static let heroImage = "ltkImageCell"
         static let collectionItem = "LTKCVItem"
@@ -32,11 +35,13 @@ struct LTKConstants {
         static let navSearchBarWidthRatio: CGFloat = 0.7
         static let navTitleTextSize: CGFloat = 20
         static let profilePicBubbleDimension: CGFloat = 50
-        static let slightTranslucency: CGFloat = 0.8
+        static let slightTranslucency: CGFloat = 0.65
         static let thickBorderWidth: CGFloat = 2
         static let thinBorderWidth: CGFloat = 1
     }
     struct URLS {
-        static let rewardStyleLTKS = "https://api-gateway.rewardstyle.com/api/ltk/v2/ltks/?featured=true&limit=2&page_size=2"
+        static let rewardStyleLTKS = "https://api-gateway.rewardstyle.com/api/ltk/v2/ltks/?featured=true&limit=\(LTKConstants.pageSize)&page_size=\(LTKConstants.pageSize)"
+        static let rewardStyleProfiles = "https://api-gateway.rewardstyle.com/api/ltk/v2/profiles/?profile_id="
+        static let rewardStyleProducts = "https://api-gateway.rewardstyle.com/api/ltk/v2/products/?"
     }
 }

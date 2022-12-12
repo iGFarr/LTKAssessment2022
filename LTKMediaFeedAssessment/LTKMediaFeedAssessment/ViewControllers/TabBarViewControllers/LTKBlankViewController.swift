@@ -21,13 +21,11 @@ class LTKBlankViewController: UIViewController, SearchFilterController, UISearch
         LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
             LTKUIUtilities.displayTheRepoFrom(self)
         })
-        let comingSoonLabel = UILabel()
-        comingSoonLabel.translatesAutoresizingMaskIntoConstraints = false
+        let comingSoonLabel = LTKLabel()
         self.view.addSubview(comingSoonLabel)
         self.navSearchBar.delegate = self
         comingSoonLabel.xAlignedWith(self.view)
         comingSoonLabel.yAlignedWith(self.view)
-        comingSoonLabel.textColor = .LTKTheme.tertiary
         comingSoonLabel.font = .LTKFonts.primary.withSize(35)
         comingSoonLabel.text = "Coming-Soon".localized()
     }
