@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Feed
-struct Feed: Codable {
+struct LTKFeedResponse: Codable {
     let ltks: [Ltk]
     let profiles: [Profile]
     let products: [Product]
