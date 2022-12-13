@@ -58,6 +58,7 @@ struct LTKConstants {
         }
     }
     struct URLS {
+        // I had been obfuscating these URLs in my repo, but I think I'll just privatize it after the demo.
         static let pageSize: Int = 3
         static let rewardStyleLTKS = "https://api-gateway.rewardstyle.com/api/ltk/v2/ltks/?featured=true&limit=20&page_size=\(pageSize)"
         static let rewardStyleProfiles = "https://api-gateway.rewardstyle.com/api/ltk/v2/profiles/?profile_id="
