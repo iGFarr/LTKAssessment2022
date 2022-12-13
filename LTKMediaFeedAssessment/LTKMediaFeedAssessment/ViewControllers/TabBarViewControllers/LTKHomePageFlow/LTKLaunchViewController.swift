@@ -11,8 +11,8 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
 
     private var filteredLtks: [Ltk]? = []
     private var filteredLtkIds = [String: String]()
-    private var profiles: [Profile] = []
-    private var products: [Product] = []
+    private var profileSet: Set<Profile> = Set()
+    private var productSet: Set<Product> = Set()
     private let request = LTKFeedRequest()
     private var loadedResultsForPage = 0
     private var attemptsToLoadPage = 0
@@ -31,20 +31,14 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
             case .success(let response):
                 if let response = response {
                     print("\n -- loaded data from page \(self.request.page)-- \n")
-                    let duplicateProfilesRemoved = response.profiles.filter { responseProfile in
-                        !self.profiles.contains(where: { profile in
-                            profile.id == responseProfile.id
-                        })
+                    for profile in response.profiles {
+                        self.profileSet.insert(profile)
                     }
                     
-                    let duplicateProductsRemoved = response.products.filter { responseProduct in
-                        !self.products.contains(where: { product in
-                            product.id == responseProduct.id
-                        })
+                    for product in response.products {
+                        self.productSet.insert(product)
                     }
-                    // Not sure how to query the RewardStyles API to send back the ltks with this duplicate data excluded. Just a hacky work around here
-                    self.profiles.append(contentsOf: duplicateProfilesRemoved)
-                    self.products.append(contentsOf: duplicateProductsRemoved)
+
                     var ltksToAdd = [Ltk]()
                     for ltk in response.ltks {
                         if self.loadedResultsForPage >= LTKConstants.URLS.pageSize {
@@ -118,8 +112,8 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     
     func dumpLoadedDataAndResetRequest() {
         self.filteredLtks?.removeAll()
-        self.profiles.removeAll()
-        self.products.removeAll()
+        self.profileSet.removeAll()
+        self.productSet.removeAll()
         self.filteredLtkIds.removeAll()
         self.attemptsToLoadPage = 0
         self.request.page = 0
@@ -137,7 +131,7 @@ extension LTKLaunchViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as? LTKHomeFeedCell else { return UITableViewCell() }
         if let ltk = self.filteredLtks?[indexPath.row] {
             var profileURL: URL?
-            for profile in self.profiles {
+            for profile in self.profileSet {
                 if ltk.profileID == profile.id {
                     profileURL = URL(string: profile.avatarURL)
                     cell.profileNameLabel.text = profile.displayName
@@ -162,14 +156,14 @@ extension LTKLaunchViewController {
         let detailScreen = LTKDetailViewController()
         if (self.filteredLtks?.count ?? 0) > indexPath.row , let ltk = self.filteredLtks?[indexPath.row] {
             var matchedProducts: [Product] = []
-            for product in products {
+            for product in productSet {
                 /// MARK: -  The following line taught me that xcode does not like trailing closures as a conditional
                 if ltk.productIDS.contains(where: { $0 == product.id }) {
                     matchedProducts.append(product)
                 }
             }
             detailScreen.products = matchedProducts
-            for profile in profiles {
+            for profile in profileSet {
                 if profile.id == ltk.profileID {
                     detailScreen.profile = profile
                     detailScreen.title = profile.displayName

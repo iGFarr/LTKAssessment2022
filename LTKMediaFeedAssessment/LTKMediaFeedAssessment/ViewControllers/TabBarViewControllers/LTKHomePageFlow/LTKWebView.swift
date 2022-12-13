@@ -36,7 +36,6 @@ class LTKWebViewController: UIViewController, WKNavigationDelegate {
     private func constrainWebView(){
         self.webView.translatesAutoresizingMaskIntoConstraints = false
         LTKConstraintHelper.constrain(self.webView, toSafeAreaOf: self.view)
-        self.webView.showLoadingIndicator(style: .large)
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {

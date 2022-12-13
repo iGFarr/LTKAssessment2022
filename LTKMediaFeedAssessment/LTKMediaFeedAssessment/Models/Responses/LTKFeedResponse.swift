@@ -40,7 +40,7 @@ struct Ltk: Codable {
 }
 
 // MARK: - Product
-struct Product: Codable {
+struct Product: Codable, Hashable {
     let id, ltkID: String
     let hyperlink, imageURL: String
     let productDetailsID, retailerID, retailerDisplayName: String
@@ -58,7 +58,7 @@ struct Product: Codable {
 
 
 // MARK: - Profile
-struct Profile: Codable {
+struct Profile: Codable, Hashable {
     let id: String
     let avatarURL: String
     let displayName: String
