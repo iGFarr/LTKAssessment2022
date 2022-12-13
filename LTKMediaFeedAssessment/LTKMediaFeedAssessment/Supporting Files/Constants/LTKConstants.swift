@@ -59,8 +59,8 @@ struct LTKConstants {
     }
     struct URLS {
         static let pageSize: Int = 3
-        static let rewardStyleLTKS = "https://api-gateway.rewardstyle.com/api/ltk/v2/ltks/?featured=true&limit=20&page_size=\(pageSize)"
-        static let rewardStyleProfiles = "https://api-gateway.rewardstyle.com/api/ltk/v2/profiles/?profile_id="
-        static let rewardStyleProducts = "https://api-gateway.rewardstyle.com/api/ltk/v2/products/?"
+        static let rewardStyleLTKS = "https://*********/ltks/?featured=true&limit=20&page_size=\(pageSize)"
+        static let rewardStyleProfiles = "https://*********/profiles/?profile_id="
+        static let rewardStyleProducts = "https://*********/products/?"
     }
 }
