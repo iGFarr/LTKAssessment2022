@@ -12,7 +12,6 @@ class LTKWebViewController: UIViewController, WKNavigationDelegate {
     private let webView = WKWebView()
     var url: URL?
     var name: String?
-    private var spinner = UIActivityIndicatorView(style: .large)
     override func viewDidLoad() {
         super.viewDidLoad()
         self.webView.navigationDelegate = self
@@ -37,19 +36,13 @@ class LTKWebViewController: UIViewController, WKNavigationDelegate {
     private func constrainWebView(){
         self.webView.translatesAutoresizingMaskIntoConstraints = false
         LTKConstraintHelper.constrain(self.webView, toSafeAreaOf: self.view)
-        self.webView.addSubview(self.spinner)
-        let heightPosForSpinner = UIScreen.main.bounds.width - (navigationController?.navigationBar.bounds.height ?? 20) / 2.0
-        self.spinner.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: heightPosForSpinner)
-        self.spinner.startAnimating()
-        self.spinner.color = .LTKTheme.tertiary
-        self.spinner.hidesWhenStopped = true
+        self.webView.showLoadingIndicator(style: .large)
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        self.spinner.startAnimating()
-        self.spinner.isHidden = false
+        self.webView.showLoadingIndicator(style: .large)
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.spinner.stopAnimating()
+        self.webView.stopLoadingIndicator()
     }
 }

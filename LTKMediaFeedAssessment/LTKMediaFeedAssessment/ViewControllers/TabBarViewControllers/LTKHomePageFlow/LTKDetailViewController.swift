@@ -89,7 +89,7 @@ extension LTKDetailViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let webView = LTKWebViewController()
-        if let url = URL(string: self.products?[indexPath.row]?.hyperlink ?? "google.com") {
+        if let url = URL(string: self.products?[indexPath.row]?.hyperlink ?? "https://www.google.com/") {
             webView.url = url
             webView.name = self.products?[indexPath.row]?.retailerDisplayName ?? "No Name"
             self.show(webView, sender: self)

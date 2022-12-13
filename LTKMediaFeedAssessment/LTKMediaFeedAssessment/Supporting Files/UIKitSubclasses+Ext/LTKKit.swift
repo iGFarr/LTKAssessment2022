@@ -21,7 +21,7 @@ class LazyImageView: UIImageView {
             return
         }
 
-        self.showLoading()
+        self.showLoadingIndicator()
         DispatchQueue.global(qos: .utility).async { [weak self] in
             if let imageData = try? Data(contentsOf: imageURL) {
                 print("\n**loaded image from Server - URL:\n\(imageURL)\n")
@@ -33,7 +33,7 @@ class LazyImageView: UIImageView {
                     Self.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.jpegData(compressionQuality: 1.0)?.count ?? 0)
                     DispatchQueue.main.async {
                         self?.image = image
-                        self?.stopLoading()
+                        self?.stopLoadingIndicator()
                     }
                 }
             }
@@ -166,7 +166,7 @@ extension UIView {
 
 extension UIView {
     static let loadingViewTag = 1938123987
-    func showLoading(style: UIActivityIndicatorView.Style = .large) {
+    func showLoadingIndicator(style: UIActivityIndicatorView.Style = .large) {
         var loading = self.viewWithTag(UIImageView.loadingViewTag) as? UIActivityIndicatorView
         if loading == nil {
             loading = UIActivityIndicatorView(style: style)
@@ -182,7 +182,7 @@ extension UIView {
         loading?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
 
-    func stopLoading() {
+    func stopLoadingIndicator() {
         let loading = self.viewWithTag(UIView.loadingViewTag) as? UIActivityIndicatorView
         loading?.stopAnimating()
         loading?.removeFromSuperview()
@@ -261,6 +261,11 @@ enum EdgePosition {
     case topCenter
 }
 
+extension CGFloat {
+    var scaled: CGFloat {
+        self * LTKConstants.UI.scaleMultiplier
+    }
+}
 extension UIFont {
     struct LTKFonts {
         static let primary = UIFont(name: "Noteworthy-Light", size: LTKConstants.UI.navTitleTextSize) ?? .systemFont(ofSize: LTKConstants.UI.navTitleTextSize)

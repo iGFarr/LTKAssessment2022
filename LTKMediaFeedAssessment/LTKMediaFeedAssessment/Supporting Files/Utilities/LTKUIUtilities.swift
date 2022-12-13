@@ -38,7 +38,7 @@ struct LTKUIUtilities {
         }
     }
     
-    static func getDefaultTitleAttributes(font: UIFont = .LTKFonts.primary.withSize(14), italicized: CGFloat = LTKConstants.UI.italicizeFontNSKey, color: UIColor = .LTKTheme.tertiary) -> [NSAttributedString.Key: Any] {
+    static func getDefaultTitleAttributes(font: UIFont = .LTKFonts.primary.withSize(CGFloat(14).scaled), italicized: CGFloat = LTKConstants.UI.italicizeFontNSKey, color: UIColor = .LTKTheme.tertiary) -> [NSAttributedString.Key: Any] {
         return [
             NSAttributedString.Key.font: font,
             NSAttributedString.Key.obliqueness: italicized,

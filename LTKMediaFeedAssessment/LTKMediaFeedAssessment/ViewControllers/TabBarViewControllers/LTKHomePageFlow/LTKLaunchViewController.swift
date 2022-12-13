@@ -47,7 +47,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
                     self.products.append(contentsOf: duplicateProductsRemoved)
                     var ltksToAdd = [Ltk]()
                     for ltk in response.ltks {
-                        if self.loadedResultsForPage >= LTKConstants.pageSize {
+                        if self.loadedResultsForPage >= LTKConstants.URLS.pageSize {
                             break
                         }
                         if let _ = self.filteredLtkIds[ltk.id] {
@@ -63,8 +63,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
                         self.reloadTableView()
                         return
                     }
-                    print("Filtered after completion: \(self.filteredLtks?.count ?? 0)")
-                    if self.loadedResultsForPage < LTKConstants.pageSize {
+                    if self.loadedResultsForPage < LTKConstants.URLS.pageSize {
                         self.attemptsToLoadPage += 1
                         self.loadFeed()
                     } else {
@@ -74,14 +73,13 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
                         self.reloadTableView()
                     }
                 }
-            case.failure(let error):
+            case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
     
     private func setupTableView() {
-        self.tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
         self.tableView.backgroundColor = .LTKTheme.primary
         self.tableView.separatorStyle = .none
         self.tableView.dataSource = self
@@ -92,13 +90,13 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     }
     
     private func createHeader() {
-        let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+        let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: LTKConstants.UI.homePageHeaderHeight))
         headerView.backgroundColor = .clear
         
         let labelView: UILabel = UILabel.init(frame: CGRect.init(x: LTKConstants.UI.doubleInset, y: LTKConstants.UI.defaultInset, width: UIScreen.main.bounds.width, height: headerView.frame.height))
         labelView.text = "Home-Page-Header".localized()
         labelView.textColor = .LTKTheme.tertiary
-        labelView.font = .LTKFonts.primary.withSize(18)
+        labelView.font = .LTKFonts.primary.withSize(LTKConstants.UI.homePageHeaderTextSize)
         
         headerView.addSubview(labelView)
         self.tableView.tableHeaderView = headerView
@@ -106,13 +104,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     
     
     override func filterResults() {
-        self.filteredLtks?.removeAll()
-        self.profiles.removeAll()
-        self.products.removeAll()
-        self.filteredLtkIds.removeAll()
-        self.attemptsToLoadPage = 0
-        self.request.page = 0
-        self.loadedResultsForPage = 0
+        self.dumpLoadedDataAndResetRequest()
         if let text = self.navSearchBar.searchTextField.text {
             self.request.displayName = text.lowercased()
             if text == "" {
@@ -121,9 +113,17 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         } else {
             self.request.displayName = nil
         }
-        print("Filtered before completion: \(self.filteredLtks?.count ?? 0)")
-        self.reloadTableView()
         self.loadFeed()
+    }
+    
+    func dumpLoadedDataAndResetRequest() {
+        self.filteredLtks?.removeAll()
+        self.profiles.removeAll()
+        self.products.removeAll()
+        self.filteredLtkIds.removeAll()
+        self.attemptsToLoadPage = 0
+        self.request.page = 0
+        self.loadedResultsForPage = 0
     }
 }
 
@@ -134,7 +134,7 @@ extension LTKLaunchViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as! LTKHomeFeedCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as? LTKHomeFeedCell else { return UITableViewCell() }
         if let ltk = self.filteredLtks?[indexPath.row] {
             var profileURL: URL?
             for profile in self.profiles {
