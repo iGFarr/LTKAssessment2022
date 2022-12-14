@@ -22,7 +22,6 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         self.setupTableView()
         self.createHeader()
         self.loadFeed()
-        self.title = "Home-Tab".localized()
     }
     
     private func loadFeed() {
@@ -66,9 +65,14 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
                         self.request.page += 1
                         self.reloadTableView()
                     }
+                } else {
+                    DispatchQueue.main.async {
+                        self.navSearchBar.searchTextField.text = "NO RESULTS FOUND"
+                    }
+                    self.reloadTableView()
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
+            default:
+                break
             }
         }
     }
@@ -110,7 +114,7 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         self.loadFeed()
     }
     
-    func dumpLoadedDataAndResetRequest() {
+    private func dumpLoadedDataAndResetRequest() {
         self.filteredLtks?.removeAll()
         self.profileSet.removeAll()
         self.productSet.removeAll()
@@ -118,6 +122,94 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
         self.attemptsToLoadPage = 0
         self.request.page = 0
         self.loadedResultsForPage = 0
+    }
+    
+    private func setButtonAppearancesAndGestures(for ltk: Ltk, cell: LTKHomeFeedCell) {
+        let followedUsers = UserDefaultsHelper().followedCreators
+        var followButtonString = "Follow".localized()
+        if followedUsers.contains(ltk.profileID) {
+            followButtonString = "Unfollow".localized()
+        }
+        let followAttributedTitle = NSAttributedString(string: followButtonString, attributes: LTKUIUtilities.getDefaultTitleAttributes(font: .LTKFonts.primary.withSize(CGFloat(16).scaled)))
+        cell.followButton.setAttributedTitle(followAttributedTitle, for: .normal)
+        
+        cell.followButton.addTapGestureRecognizer {
+            var followedUsers = UserDefaultsHelper().followedCreators
+            var followedUserSet = Set(followedUsers)
+            var buttonTitle = "Follow".localized()
+            if followedUserSet.contains(ltk.profileID) {
+                followedUserSet.remove(ltk.profileID)
+            } else {
+                buttonTitle = "Unfollow".localized()
+                followedUserSet.insert(ltk.profileID)
+            }
+            let followAttributedTitle = NSAttributedString(string: buttonTitle, attributes: LTKUIUtilities.getDefaultTitleAttributes(font: .LTKFonts.primary.withSize(CGFloat(16).scaled)))
+            DispatchQueue.main.async {
+                cell.followButton.setAttributedTitle(followAttributedTitle, for: .normal)
+            }
+            print("followed users: \(followedUserSet)")
+            followedUsers = Array(followedUserSet)
+            UserDefaultsHelper().followedCreators = followedUsers
+        }
+        
+        let favoritedLtks = UserDefaultsHelper().favoritedLtks
+        let favoritedLtkSet = Set(favoritedLtks)
+        if favoritedLtkSet.contains(ltk.id) {
+            DispatchQueue.main.async {
+                cell.favoriteButton.configuration = .filled()
+                cell.favoriteButton.setImage(UIImage(systemName: "heart")?.withTintColor(.LTKTheme.primary), for: .normal)
+            }
+        } else {
+            DispatchQueue.main.async {
+                cell.favoriteButton.configuration = .bordered()
+                cell.favoriteButton.tintColor = .LTKTheme.tertiary.withAlphaComponent(LTKConstants.UI.slightTranslucency)
+                cell.favoriteButton.setImage(UIImage(systemName: "heart")?.withTintColor(.LTKTheme.tertiary), for: .normal)
+            }
+        }
+
+        cell.favoriteButton.addTapGestureRecognizer {
+            var favoritedLtks = UserDefaultsHelper().favoritedLtks
+            var favoritedLtkSet = Set(favoritedLtks)
+            if favoritedLtkSet.contains(ltk.id) {
+                cell.favoriteButton.configuration = .bordered()
+                cell.favoriteButton.tintColor = .LTKTheme.tertiary.withAlphaComponent(LTKConstants.UI.slightTranslucency)
+                DispatchQueue.main.async {
+                    cell.favoriteButton.setImage(UIImage(systemName: "heart")?.withTintColor(.LTKTheme.tertiary), for: .normal)
+                }
+                favoritedLtkSet.remove(ltk.id)
+            } else {
+                cell.favoriteButton.configuration = .filled()
+                DispatchQueue.main.async {
+                    cell.favoriteButton.setImage(UIImage(systemName: "heart")?.withTintColor(.LTKTheme.primary), for: .normal)
+                }
+                favoritedLtkSet.insert(ltk.id)
+            }
+            print("Tapped Favorite Button")
+            print("favorited Ltks: \(favoritedLtkSet)")
+            favoritedLtks = Array(favoritedLtkSet)
+            UserDefaultsHelper().favoritedLtks = favoritedLtks
+
+        }
+    }
+    
+    private func share(urlString: String = "google.com"){
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        let textToShare = "Check out this cool LTK!"
+
+        if let myWebsite = URL(string: urlString) {//Enter link to your app here
+            let objectsToShare = [textToShare, myWebsite, image ?? #imageLiteral(resourceName: "app-logo")] as [Any]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            //Excluded Activities
+            activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
+            //
+
+            activityVC.popoverPresentationController?.sourceView = self.view
+            self.present(activityVC, animated: true, completion: nil)
+        }
     }
 }
 
@@ -130,15 +222,21 @@ extension LTKLaunchViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as? LTKHomeFeedCell else { return UITableViewCell() }
         if let ltk = self.filteredLtks?[indexPath.row] {
+            cell.ltkId = ltk.id
+            cell.shareButton.addTapGestureRecognizer {
+                self.share(urlString: ltk.shareURL)
+            }
+            self.setButtonAppearancesAndGestures(for: ltk, cell: cell)
             var profileURL: URL?
             for profile in self.profileSet {
                 if ltk.profileID == profile.id {
                     profileURL = URL(string: profile.avatarURL)
-                    cell.profileNameLabel.text = profile.displayName
+                    cell.profileNameLabel.attributedText = NSAttributedString(string: profile.displayName, attributes: LTKUIUtilities.getDefaultTitleAttributes(font: .LTKFonts.primary.withSize(18)))
                     cell.accessibilityLabel = "\(profile.displayName)\n  Go to product list"
+                    cell.creatorId = profile.id
                 }
             }
-            
+
             if let url = URL(string: ltk.heroImage) {
                 DispatchQueue.main.async {
                     cell.ltkImageView.loadImage(fromURL: url)

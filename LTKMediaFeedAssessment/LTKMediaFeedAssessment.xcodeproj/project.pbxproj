@@ -28,6 +28,7 @@
 		6A6ACA852944B54A00062D17 /* LTKUIUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */; };
 		6A6ACA8A2944D60900062D17 /* LTKMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ACA892944D60900062D17 /* LTKMenuViewController.swift */; };
 		6A7496E92946E95300B237C1 /* LTKFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7496E82946E95300B237C1 /* LTKFeedRequest.swift */; };
+		6A7496EB2949112300B237C1 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7496EA2949112300B237C1 /* UserDefaultsHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKUIUtilities.swift; sourceTree = "<group>"; };
 		6A6ACA892944D60900062D17 /* LTKMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKMenuViewController.swift; sourceTree = "<group>"; };
 		6A7496E82946E95300B237C1 /* LTKFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTKFeedRequest.swift; sourceTree = "<group>"; };
+		6A7496EA2949112300B237C1 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,8 +114,8 @@
 		6A6ACA61294123D900062D17 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				6A6ACA872944D5CD00062D17 /* TabBarViewControllers */,
 				6A6ACA6C29413BC600062D17 /* LTKBaseViewController.swift */,
+				6A6ACA872944D5CD00062D17 /* TabBarViewControllers */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -168,6 +170,7 @@
 				6A6ACA6829412A6800062D17 /* LTKNetworkUtilities.swift */,
 				6A6ACA822944AA5F00062D17 /* LTKConstraintHelper.swift */,
 				6A6ACA842944B54A00062D17 /* LTKUIUtilities.swift */,
+				6A7496EA2949112300B237C1 /* UserDefaultsHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A7496EB2949112300B237C1 /* UserDefaultsHelper.swift in Sources */,
 				6A6ACA6929412A6800062D17 /* LTKNetworkUtilities.swift in Sources */,
 				6A6ACA51294120C700062D17 /* LTKLaunchViewController.swift in Sources */,
 				6A6ACA6B29413BAB00062D17 /* LTKKit.swift in Sources */,

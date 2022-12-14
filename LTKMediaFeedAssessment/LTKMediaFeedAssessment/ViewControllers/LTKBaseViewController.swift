@@ -12,15 +12,13 @@ protocol SearchFilterController: UIViewController {
 }
 
 class LTKBaseTableViewController: UITableViewController, SearchFilterController, UISearchBarDelegate {
-    /// MARK: - Had initially marked this as lazy, but that seems kind of pointless considering the initial launch screen is of this class.
-    var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
+    var navSearchBar: UISearchBar = UISearchBar()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .LTKTheme.primary
         self.navSearchBar.delegate = self
-        LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
-            LTKUIUtilities.displayTheRepoFrom(self)
-        })
+        LTKUIUtilities.setupNavBarForVC(self)
     }
     
     @objc
@@ -38,9 +36,7 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
-            LTKUIUtilities.displayTheRepoFrom(self)
-        })
+        LTKUIUtilities.setupNavBarForVC(self)
         for view in self.view.subviews {
             if view.layer.borderWidth > 0 {
                 view.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
@@ -50,8 +46,11 @@ class LTKBaseTableViewController: UITableViewController, SearchFilterController,
         for num in 0..<tableView.numberOfRows(inSection: 0) {
             let cell = tableView.cellForRow(at: IndexPath(row: num, section: 0))
             if let cell = cell as? LTKHomeFeedCell {
+                cell.favoriteButton.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+                cell.shareButton.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
                 cell.ltkImageView.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
                 cell.profileImage.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+                cell.followButton.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
             }
         }
         

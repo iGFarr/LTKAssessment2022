@@ -12,6 +12,11 @@ final class LTKHomeFeedCell: UITableViewCell {
     let ltkImageView = LazyImageView()
     var profileImage = LazyImageView(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.profilePicBubbleDimension, height: LTKConstants.UI.profilePicBubbleDimension)))
     let profileNameLabel = LTKLabel()
+    let followButton = LTKButton()
+    let favoriteButton = LTKButton(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.heroImageButtonsSize, height: LTKConstants.UI.heroImageButtonsSize)))
+    let shareButton = LTKButton(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.heroImageButtonsSize, height: LTKConstants.UI.heroImageButtonsSize)))
+    var creatorId: String?
+    var ltkId: String?
     let container = LTKView()
     var imageHeight: CGFloat = 1
     var imageWidth: CGFloat = 1
@@ -30,17 +35,42 @@ final class LTKHomeFeedCell: UITableViewCell {
         self.container.addSubviews([
             self.ltkImageView,
             self.profileImage,
-            self.profileNameLabel
+            self.profileNameLabel,
+            self.followButton,
+            self.favoriteButton,
+            self.shareButton
         ])
-        
         let newImageHeight = (LTKConstants.UI.heroImageHeightRatioAvgEstimate * (UIScreen.main.bounds.width - LTKConstants.UI.doubleInset))
-        self.container.heightConstant(newImageHeight + LTKConstants.UI.containerSpacer)
+        self.container.heightConstant(CGFloat(newImageHeight).scaled + LTKConstants.UI.containerSpacer)
         LTKConstraintHelper.constrain(container, to: self.contentView)
         
         self.profileNameLabel.leading(self.profileImage.trailingAnchor, constant: LTKConstants.UI.doubleInset)
-        self.profileNameLabel.yAlignedWith(self.profileImage)
-        self.profileNameLabel.widthConstant(LTKConstants.UI.profileNameLabelWidth)
-        self.profileNameLabel.heightConstant(LTKConstants.UI.profileNameLabelHeight)
+        self.profileNameLabel.yAlignedWith(self.profileImage, offset: LTKConstants.UI.halfInset)
+        self.profileNameLabel.trailing(self.followButton.leadingAnchor, constant: LTKConstants.UI.doubleInset)
+        self.profileNameLabel.heightEqualsHeightOf(profileImage)
+        
+        self.followButton.heightConstant(CGFloat(30).scaled)
+        self.followButton.widthConstant(CGFloat(85).scaled)
+        self.followButton.trailing(self.container.trailingAnchor, constant: -LTKConstants.UI.doubleInset)
+        self.followButton.yAlignedWith(self.profileNameLabel)
+        self.followButton.layer.cornerRadius = CGFloat(10).scaled
+
+        self.favoriteButton.configuration = .bordered()
+        self.favoriteButton.tintColor = .LTKTheme.tertiary.withAlphaComponent(LTKConstants.UI.slightTranslucency)
+        self.favoriteButton.heightConstant(LTKConstants.UI.heroImageButtonsSize)
+        self.favoriteButton.widthConstant(LTKConstants.UI.heroImageButtonsSize)
+        self.favoriteButton.circularize()
+        self.favoriteButton.constrainToEdgePosition(.bottomRight, in: self.container)
+        self.favoriteButton.setImage(UIImage(systemName: "heart")?.withTintColor(.LTKTheme.tertiary), for: .normal)
+        
+        self.shareButton.configuration = .bordered()
+        self.shareButton.tintColor = .LTKTheme.tertiary.withAlphaComponent(LTKConstants.UI.slightTranslucency)
+        self.shareButton.heightConstant(LTKConstants.UI.heroImageButtonsSize)
+        self.shareButton.widthConstant(LTKConstants.UI.heroImageButtonsSize)
+        self.shareButton.circularize()
+        self.shareButton.bottom(self.favoriteButton.topAnchor, constant: -LTKConstants.UI.doubleInset)
+        self.shareButton.xAlignedWith(self.favoriteButton)
+        self.shareButton.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
         
         self.profileImage.translatesAutoresizingMaskIntoConstraints = false
         self.profileImage.contentMode = .scaleAspectFit

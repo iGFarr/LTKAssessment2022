@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LazyImageView: UIImageView {
+final class LazyImageView: UIImageView {
     static var imageCache: NSCache<AnyObject, UIImage> = {
         let cache = NSCache<AnyObject, UIImage>()
         cache.totalCostLimit = LTKConstants.Caching.cacheDataSizeLimit
@@ -41,7 +41,7 @@ class LazyImageView: UIImageView {
     }
 }
 
-class LTKView: UIView {
+final class LTKView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +49,34 @@ class LTKView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final class LTKLabel: UILabel {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.font = .LTKFonts.primary
+        self.textColor = .LTKTheme.tertiary
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        print("no coder implemented")
+    }
+}
+
+final class LTKButton: UIButton {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.configuration = .filled()
+        self.tintColor = .LTKTheme.tertiary.withAlphaComponent(LTKConstants.UI.substantiallyTranslucent)
+        self.addBorder(LTKConstants.UI.thinBorderWidth)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 }
 
@@ -60,12 +88,12 @@ extension UIView {
         }
     }
     
-    public func circularize(addingBorder: Bool = true) {
+    public func circularize(addingBorder: Bool = true, ratio: CGFloat = 2) {
         guard self.frame.size != .zero else {
             print("MUST SET FRAME TO CIRCULARIZE")
             return
         }
-        self.layer.cornerRadius = self.frame.size.width / 2
+        self.layer.cornerRadius = self.frame.size.width / ratio
         if addingBorder {
             self.addBorder()
         }
@@ -74,47 +102,27 @@ extension UIView {
     
     func addBorder(_ size: CGFloat = LTKConstants.UI.thickBorderWidth) {
         self.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
-        self.layer.borderWidth = LTKConstants.UI.thickBorderWidth
+        self.layer.borderWidth = size
         self.clipsToBounds = true
     }
-    
-    public func top(_ yConstraint: NSLayoutYAxisAnchor) {
-        self.topAnchor.constraint(equalTo: yConstraint).isActive = true
-    }
-    
-    public func bottom(_ yConstraint: NSLayoutYAxisAnchor) {
-        self.bottomAnchor.constraint(equalTo: yConstraint).isActive = true
-    }
-    
-    public func leading(_ xConstraint: NSLayoutXAxisAnchor) {
-        self.leadingAnchor.constraint(equalTo: xConstraint).isActive = true
-    }
-    
-    public func trailing(_ xConstraint: NSLayoutXAxisAnchor) {
-        self.trailingAnchor.constraint(equalTo: xConstraint).isActive = true
-    }
-    
-    public func top(_ yConstraint: NSLayoutYAxisAnchor, constant: CGFloat) {
+
+    public func top(_ yConstraint: NSLayoutYAxisAnchor, constant: CGFloat = 0) {
         self.topAnchor.constraint(equalTo: yConstraint, constant: constant).isActive = true
     }
     
-    public func bottom(_ yConstraint: NSLayoutYAxisAnchor, constant: CGFloat) {
+    public func bottom(_ yConstraint: NSLayoutYAxisAnchor, constant: CGFloat = 0) {
         self.bottomAnchor.constraint(equalTo: yConstraint, constant: constant).isActive = true
     }
     
-    public func leading(_ xConstraint: NSLayoutXAxisAnchor, constant: CGFloat) {
+    public func leading(_ xConstraint: NSLayoutXAxisAnchor, constant: CGFloat = 0) {
         self.leadingAnchor.constraint(equalTo: xConstraint, constant: constant).isActive = true
     }
     
-    public func trailing(_ xConstraint: NSLayoutXAxisAnchor, constant: CGFloat) {
+    public func trailing(_ xConstraint: NSLayoutXAxisAnchor, constant: CGFloat = 0) {
         self.trailingAnchor.constraint(equalTo: xConstraint, constant: constant).isActive = true
     }
     
-    public func heightEqualsHeightOf(_ view: UIView) {
-        self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-    }
-    
-    public func heightEqualsHeightOf(_ view: UIView, constant: CGFloat) {
+    public func heightEqualsHeightOf(_ view: UIView, constant: CGFloat = 0) {
         self.heightAnchor.constraint(equalTo: view.heightAnchor, constant: constant).isActive = true
     }
     
@@ -122,11 +130,7 @@ extension UIView {
         self.heightAnchor.constraint(equalToConstant: constant).isActive = true
     }
     
-    public func widthEqualsWidthOf(_ view: UIView) {
-        self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-    }
-    
-    public func widthEqualsWidthOf(_ view: UIView, constant: CGFloat) {
+    public func widthEqualsWidthOf(_ view: UIView, constant: CGFloat = 0) {
         self.widthAnchor.constraint(equalTo: view.widthAnchor, constant: constant).isActive = true
     }
     
@@ -134,12 +138,12 @@ extension UIView {
         self.widthAnchor.constraint(equalToConstant: constant).isActive = true
     }
     
-    public func xAlignedWith(_ view: UIView) {
-        self.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    public func xAlignedWith(_ view: UIView, offset: CGFloat = 0) {
+        self.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: offset).isActive = true
     }
     
-    public func yAlignedWith(_ view: UIView) {
-        self.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    public func yAlignedWith(_ view: UIView, offset: CGFloat = 0) {
+        self.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: offset).isActive = true
     }
     
     func constrainToEdgePosition(_ corner: EdgePosition, in view: UIView, insetBy inset: CGFloat = LTKConstants.UI.doubleInset, safeArea: Bool = false) {
@@ -189,12 +193,6 @@ extension UIView {
     }
 }
 
-extension String {
-    public func localized(comment: String = "") -> String {
-        return NSLocalizedString(self, comment: comment)
-    }
-}
-
 // Streamlines tap gestures on views
 extension UIView {
         // In order to create computed properties for extensions, we need a key to
@@ -239,17 +237,9 @@ extension UIView {
         }
 }
 
-class LTKLabel: UILabel {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.font = .LTKFonts.primary
-        self.textColor = .LTKTheme.tertiary
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        print("no coder implemented")
+extension String {
+    public func localized(comment: String = "") -> String {
+        return NSLocalizedString(self, comment: comment)
     }
 }
 

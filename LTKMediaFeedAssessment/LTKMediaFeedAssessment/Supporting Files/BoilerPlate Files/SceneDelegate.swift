@@ -28,11 +28,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.titleTextAttributes = defaultAttributes
             navigationBarAppearance.configureWithOpaqueBackground()
-            navigationBarAppearance.backgroundColor = .systemBackground
-            navigationBarAppearance.shadowColor = .clear
+            navigationBarAppearance.shadowColor = .LTKTheme.tertiary
             
             let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
             barButtonItemAppearance.normal.titleTextAttributes = defaultAttributes
+            barButtonItemAppearance.highlighted.titleTextAttributes = defaultAttributes
             navigationBarAppearance.backButtonAppearance = barButtonItemAppearance
             tabBarController.tabBar.tintColor = .LTKTheme.tertiary
             let tabBarTuples: [(title: String, imageName: String)] = [
@@ -68,6 +68,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 navViewController.navigationBar.tintColor = .LTKTheme.tertiary
                 navViewController.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: num)
                 navViewController.tabBarItem.setTitleTextAttributes(LTKUIUtilities.getDefaultTitleAttributes(), for: .normal)
+                navViewController.visibleViewController?.title = tabBarTuples[num].title
+                navViewController.visibleViewController?.navigationItem.titleView = UIView()
                 viewControllersForTabBar.append(navViewController)
             }
             tabBarController.viewControllers = viewControllersForTabBar

@@ -8,7 +8,7 @@
 import UIKit
 
 class LTKMenuViewController: UIViewController, SearchFilterController, UISearchBarDelegate {
-    var navSearchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio, height: 0))
+    var navSearchBar: UISearchBar = UISearchBar()
     
     @objc
     func filterResults(_ sender: UITextField) {
@@ -18,9 +18,7 @@ class LTKMenuViewController: UIViewController, SearchFilterController, UISearchB
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .LTKTheme.primary
-        LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
-            LTKUIUtilities.displayTheRepoFrom(self)
-        })
+        LTKUIUtilities.setupNavBarForVC(self)
         let comingSoonLabel = LTKLabel()
         self.view.addSubview(comingSoonLabel)
         self.navSearchBar.delegate = self
@@ -32,9 +30,7 @@ class LTKMenuViewController: UIViewController, SearchFilterController, UISearchB
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        LTKUIUtilities.setupNavBarForVC(self, buttonAction: UIAction { _ in
-            LTKUIUtilities.displayTheRepoFrom(self)
-        })
+        LTKUIUtilities.setupNavBarForVC(self)
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

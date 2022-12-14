@@ -9,7 +9,7 @@ import UIKit
 
 struct LTKConstants {
     struct Caching {
-        static let cacheDataSizeLimit = 1024 * 1024 * 15
+        static let cacheDataSizeLimit = 1024 * 1024 * 20
         static let cacheObjectLimit = 150
         static let defaultImageCompression: CGFloat = 0.15
     }
@@ -26,19 +26,22 @@ struct LTKConstants {
         static let containerSpacer = CGFloat(100).scaled
         static let defaultInset = CGFloat(8).scaled
         static let doubleInset = CGFloat(16).scaled
+        static let halfInset = CGFloat(4).scaled
+        static let heroImageButtonsSize = CGFloat(45).scaled
         static let heroImageHeightRatioAvgEstimate: CGFloat = 1.25
         static let heroImageCornerRadiusForTable = CGFloat(30).scaled
         static let homePageHeaderHeight = CGFloat(30).scaled
         static let homePageHeaderTextSize = CGFloat(18).scaled
         static let italicizeFontNSKey: CGFloat = 0.075
-        static let navSearchBarCornerRadius = CGFloat(22)
+        static let navSearchBarCornerRadius = CGFloat(17).scaled
+        static let navSearchBarHeight = CGFloat(35).scaled
         static let navSearchBarTextSize = CGFloat(14).scaled
         static let navSearchBarWidthRatio: CGFloat = 0.7
         static let navTitleTextSize = CGFloat(20).scaled
-        static let profileNameLabelWidth = CGFloat(250).scaled
-        static let profileNameLabelHeight = CGFloat(30).scaled
+        static let profileNameLabelHeight = CGFloat(35).scaled
         static let profilePicBubbleDimension = CGFloat(50).scaled
-        static let slightTranslucency: CGFloat = 0.65
+        static let slightTranslucency: CGFloat = 0.85
+        static let substantiallyTranslucent: CGFloat = 0.4
         static let thickBorderWidth: CGFloat = 2
         static let thinBorderWidth: CGFloat = 1
         static var isIpad: Bool {
