@@ -6,11 +6,11 @@ UPDATE: Search bar works, filtering by caption and profile user id. Used a colle
 UPDATE2: Just realized I was supposed to implement pagination on that initial tableview. Will address that tonight!
 <hr size="5">
 <p float="left">
-  <img src="preview-1.png" width="400" />
-  <img src="preview-2.png" width="400" height="845" /> 
+  <img src="LTKPreview.png" width="400" />
+  <img src="LTKPreview2.png" width="400" height="845" /> 
 </p>
 <hr size="5">
 <p float="left">
-  <img src="preview-3.png" width="400" />
-  <img src="repoCeption.png" width="400" height="845" /> 
+  <img src="LTKPreview3.png" width="400" />
+  <img src="LTKPreview4.png" width="400" height="845" /> 
 </p>
