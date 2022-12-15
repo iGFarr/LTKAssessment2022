@@ -51,6 +51,9 @@ final class LTKHomeFeedCell: UITableViewCell {
         self.profileNameLabel.trailing(self.followButton.leadingAnchor, constant: LTKConstants.UI.doubleInset)
         self.profileNameLabel.heightEqualsHeightOf(profileImage)
         
+        let maxWidth = self.followButton.widthAnchor.constraint(lessThanOrEqualToConstant: CGFloat(130).scaled)
+        maxWidth.priority = UILayoutPriority(999)
+        maxWidth.isActive = true
         self.followButton.heightConstant(CGFloat(30).scaled)
         self.followButton.widthAnchor.constraint(lessThanOrEqualToConstant: CGFloat(130).scaled).isActive = true
         self.followButton.trailing(self.container.trailingAnchor, constant: -LTKConstants.UI.doubleInset)
