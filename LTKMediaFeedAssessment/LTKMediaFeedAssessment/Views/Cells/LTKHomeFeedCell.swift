@@ -55,7 +55,6 @@ final class LTKHomeFeedCell: UITableViewCell {
         maxWidth.priority = UILayoutPriority(999)
         maxWidth.isActive = true
         self.followButton.heightConstant(CGFloat(30).scaled)
-        self.followButton.widthAnchor.constraint(lessThanOrEqualToConstant: CGFloat(130).scaled).isActive = true
         self.followButton.trailing(self.container.trailingAnchor, constant: -LTKConstants.UI.doubleInset)
         self.followButton.yAlignedWith(self.profileNameLabel)
         self.followButton.layer.cornerRadius = CGFloat(10).scaled
