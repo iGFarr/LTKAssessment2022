@@ -25,6 +25,7 @@ struct Ltk: Codable {
     let caption: String
     let shareURL: String
     let productIDS: [String]
+    let publishDate: String
 
     enum CodingKeys: String, CodingKey {
         case heroImage = "hero_image"
@@ -36,6 +37,7 @@ struct Ltk: Codable {
         case caption
         case shareURL = "share_url"
         case productIDS = "product_ids"
+        case publishDate = "date_published"
     }
 }
 

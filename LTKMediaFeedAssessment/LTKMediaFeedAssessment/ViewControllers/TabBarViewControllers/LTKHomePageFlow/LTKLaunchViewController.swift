@@ -215,6 +215,14 @@ extension LTKLaunchViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: LTKConstants.CellIdentifiers.heroImage, for: indexPath) as? LTKHomeFeedCell else { return UITableViewCell() }
         if let ltk = self.filteredLtks?[indexPath.row] as? Ltk {
             cell.ltkId = ltk.id
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone.current
+            formatter.setLocalizedDateFormatFromTemplate("MM-dd-YYYY HH:mm")
+            let isoformatter = ISO8601DateFormatter()
+            let date = isoformatter.date(from: ltk.publishDate)
+            let formattedDate = formatter.string(from: date ?? Date())
+            let publishDateString = String(format: "Posted-Date".localized(), "\(formattedDate)")
+            cell.publishedLabel.attributedText = NSAttributedString(string: publishDateString, attributes: LTKUIUtilities.getDefaultTitleAttributes(font: .LTKFonts.primary.withSize(14), color: .LTKTheme.tertiary.withAlphaComponent(0.7)))
             cell.shareButton.addTapGestureRecognizer { [weak self] in
                 self?.share(urlString: ltk.shareURL)
             }

@@ -24,7 +24,7 @@ struct LTKConstants {
     struct UI {
         static func collectionViewItemCornerRadiusForDimensionSize(_ size: CGFloat = collectionViewItemDimension) -> CGFloat { size * 0.15 }
         static let collectionViewItemDimension = CGFloat(100).scaled
-        static let containerSpacer = CGFloat(100).scaled
+        static let containerSpacer = CGFloat(105).scaled
         static let defaultInset = CGFloat(8).scaled
         static let doubleInset = CGFloat(16).scaled
         static let halfInset = CGFloat(4).scaled

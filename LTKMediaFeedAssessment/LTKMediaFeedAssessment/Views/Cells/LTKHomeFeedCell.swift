@@ -15,6 +15,7 @@ final class LTKHomeFeedCell: UITableViewCell {
     let followButton = LTKButton()
     let favoriteButton = LTKButton(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.heroImageButtonsSize, height: LTKConstants.UI.heroImageButtonsSize)))
     let shareButton = LTKButton(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.heroImageButtonsSize, height: LTKConstants.UI.heroImageButtonsSize)))
+    let publishedLabel = LTKLabel()
     var creatorId: String?
     var ltkId: String?
     let container = LTKView()
@@ -38,7 +39,8 @@ final class LTKHomeFeedCell: UITableViewCell {
             self.profileNameLabel,
             self.followButton,
             self.favoriteButton,
-            self.shareButton
+            self.shareButton,
+            self.publishedLabel
         ])
         let newImageHeight = (LTKConstants.UI.heroImageHeightRatioAvgEstimate * (UIScreen.main.bounds.width - LTKConstants.UI.doubleInset))
         self.container.heightConstant(CGFloat(newImageHeight).scaled + LTKConstants.UI.containerSpacer)
@@ -90,6 +92,11 @@ final class LTKHomeFeedCell: UITableViewCell {
         self.ltkImageView.xAlignedWith(self.container)
         self.ltkImageView.addBorder()
         self.ltkImageView.layer.cornerRadius = LTKConstants.UI.heroImageCornerRadiusForTable
+        
+        self.publishedLabel.top(self.ltkImageView.bottomAnchor)
+        self.publishedLabel.widthEqualsWidthOf(self.ltkImageView)
+        self.publishedLabel.trailing(self.ltkImageView.trailingAnchor, constant: -LTKConstants.UI.defaultInset)
+        self.publishedLabel.textAlignment = .right
     }
 }
 
