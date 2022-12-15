@@ -27,10 +27,10 @@ final class LazyImageView: UIImageView {
             if let imageData = try? Data(contentsOf: imageURL) {
                 print("\n**loaded image from Server - URL:\n\(imageURL)\n")
                 if var image = UIImage(data: imageData) {
-                    let initialData = image.jpegData(compressionQuality: 1.0)
+                    let initialData = image.jpegData(compressionQuality: 1.0)?.count ?? 0
                     image = UIImage(data: image.jpegData(compressionQuality: compressionRatio) ?? imageData) ?? UIImage()
                     let finalData = image.jpegData(compressionQuality: 1.0)?.count ?? 0
-                    print("\nData compressed from \(initialData?.count ?? 0) bytes to \(finalData)\n")
+                    print("\nData compressed from \(initialData) bytes to \(finalData)\n")
                     Self.shared[imageURL.absoluteString, finalData] = image
                     DispatchQueue.main.async { [weak self] in
                         self?.image = image

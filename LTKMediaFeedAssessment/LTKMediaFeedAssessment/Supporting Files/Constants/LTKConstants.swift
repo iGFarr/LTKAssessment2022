@@ -9,10 +9,9 @@ import UIKit
 
 struct LTKConstants {
     struct Caching {
-        static let cacheDataSizeLimit = 1024 * 1024 * 10
+        static let cacheDataSizeLimit = 1024 * 1024 * 15
         static let cacheObjectLimit = 100
-        /// MARK: - I was so sure I had a memory leak, but actually my compression mechanism was the culprit. Please someone explain :)
-        static let defaultImageCompression: CGFloat = 0.15
+        static let defaultImageCompression: CGFloat = 0.4
     }
     struct CellIdentifiers {
         static let heroImage = "ltkImageCell"
