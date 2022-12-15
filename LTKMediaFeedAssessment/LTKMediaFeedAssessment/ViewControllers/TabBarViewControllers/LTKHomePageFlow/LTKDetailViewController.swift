@@ -39,7 +39,7 @@ class LTKDetailViewController: LTKBaseViewController {
         self.heroImage.contentMode = .scaleAspectFill
         self.heroImage.layer.cornerRadius = 20
         self.heroImage.clipsToBounds = true
-        if let proPicURL = URL(string: self.profile?.avatarURL ?? "") {
+        if let proPicURL = URL(string: self.profile?.avatarURL.appending("?w=\(LTKConstants.UI.imageWidthQueryParamValue)") ?? "") {
             self.profileImage.loadImage(fromURL: proPicURL)
         }
         

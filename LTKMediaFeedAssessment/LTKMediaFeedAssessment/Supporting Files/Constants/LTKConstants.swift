@@ -9,8 +9,9 @@ import UIKit
 
 struct LTKConstants {
     struct Caching {
-        static let cacheDataSizeLimit = 1024 * 1024 * 20
-        static let cacheObjectLimit = 150
+        static let cacheDataSizeLimit = 1024 * 1024 * 10
+        static let cacheObjectLimit = 100
+        /// MARK: - I was so sure I had a memory leak, but actually my compression mechanism was the culprit. Please someone explain :)
         static let defaultImageCompression: CGFloat = 0.15
     }
     struct CellIdentifiers {
@@ -32,6 +33,7 @@ struct LTKConstants {
         static let heroImageCornerRadiusForTable = CGFloat(30).scaled
         static let homePageHeaderHeight = CGFloat(30).scaled
         static let homePageHeaderTextSize = CGFloat(18).scaled
+        static let imageWidthQueryParamValue: Int = 800 // for memory footprint reduction
         static let italicizeFontNSKey: CGFloat = 0.075
         static let navSearchBarCornerRadius = CGFloat(17).scaled
         static let navSearchBarHeight = CGFloat(35).scaled

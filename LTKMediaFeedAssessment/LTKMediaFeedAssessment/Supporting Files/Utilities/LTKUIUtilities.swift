@@ -19,10 +19,7 @@ struct LTKUIUtilities {
         vc.navSearchBar.widthConstant(UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio)
         vc.navSearchBar.heightConstant(LTKConstants.UI.navSearchBarHeight)
         vc.navSearchBar.searchTextField.leftView?.tintColor = .LTKTheme.tertiary
-        vc.navSearchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Search-Placeholder".localized(), attributes: [
-            NSAttributedString.Key.foregroundColor: UIColor.LTKTheme.tertiary,
-            NSAttributedString.Key.font: UIFont.LTKFonts.primary.withSize(LTKConstants.UI.navSearchBarTextSize)
-        ])
+        vc.navSearchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Search-Placeholder".localized(), attributes: LTKUIUtilities.getDefaultTitleAttributes(font: .LTKFonts.primary.withSize(LTKConstants.UI.navSearchBarTextSize), italicized: 0, kern: 0.5))
         let image = UIImage(named: LTKConstants.ImageNames.ltkLogo)?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView()
         imageView.image = image

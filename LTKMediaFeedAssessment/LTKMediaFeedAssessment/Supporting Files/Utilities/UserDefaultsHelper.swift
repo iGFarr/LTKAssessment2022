@@ -9,7 +9,7 @@ import Foundation
 
 class UserDefaultsHelper {
     private static let arrayCap = 300
-    struct DefaultKeys {
+    private struct DefaultKeys {
         enum Arrays: String {
             case followedCreators = "followedCreators"
             case favoritedLtks = "favoritedLtks"

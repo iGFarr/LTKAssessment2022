@@ -8,19 +8,20 @@
 import UIKit
 
 final class LazyImageView: UIImageView {
-    static var imageCache: NSCache<AnyObject, UIImage> = {
-        let cache = NSCache<AnyObject, UIImage>()
+    var imageCache: NSCache<NSString, UIImage> = {
+        let cache = NSCache<NSString, UIImage>()
         cache.totalCostLimit = LTKConstants.Caching.cacheDataSizeLimit
         cache.countLimit = LTKConstants.Caching.cacheObjectLimit
         return cache
     }()
+    static let shared = LazyImageView()
     func loadImage(fromURL imageURL: URL, compressionRatio: CGFloat = LTKConstants.Caching.defaultImageCompression) {
-        if let cachedImage = Self.imageCache.object(forKey: imageURL as AnyObject) {
+        if let cachedImage = Self.shared[imageURL.absoluteString] {
             self.image = cachedImage
             print("\nloaded image from cache - URL:\n\(imageURL)\n")
             return
         }
-
+        
         self.showLoadingIndicator()
         DispatchQueue.global(qos: .utility).async { [weak self] in
             if let imageData = try? Data(contentsOf: imageURL) {
@@ -28,14 +29,28 @@ final class LazyImageView: UIImageView {
                 if var image = UIImage(data: imageData) {
                     let initialData = image.jpegData(compressionQuality: 1.0)
                     image = UIImage(data: image.jpegData(compressionQuality: compressionRatio) ?? imageData) ?? UIImage()
-                    let finalData = image.jpegData(compressionQuality: 1.0)
-                    print("\nData compressed from \(initialData?.count ?? 0) bytes to \(finalData?.count ?? 0)\n")
-                    Self.imageCache.setObject(image, forKey: imageURL as AnyObject, cost: image.jpegData(compressionQuality: 1.0)?.count ?? 0)
-                    DispatchQueue.main.async {
+                    let finalData = image.jpegData(compressionQuality: 1.0)?.count ?? 0
+                    print("\nData compressed from \(initialData?.count ?? 0) bytes to \(finalData)\n")
+                    Self.shared[imageURL.absoluteString, finalData] = image
+                    DispatchQueue.main.async { [weak self] in
                         self?.image = image
                         self?.stopLoadingIndicator()
                     }
                 }
+            }
+        }
+    }
+    
+    public subscript(key: String, cost: Int? = nil) -> UIImage? {
+        get {
+            return Self.shared.imageCache.object(forKey: key as NSString)
+        }
+        set {
+            if let newValue = newValue {
+                Self.shared.imageCache.setObject(newValue, forKey: key as NSString, cost: cost ?? 0)
+            }
+            else {
+                Self.shared.imageCache.removeObject(forKey: key as NSString)
             }
         }
     }
@@ -235,6 +250,13 @@ extension UIView {
                 print("no action")
             }
         }
+}
+
+extension Array where Element: Hashable {
+    mutating func remove(_ values: [Element]) {
+        let set = Set(values)
+        self.removeAll { set.contains($0) }
+    }
 }
 
 extension String {
