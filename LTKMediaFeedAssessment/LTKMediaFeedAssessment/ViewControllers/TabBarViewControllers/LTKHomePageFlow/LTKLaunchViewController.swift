@@ -93,12 +93,15 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
     }
     
     private func createHeader() {
-        let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: LTKConstants.UI.homePageHeaderHeight))
+        let headerView: UIView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width - LTKConstants.UI.doubleInset, height: LTKConstants.UI.homePageHeaderHeight))
         headerView.backgroundColor = .clear
         
-        let labelView: UILabel = UILabel.init(frame: CGRect.init(x: LTKConstants.UI.doubleInset, y: LTKConstants.UI.defaultInset, width: UIScreen.main.bounds.width, height: headerView.frame.height))
+        let labelView: LTKLabel = LTKLabel()
+        labelView.numberOfLines = 0
         labelView.attributedText = NSAttributedString(string: "Home-Page-Header".localized(), attributes: LTKUIUtilities.getDefaultTitleAttributes(font: .LTKFonts.primary.withSize(LTKConstants.UI.homePageHeaderTextSize), italicized: 0.05, kern: 0.5))
         headerView.addSubview(labelView)
+        labelView.leading(headerView.leadingAnchor, constant: LTKConstants.UI.doubleInset)
+        labelView.trailing(headerView.trailingAnchor,constant: -LTKConstants.UI.doubleInset)
         self.tableView.tableHeaderView = headerView
     }
     

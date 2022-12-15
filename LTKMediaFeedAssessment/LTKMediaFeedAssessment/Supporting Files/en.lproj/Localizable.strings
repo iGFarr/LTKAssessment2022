@@ -6,13 +6,15 @@
   
 */
 
-"Posted-Date"              = "Posted: %@";
-"Home-Page-Header"         = "For You: Posts we think you'll like";
-"Search-Placeholder"       = "Search fashion, home, & more";
-"Home-Tab"                 = "Home";
-"Favorites-Tab"            = "Favorites";
+"Coming-Soon"              = "COMING SOON!";
 "Creators-Tab"             = "Creators";
 "Discover-Tab"             = "Discover";
+"Favorites-Tab"            = "Favorites";
+"Follow"                   = "Follow";
+"Home-Page-Header"         = "For You: Posts we think you'll like";
+"Home-Tab"                 = "Home";
 "Menu-Tab"                 = "Menu";
-"Coming-Soon"              = "COMING SOON!";
-
+"Posted-Date"              = "Posted: %@";
+"Search-Placeholder"       = "Search fashion, home, & more";
+"This-Repo"                = "This App's Repo";
+"Unfollow"                 = "Unfollow";

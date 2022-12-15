@@ -17,7 +17,7 @@ struct LTKNetworkUtilites {
                 return
             }
             guard let data = data else { return }
-            print("LTKFeedResponse: \(String(describing: response))")
+            print(response?.description ?? "")
             completion(.success(data))
         }
         task.resume()

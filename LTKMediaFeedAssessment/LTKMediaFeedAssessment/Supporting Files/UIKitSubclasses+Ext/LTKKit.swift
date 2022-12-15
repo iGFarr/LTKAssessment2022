@@ -7,14 +7,14 @@
 
 import UIKit
 
-final class LazyImageView: UIImageView {
+final class LTKCachingImageView: UIImageView {
     var imageCache: NSCache<NSString, UIImage> = {
         let cache = NSCache<NSString, UIImage>()
         cache.totalCostLimit = LTKConstants.Caching.cacheDataSizeLimit
         cache.countLimit = LTKConstants.Caching.cacheObjectLimit
         return cache
     }()
-    static let shared = LazyImageView()
+    static let shared = LTKCachingImageView()
     func loadImage(fromURL imageURL: URL, compressionRatio: CGFloat = LTKConstants.Caching.defaultImageCompression) {
         if let cachedImage = Self.shared[imageURL.absoluteString] {
             self.image = cachedImage
@@ -41,18 +41,40 @@ final class LazyImageView: UIImageView {
         }
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor
+    }
+    
     public subscript(key: String, cost: Int? = nil) -> UIImage? {
         get {
             return Self.shared.imageCache.object(forKey: key as NSString)
         }
-        set {
-            if let newValue = newValue {
-                Self.shared.imageCache.setObject(newValue, forKey: key as NSString, cost: cost ?? 0)
+        set(newImage) {
+            if let image = newImage {
+                Self.shared.imageCache.setObject(image, forKey: key as NSString, cost: cost ?? 0)
             }
             else {
                 Self.shared.imageCache.removeObject(forKey: key as NSString)
             }
         }
+    }
+}
+
+final class LTKSearchBar: UISearchBar {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self.layer.borderColor = UIColor.LTKTheme.tertiary.cgColor.copy(alpha: LTKConstants.UI.slightTranslucency)
+
     }
 }
 
@@ -92,6 +114,11 @@ final class LTKButton: UIButton {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self.layer.borderColor = self.tintColor.cgColor
     }
 }
 

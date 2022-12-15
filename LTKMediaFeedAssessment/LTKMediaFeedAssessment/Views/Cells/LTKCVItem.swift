@@ -9,8 +9,8 @@ import UIKit
 
 class LTKCVCell: UICollectionViewCell {
     var image: UIImage?
-    lazy var productImage: LazyImageView = {
-        let imageView = LazyImageView()
+    lazy var productImage: LTKCachingImageView = {
+        let imageView = LTKCachingImageView()
         imageView.image = self.image
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +24,6 @@ class LTKCVCell: UICollectionViewCell {
         self.isAccessibilityElement = true
         /// MARK: - Cool stuff here. I left the "test" label just to demo how Apple seems to be using Machine Learning to generate accessibility labels for images when possible. Unless it's just
         ///  in the images meta data somehow? Not sure, but it's cool either way!
-        self.accessibilityLabel = "test"
         self.roundedContainer.backgroundColor = .white
         self.roundedContainer.addSubview(self.productImage)
         self.roundedContainer.addBorder()

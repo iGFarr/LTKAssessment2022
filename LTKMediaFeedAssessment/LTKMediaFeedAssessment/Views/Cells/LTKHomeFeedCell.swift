@@ -9,8 +9,8 @@ import UIKit
 
 final class LTKHomeFeedCell: UITableViewCell {
 
-    let ltkImageView = LazyImageView()
-    var profileImage = LazyImageView(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.profilePicBubbleDimension, height: LTKConstants.UI.profilePicBubbleDimension)))
+    let ltkImageView = LTKCachingImageView()
+    var profileImage = LTKCachingImageView(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.profilePicBubbleDimension, height: LTKConstants.UI.profilePicBubbleDimension)))
     let profileNameLabel = LTKLabel()
     let followButton = LTKButton()
     let favoriteButton = LTKButton(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.heroImageButtonsSize, height: LTKConstants.UI.heroImageButtonsSize)))
@@ -19,8 +19,8 @@ final class LTKHomeFeedCell: UITableViewCell {
     var creatorId: String?
     var ltkId: String?
     let container = LTKView()
-    var imageHeight: CGFloat = 1
-    var imageWidth: CGFloat = 1
+    var imageHeight: CGFloat = 0
+    var imageWidth: CGFloat = 0
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setup()
@@ -52,7 +52,7 @@ final class LTKHomeFeedCell: UITableViewCell {
         self.profileNameLabel.heightEqualsHeightOf(profileImage)
         
         self.followButton.heightConstant(CGFloat(30).scaled)
-        self.followButton.widthConstant(CGFloat(85).scaled)
+        self.followButton.widthAnchor.constraint(lessThanOrEqualToConstant: CGFloat(130).scaled).isActive = true
         self.followButton.trailing(self.container.trailingAnchor, constant: -LTKConstants.UI.doubleInset)
         self.followButton.yAlignedWith(self.profileNameLabel)
         self.followButton.layer.cornerRadius = CGFloat(10).scaled
@@ -64,6 +64,7 @@ final class LTKHomeFeedCell: UITableViewCell {
         self.favoriteButton.circularize()
         self.favoriteButton.constrainToEdgePosition(.bottomRight, in: self.container)
         self.favoriteButton.setImage(UIImage(systemName: "heart")?.withTintColor(.LTKTheme.tertiary), for: .normal)
+        self.favoriteButton.accessibilityLabel = "Favorite"
         
         self.shareButton.configuration = .bordered()
         self.shareButton.tintColor = .LTKTheme.tertiary.withAlphaComponent(LTKConstants.UI.slightTranslucency)

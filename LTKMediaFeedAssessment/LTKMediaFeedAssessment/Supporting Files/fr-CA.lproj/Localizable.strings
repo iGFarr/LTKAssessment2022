@@ -6,12 +6,15 @@
   
 */
 
-"Posted-Date"              = "Publié il y a %@ mois";
-"Home-Page-Header"         = "Pour vous : messages que nous pensons que vous aimerez";
-"Search-Placeholder"       = "Recherche mode, maison, & plus";
-"Home-Tab"                 = "Accueil";
-"Favorites-Tab"            = "Favoris";
-"Creators-Tab"             = "Créateurs";
-"Discover-Tab"             = "Découvrir";
-"Menu-Tab"                 = "Menu";
-"Coming-Soon"              = "BIENTÔT DISPONIBLE!";
+"Coming-Soon"               = "BIENTÔT DISPONIBLE !";
+"Creators-Tab"              = "Créateurs";
+"Discover-Tab"              = "Découvrir";
+"Favorites-Tab"             = "Favoris";
+"Follow"                    = "Suivre";
+"Home-Page-Header"          = "Pour vous : messages que nous pensons que vous aimerez";
+"Home-Tab"                  = "Accueil";
+"Menu-Tab"                  = "Menu";
+"Posted-Date"               = "Publié : %@";
+"Search-Placeholder"        = "Recherche mode, maison, & plus";
+"This-Repo"                 = "Le dépôt de cette application";
+"Unfollow"                  = "Ne plus suivre";"

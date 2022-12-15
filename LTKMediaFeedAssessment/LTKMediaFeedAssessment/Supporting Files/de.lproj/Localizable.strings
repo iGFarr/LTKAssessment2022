@@ -6,12 +6,15 @@
   
 */
 
-"Posted-Date"              = "Gepostet vor %@ Monaten";
-"Home-Page-Header"         = "Für Sie: Beiträge, von denen wir glauben, dass sie Ihnen gefallen werden";
-"Search-Placeholder"       = "Suche nach Mode, Zuhause und mehr";
-"Home-Tab"                 = "Heim";
-"Favorites-Tab"            = "Favoriten";
-"Creators-Tab"             = "Schöpfer";
-"Discover-Tab"             = "Entdecken";
-"Menu-Tab"                 = "Speisekarte";
-"Coming-Soon"              = "DEMNÄCHST!";
+"Coming-Soon"               = "KOMMT BALD!";
+"Creators-Tab"              = "Schöpfer";
+"Discover-Tab"              = "Entdecken";
+"Favorites-Tab"             = "Favoriten";
+"Follow"                    = "Folgen";
+"Home-Page-Header"          = "Für Sie: Beiträge, von denen wir glauben, dass sie Ihnen gefallen werden";
+"Home-Tab"                  = "Zuhause";
+"Menu-Tab"                  = "Menü";
+"Posted-Date"               = "Gepostet: %@";
+"Search-Placeholder"        = "Mode, Zuhause & mehr suchen";
+"This-Repo"                 = "Repository dieser App";
+"Unfollow"                  = "Entfolgen";

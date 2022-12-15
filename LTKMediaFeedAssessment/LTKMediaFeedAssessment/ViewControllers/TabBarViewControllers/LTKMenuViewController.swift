@@ -8,7 +8,7 @@
 import UIKit
 
 class LTKMenuViewController: UIViewController, SearchFilterController, UISearchBarDelegate {
-    var navSearchBar: UISearchBar = UISearchBar()
+    var navSearchBar: LTKSearchBar = LTKSearchBar()
     
     @objc
     func filterResults(_ sender: UITextField) {

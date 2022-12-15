@@ -21,8 +21,8 @@ class LTKDetailViewController: LTKBaseViewController {
         return cv
     }()
     
-    var heroImage = LazyImageView()
-    var profileImage = LazyImageView(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.profilePicBubbleDimension, height: LTKConstants.UI.profilePicBubbleDimension)))
+    var heroImage = LTKCachingImageView()
+    var profileImage = LTKCachingImageView(frame: CGRect(origin: .zero, size: CGSize(width: LTKConstants.UI.profilePicBubbleDimension, height: LTKConstants.UI.profilePicBubbleDimension)))
     var products: [Product?]?
     var profile: Profile?
     override func viewDidLoad() {
@@ -81,6 +81,7 @@ extension LTKDetailViewController: UICollectionViewDelegate, UICollectionViewDat
             return cell
         }
         guard let products = self.products, let thisProduct = products[indexPath.row] else { return cell }
+        cell.accessibilityLabel = "Product number \(indexPath.row + 1)\n    Sold by\n  \(thisProduct.retailerDisplayName)\n "
         if let url = URL(string: thisProduct.imageURL) {
             cell.productImage.loadImage(fromURL: url)
         }

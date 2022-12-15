@@ -15,7 +15,6 @@ struct LTKUIUtilities {
         vc.navSearchBar.layer.cornerRadius = LTKConstants.UI.navSearchBarCornerRadius
         vc.navSearchBar.searchTextField.backgroundColor = .systemBackground
         vc.navSearchBar.searchTextField.clipsToBounds = true
-        vc.navSearchBar.translatesAutoresizingMaskIntoConstraints = false
         vc.navSearchBar.widthConstant(UIScreen.main.bounds.width * LTKConstants.UI.navSearchBarWidthRatio)
         vc.navSearchBar.heightConstant(LTKConstants.UI.navSearchBarHeight)
         vc.navSearchBar.searchTextField.leftView?.tintColor = .LTKTheme.tertiary
@@ -43,7 +42,7 @@ struct LTKUIUtilities {
         let webView = LTKWebViewController()
         if let url = URL(string: "https://github.com/iGFarr/LTKAssessment2022") {
             webView.url = url
-            webView.name = "This App's Repo"
+            webView.name = "This-Repo".localized()
             vc.navigationController?.show(webView, sender: vc)
         }
     }
