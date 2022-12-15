@@ -16,8 +16,7 @@ class UserDefaultsHelper {
         }
     }
     
-    // Usage: retrieve and set from these instance properties. *It's that easy :)
-    // *With the exception of set conversions and back to array. Will abstract that extraneous work out later if I still feel like working on this project.
+    // Usage: retrieve and set from these instance properties. It's that easy :)
     var followedCreators: [String] = getDefaultsSet(key: .followedCreators) {
         willSet {
             Self.setDefaultsSet(key: .followedCreators, value: newValue)

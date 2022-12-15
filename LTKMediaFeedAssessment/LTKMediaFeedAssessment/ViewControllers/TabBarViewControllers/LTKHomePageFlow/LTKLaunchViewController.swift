@@ -42,9 +42,6 @@ final class LTKLaunchViewController: LTKBaseTableViewController {
                         if self.loadedResultsForPage >= LTKConstants.URLS.pageSize {
                             break
                         }
-                        //                        if let _ = self.filteredLtkIds[ltk.id] {
-                        //                            continue
-                        //                        }
                         if (self.filteredLtks?.contains { (responseLtk) in
                             if let responseLtk = responseLtk as? Ltk {
                                 let hasDuplicate = responseLtk.id == ltk.id

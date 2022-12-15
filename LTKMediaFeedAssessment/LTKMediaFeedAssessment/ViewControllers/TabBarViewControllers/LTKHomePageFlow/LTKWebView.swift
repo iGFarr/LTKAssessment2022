@@ -33,7 +33,7 @@ class LTKWebViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
-    private func constrainWebView(){
+    private func constrainWebView() {
         self.webView.translatesAutoresizingMaskIntoConstraints = false
         LTKConstraintHelper.constrain(self.webView, toSafeAreaOf: self.view)
     }

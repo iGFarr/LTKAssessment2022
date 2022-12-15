@@ -22,8 +22,7 @@ class LTKCVCell: UICollectionViewCell {
         super.init(frame: frame)
         self.backgroundColor = .clear
         self.isAccessibilityElement = true
-        /// MARK: - Cool stuff here. I left the "test" label just to demo how Apple seems to be using Machine Learning to generate accessibility labels for images when possible. Unless it's just
-        ///  in the images meta data somehow? Not sure, but it's cool either way!
+        /// MARK: - Cool stuff here. Apple generates voiceover labels from prominent text in images. Ask me to demo if you haven't seen this! 😀
         self.roundedContainer.backgroundColor = .white
         self.roundedContainer.addSubview(self.productImage)
         self.roundedContainer.addBorder()
